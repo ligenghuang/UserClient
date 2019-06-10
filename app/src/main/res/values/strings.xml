@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">一指通(用户端)</string>
+
+    <string name="tab_message">消息</string>
+    <string name="tab_physicianvisits">问诊单</string>
+    <string name="tab_mine">我的</string>
+    <string name="tab_home">首页</string>
+
+</resources>
