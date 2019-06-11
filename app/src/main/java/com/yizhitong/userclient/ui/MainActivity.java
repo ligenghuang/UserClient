@@ -25,6 +25,7 @@ import com.yizhitong.userclient.event.MessageDto;
 import com.yizhitong.userclient.event.SendMessageDto;
 import com.yizhitong.userclient.event.post.SendMessagePost;
 import com.yizhitong.userclient.net.WebUrlUtil;
+import com.yizhitong.userclient.ui.mine.MineFragment;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.cusview.NotificationHelper;
 import com.yizhitong.userclient.utils.data.MySp;
@@ -63,7 +64,7 @@ public class MainActivity extends UserBaseActivity {
     private static final int POIONTTHREE = 2;
     private static final int POIONTFOUR = 3;
 
-//    MineFragment mineFragment;
+    MineFragment mineFragment;
 //    MessageFragment messageFragment;
 //    PhysicianvisitsFragment physicianvisitsFragment;
 
@@ -158,6 +159,12 @@ public class MainActivity extends UserBaseActivity {
 
                     break;
                 case POIONTFOUR:
+                    mineFragment = new MineFragment();
+                    if (Position != POIONTTHREE) {
+                        mineFragment.setUserVisibleHint(false);
+                    }
+                    fragments.add(mineFragment);
+
                     break;
 
                 default:

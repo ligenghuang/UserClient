@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="mine_tip_1">我关注的医生</string>
+    <string name="mine_tip_2">我的问诊</string>
+    <string name="mine_tip_3">我的处方</string>
+    <string name="mine_tip_4">健康档案</string>
+    <string name="mine_tip_5">地址管理</string>
+    <string name="mine_tip_6">系统设置</string>
+    <string name="mine_tip_7">意见反馈</string>
+    <string name="mine_tip_8">健康值%0$s</string>
+
+    <!--个人资料-->
+    <string name="user_info_tip_title">个人资料</string>
+    <string name="user_info_tip_1">头像</string>
+    <string name="user_info_tip_2">昵称</string>
+    <string name="user_info_tip_3">手机号码</string>
+    <string name="user_info_tip_4">身份证</string>
+    <string name="user_info_tip_5">退出</string>
+    <string name="user_info_tip_6">请输入昵称</string>
+    <string name="user_info_tip_7">请输入身份证号码</string>
+
+    <!--意见反馈-->
+    <string name="feedback_tip_1">请描述退回的理由</string>
+    <string name="feedback_tip_2">手机号码（选填）</string>
+    <string name="feedback_tip_3">提交</string>
+    <string name="feedback_tip_4">意见反馈</string>
+
+    <!--地址管理-->
+    <string name="address_tip_title">收货地址</string>
+    <string name="address_tip_1">编辑</string>
+    <string name="address_tip_2">取消</string>
+    <string name="address_tip_3">默认</string>
+    <string name="address_tip_4">新增地址</string>
+    <string name="address_tip_5">删除</string>
+
+    <string name="address_tip_6">收货人</string>
+    <string name="address_tip_7">联系电话</string>
+    <string name="address_tip_8">所在地区</string>
+    <string name="address_tip_9">详细地址：如道路、门牌号、小区、楼栋号、等</string>
+    <string name="address_tip_10">设为默认地址</string>
+    <string name="address_tip_11">保存地址</string>
+    <string name="address_tip_12">编辑地址</string>
+
+    <string name="address_tip_13">请输入收货人</string>
+    <string name="address_tip_14">请输入联系电话</string>
+    <string name="address_tip_15">请选择所在地区</string>
+    <string name="address_tip_16">请输入详细地址</string>
+</resources>

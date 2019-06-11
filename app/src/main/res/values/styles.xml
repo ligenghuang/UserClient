@@ -43,4 +43,27 @@
         <item name="android:layout_height">0.8dp</item>
     </style>
 
+    <style name="user_line_3">
+        <!-- Customize your theme here. -->
+        <item name="android:background">#eeeeee</item>
+        <item name="android:layout_width">0.8dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="user_line_4">
+        <!-- Customize your theme here. -->
+        <item name="android:background">#eeeeee</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.8dp</item>
+        <item name="android:layout_marginLeft">@dimen/dp_10</item>
+        <item name="android:layout_marginRight">@dimen/dp_10</item>
+    </style>
+
+    <style name="user_line_5">
+        <!-- Customize your theme here. -->
+        <item name="android:background">#eeeeee</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.8dp</item>
+    </style>
+
 </resources>

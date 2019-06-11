@@ -31,7 +31,7 @@ public class WebUrlUtil {
     /**
      * 注册
      */
-    public static final String POST_REGISTER = "DMine/RegisterApp";
+    public static final String POST_REGISTER = "Mine/RegisterApp";
 
     /**
      * 获取验证码(图片)
@@ -53,6 +53,55 @@ public class WebUrlUtil {
      */
     public static final String POST_CHANGE_PWD = "Mine/AppRetrievePws1";
 
+    /**
+     * 判断登录
+     */
+    public static final String POST_ISLOGIN = "Mine/isLogin";
+
+    /**
+     * 获取个人信息
+     */
+    public static final String POST_USERINFO = "Mine/getSessionUserInfoApp";
+
+    /**
+     * 获取个人资料
+     */
+    public static final String POST_USER_INFO = "Mine/findUserInfoByIUID";
+
+    /**
+     * 修改个人资料
+     */
+    public static final String POST_USER_UPDATE = "Mine/updateUserInfo";
+
+    /**
+     * 退出登录
+     */
+    public static final String POST_LOGOUT = "Mine/userout";
+
+    /**
+     * 意见反馈
+     */
+    public static final String POST_ADDSERVICE_NOTE = "Mine/addServiceNote";
+
+    /**
+     * 地址管理
+     */
+    public static final String POST_ADDRESS_LIST = "Mine/getUserAddByUserIdApp";
+
+    /**
+     * 删除地址
+     */
+    public static final String POST_ADDRESS_DETELE = "Mine/deteleUserAddress";
+
+    /**
+     * 新增地址
+     */
+    public static final String POST_ADDRESS_ADD = "Mine/addUserAddress";
+
+    /**
+     * 获取地址详情
+     */
+    public static final String POST_ADDRESS_INFO = "Mine/getUserAddByIuidApp";
 
     /**
      * 接收到消息

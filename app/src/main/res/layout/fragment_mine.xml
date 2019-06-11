@@ -77,7 +77,7 @@
 
 
                         <TextView
-                            android:id="@+id/tv_user_hospital"
+                            android:id="@+id/tv_user_health_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_user_name"
@@ -87,6 +87,7 @@
                             android:text="健康值0"
                             android:maxLines="1"
                             android:ellipsize="end"
+                            android:visibility="gone"
                             android:textColor="@color/color_3"
                             android:textSize="@dimen/text_size17" />
 
@@ -109,47 +110,173 @@
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10">
 
-                    <!--&lt;!&ndash;邀请用户&ndash;&gt;-->
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/ll_invitation"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="@dimen/item_height60"-->
-                        <!--android:gravity="center_vertical"-->
-                        <!--android:orientation="horizontal">-->
+                    <!--我关注的医生-->
+                    <LinearLayout
+                        android:id="@+id/ll_concerned_doctor"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                        <!--<ImageView-->
-                            <!--android:layout_width="30dp"-->
-                            <!--android:layout_height="30dp"-->
-                            <!--android:src="@drawable/icon_invitation" />-->
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_my_inquiry" />
 
-                        <!--<RelativeLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:layout_marginLeft="@dimen/dp_10">-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
 
-                            <!--<TextView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:text="@string/mine_tip_1"-->
-                                <!--android:textColor="@color/color_3"-->
-                                <!--android:textSize="@dimen/text_size17" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_1"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
 
-                            <!--<View-->
-                                <!--style="@style/user_line_2"-->
-                                <!--android:layout_alignParentBottom="true" />-->
+                            <View
+                                style="@style/user_line_2"
+                                android:layout_alignParentBottom="true" />
 
-                            <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_alignParentRight="true"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:src="@drawable/icon_more_right" />-->
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
 
-                        <!--</RelativeLayout>-->
+                        </RelativeLayout>
 
 
-                    <!--</LinearLayout>-->
+                    </LinearLayout>
+
+                    <!--我的问诊-->
+                    <LinearLayout
+                        android:id="@+id/ll_my_prescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_my_prescription" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_2"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
+
+                            <View
+                                style="@style/user_line_2"
+                                android:layout_alignParentBottom="true" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <!--我的处方-->
+                    <LinearLayout
+                        android:id="@+id/ll_prescription_template"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_prescription_template" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_3"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
+
+                            <View
+                                style="@style/user_line_2"
+                                android:layout_alignParentBottom="true" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <!--健康档案-->
+                    <LinearLayout
+                        android:id="@+id/ll_health_records"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_evaluation" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_4"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
+
+                            <View
+                                style="@style/user_line_2"
+                                android:layout_alignParentBottom="true" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -164,86 +291,128 @@
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10">
 
-                    <!--&lt;!&ndash;系统设置&ndash;&gt;-->
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/ll_setting"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="@dimen/item_height60"-->
-                        <!--android:gravity="center_vertical"-->
-                        <!--android:orientation="horizontal">-->
+                    <!--地址管理-->
+                    <LinearLayout
+                        android:id="@+id/ll_address_management"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                        <!--<ImageView-->
-                            <!--android:layout_width="30dp"-->
-                            <!--android:layout_height="30dp"-->
-                            <!--android:src="@drawable/icon_seeting" />-->
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_ask_doctors" />
 
-                        <!--<RelativeLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:layout_marginLeft="@dimen/dp_10">-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
 
-                            <!--<TextView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:text="@string/mine_tip_8"-->
-                                <!--android:textColor="@color/color_3"-->
-                                <!--android:textSize="@dimen/text_size17" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_5"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
 
-                            <!--<View-->
-                                <!--style="@style/user_line_2"-->
-                                <!--android:layout_alignParentBottom="true" />-->
+                            <View
+                                style="@style/user_line_2"
+                                android:layout_alignParentBottom="true" />
 
-                            <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_alignParentRight="true"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:src="@drawable/icon_more_right" />-->
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
 
-                        <!--</RelativeLayout>-->
-
-
-                    <!--</LinearLayout>-->
-
-                    <!--&lt;!&ndash;意见反馈&ndash;&gt;-->
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/ll_feedback"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="@dimen/item_height60"-->
-                        <!--android:gravity="center_vertical"-->
-                        <!--android:orientation="horizontal">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="30dp"-->
-                            <!--android:layout_height="30dp"-->
-                            <!--android:src="@drawable/icon_feedback" />-->
-
-                        <!--<RelativeLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:layout_marginLeft="@dimen/dp_10">-->
-
-                            <!--<TextView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:text="@string/mine_tip_9"-->
-                                <!--android:textColor="@color/color_3"-->
-                                <!--android:textSize="@dimen/text_size17" />-->
+                        </RelativeLayout>
 
 
-                            <!--<ImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_alignParentRight="true"-->
-                                <!--android:layout_centerVertical="true"-->
-                                <!--android:src="@drawable/icon_more_right" />-->
+                    </LinearLayout>
 
-                        <!--</RelativeLayout>-->
+                    <!--系统设置-->
+                    <LinearLayout
+                        android:id="@+id/ll_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_seeting" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_6"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
+
+                            <View
+                                style="@style/user_line_2"
+                                android:layout_alignParentBottom="true" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
+
+                        </RelativeLayout>
 
 
-                    <!--</LinearLayout>-->
+                    </LinearLayout>
+
+                    <!--意见反馈-->
+                    <LinearLayout
+                        android:id="@+id/ll_feedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_height60"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/icon_feedback" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="@string/mine_tip_7"
+                                android:textColor="@color/color_3"
+                                android:textSize="@dimen/text_size17" />
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/icon_more_right" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>

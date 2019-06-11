@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ui.mine.UserInfoActivity">
+
+    <include layout="@layout/layout_title_black_bar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f4"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--头像-->
+            <RelativeLayout
+                android:id="@+id/rl_user_portrait"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height60"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_info_tip_1"
+                    android:textColor="@color/color_3"
+                    android:textSize="@dimen/text_size17" />
+
+
+                <ImageView
+                    android:id="@+id/iv_user_portrait_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more_right" />
+
+                <ImageView
+                    android:id="@+id/iv_user_portrait"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toLeftOf="@id/iv_user_portrait_more" />
+
+                <View
+                    style="@style/user_line_2"
+                    android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+
+            <!--昵称-->
+            <RelativeLayout
+                android:id="@+id/rl_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height60"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_info_tip_2"
+                    android:textColor="@color/color_3"
+                    android:textSize="@dimen/text_size17" />
+
+
+                <ImageView
+                    android:id="@+id/iv_user_name_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more_right" />
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toLeftOf="@id/iv_user_name_more"
+                    android:textColor="@color/color_9"
+                    android:textSize="@dimen/text_size17" />
+
+                <View
+                    style="@style/user_line_2"
+                    android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+
+            <!--手机号码-->
+            <RelativeLayout
+                android:id="@+id/rl_user_phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height60"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_info_tip_3"
+                    android:textColor="@color/color_3"
+                    android:textSize="@dimen/text_size17" />
+
+
+                <ImageView
+                    android:id="@+id/iv_user_phone_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more_right" />
+
+                <TextView
+                    android:id="@+id/tv_user_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toLeftOf="@id/iv_user_phone_more"
+                    android:textColor="@color/color_9"
+                    android:textSize="@dimen/text_size17" />
+
+                <View
+                    style="@style/user_line_2"
+                    android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+
+            <!--身份证-->
+            <RelativeLayout
+                android:id="@+id/rl_user_id_number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height60"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_info_tip_4"
+                    android:textColor="@color/color_3"
+                    android:textSize="@dimen/text_size17" />
+
+
+                <ImageView
+                    android:id="@+id/iv_user_id_number_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more_right" />
+
+                <TextView
+                    android:id="@+id/tv_user_id_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toLeftOf="@id/iv_user_id_number_more"
+                    android:textColor="@color/color_9"
+                    android:textSize="@dimen/text_size17" />
+
+                <View
+                    style="@style/user_line_2"
+                    android:layout_alignParentBottom="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height50"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_logout_btn_bg"
+                android:gravity="center"
+                android:text="@string/user_info_tip_5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size17" />
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

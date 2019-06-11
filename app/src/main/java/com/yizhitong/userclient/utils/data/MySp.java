@@ -70,7 +70,7 @@ public class MySp extends MySharedPreferencesUtil {
      */
     public static boolean isFirst(Context context){
         SharedPreferences sp = getProjectSP(context);
-        return sp.getBoolean("isFirst", true);
+        return sp.getBoolean("isUserFirst", true);
     }
 
     /**
@@ -82,7 +82,7 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean setIsFirst(Context context,boolean isFirst){
         SharedPreferences sp = getProjectSP(context);
         SharedPreferences.Editor editor = sp.edit();
-        return editor.putBoolean("isFirst", isFirst).commit();
+        return editor.putBoolean("isUserFirst", isFirst).commit();
     }
 
 
@@ -95,7 +95,7 @@ public class MySp extends MySharedPreferencesUtil {
      */
     public static String getToken(Context context) {
         SharedPreferences sp = getProjectSP(context);
-        return sp.getString("Token", null);
+        return sp.getString("UserToken", null);
     }
 
     /**
@@ -107,7 +107,7 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean setToken(Context context, String userName) {
         SharedPreferences sp = getProjectSP(context);
         SharedPreferences.Editor editor = sp.edit();
-        return editor.putString("Token", userName).commit();
+        return editor.putString("UserToken", userName).commit();
     }
 
     /**
@@ -118,7 +118,7 @@ public class MySp extends MySharedPreferencesUtil {
      */
     public static String getAskId(Context context) {
         SharedPreferences sp = getProjectSP(context);
-        return sp.getString("AskId", null);
+        return sp.getString("UserAskId", null);
     }
 
     /**
@@ -130,7 +130,7 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean setAskId(Context context, String userName) {
         SharedPreferences sp = getProjectSP(context);
         SharedPreferences.Editor editor = sp.edit();
-        return editor.putString("AskId", userName).commit();
+        return editor.putString("UserAskId", userName).commit();
     }
 
     /**
@@ -142,7 +142,7 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean setMessage(Context context,boolean b){
         SharedPreferences sp = getProjectSP(context);
         SharedPreferences.Editor editor = sp.edit();
-        return editor.putBoolean("Message", b).commit();
+        return editor.putBoolean("UserMessage", b).commit();
     }
 
     /**
@@ -152,7 +152,7 @@ public class MySp extends MySharedPreferencesUtil {
      */
     public static boolean getMessage(Context context){
         SharedPreferences sp = getProjectSP(context);
-        return sp.getBoolean("Message", true);
+        return sp.getBoolean("UserMessage", true);
     }
 
     /**
@@ -164,7 +164,7 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean setVoice(Context context,boolean b){
         SharedPreferences sp = getProjectSP(context);
         SharedPreferences.Editor editor = sp.edit();
-        return editor.putBoolean("Voice", b).commit();
+        return editor.putBoolean("UserVoice", b).commit();
     }
 
     /**
@@ -174,7 +174,7 @@ public class MySp extends MySharedPreferencesUtil {
      */
     public static boolean getVoice(Context context){
         SharedPreferences sp = getProjectSP(context);
-        return sp.getBoolean("Voice", true);
+        return sp.getBoolean("UserVoice", true);
     }
 
     /**
@@ -186,7 +186,7 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean setVibration(Context context,boolean b){
         SharedPreferences sp = getProjectSP(context);
         SharedPreferences.Editor editor = sp.edit();
-        return editor.putBoolean("Vibration", b).commit();
+        return editor.putBoolean("UserVibration", b).commit();
     }
 
     /**
@@ -196,23 +196,8 @@ public class MySp extends MySharedPreferencesUtil {
      */
     public static boolean getVibration(Context context){
         SharedPreferences sp = getProjectSP(context);
-        return sp.getBoolean("Vibration", true);
+        return sp.getBoolean("UserVibration", true);
     }
 
-    /**
-     * 设置数据
-     * @param context
-     * @param dto
-     * @return
-     */
-    public static boolean setData(Context context, String dto){
-        SharedPreferences sp = getProjectSP(context);
-        SharedPreferences.Editor editor = sp.edit();
-        return editor.putString("EditPrescriptionDto", dto).commit();
-    }
 
-    public static String getData(Context context){
-        SharedPreferences sp = getProjectSP(context);
-        return sp.getString("EditPrescriptionDto", null);
-    }
 }

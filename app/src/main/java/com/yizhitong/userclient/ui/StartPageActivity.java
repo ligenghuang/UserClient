@@ -61,7 +61,7 @@ public class StartPageActivity extends UserBaseActivity {
                 @Override
                 public void run() {
 
-                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    Intent intent = new Intent(mContext, MainActivity.class);
                     startActivity(intent);
                     isNeedAnim = false;
                     finish();
