@@ -17,6 +17,7 @@ import com.lgh.huanglib.util.data.ResUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.MineAction;
+import com.yizhitong.userclient.adapters.BaseRecyclerAdapter;
 import com.yizhitong.userclient.event.UserInfoDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.MainActivity;
@@ -87,8 +88,8 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
         }
     }
 
-    @OnClick({R.id.ll_user_info, R.id.ll_my_prescription, R.id.ll_setting, R.id.ll_feedback,R.id.ll_address_management,
-            R.id.ll_prescription_template})
+    @OnClick({R.id.ll_user_info, R.id.ll_feedback, R.id.ll_address_management, R.id.ll_concerned_doctor,
+            R.id.ll_health_records})
     void OnClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user_info:
@@ -99,6 +100,24 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
                     return;
                 }
                 jumpActivityNotFinish(mContext, UserInfoActivity.class);
+                break;
+            case R.id.ll_concerned_doctor:
+                //todo 我关注的医生
+                if (!MySp.iSLoginLive(mContext)) {
+                    //todo 判断是否登录
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return;
+                }
+                jumpActivityNotFinish(mContext, ConcernedDoctorActivity.class);
+                break;
+            case R.id.ll_health_records:
+                //todo 健康档案
+                if (!MySp.iSLoginLive(mContext)) {
+                    //todo 判断是否登录
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return;
+                }
+                jumpActivityNotFinish(mContext,HealthRecordsActivity.class);
                 break;
             case R.id.ll_address_management:
                 //todo 地址管理
@@ -153,7 +172,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
             userNmaeTv.setText(userInfoBean.getNicename());
             String portrait = userInfoBean.getNiceImg();
             userHealthValueTv.setVisibility(View.VISIBLE);
-            userHealthValueTv.setText(ResUtil.getFormatString(R.string.mine_tip_8,userInfoBean.getHealthCoin()));
+            userHealthValueTv.setText(ResUtil.getFormatString(R.string.mine_tip_8, userInfoBean.getHealthCoin()));
             if (portrait.indexOf("H5/Uimg") != -1) {
                 GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + portrait, userPortraitIv, R.drawable.icon_placeholder);
                 L.e("lgh", WebUrlUtil.IMG_URL + portrait);

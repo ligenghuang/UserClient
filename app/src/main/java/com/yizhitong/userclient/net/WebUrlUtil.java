@@ -104,6 +104,46 @@ public class WebUrlUtil {
     public static final String POST_ADDRESS_INFO = "Mine/getUserAddByIuidApp";
 
     /**
+     * 获取我关注的医生
+     */
+    public static final String POST_FIND_FAV_DOCTORS_LIST = "Mine/findFavDoctors";
+
+    /**
+     * 获取科室
+     */
+    public static final String POST_FIND_DEPARTID = "Doctors/findDepartid";
+
+    /**
+     * 获取医生认证资料
+     */
+    public static final String POST_DOCTOR_INFO = "Mine/getDoctorsInfoApp";
+
+    /**
+     * 医院列表
+     */
+    public static final String POST_HOSPITALNAME = "Mine/getHospitalName";
+
+    /**
+     * 保存个人认证资料
+     */
+    public static final String POST_DOCTORSAUTH = "Mine/doctorsAuth";
+
+    /**
+     * 获取问诊人信息列表
+     */
+    public static final String POST_MY_PATIENT = "Mine/getMyPatientApp";
+
+    /**
+     * 获取问诊人详情
+     */
+    public static final String POST_PATIENT_INFO = "Mine/getPatientApp";
+
+    /**
+     * 新增、编辑问诊人详情
+     */
+    public static final String POST_ADD_PATIENT_INFO = "Mine/addPatient";
+
+    /**
      * 接收到消息
      */
     public static final String GET_MESSAGE = "getMessageApp";

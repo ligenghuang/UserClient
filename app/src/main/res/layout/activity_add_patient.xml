@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.mine.AddPatientActivity">
+
+    <include layout="@layout/layout_title_black_bar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_f4"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <!--姓名-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_1"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_name_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/item_height50"
+                        android:layout_toLeftOf="@id/iv_patient_name_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--性别-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_2"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_sex_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_toLeftOf="@id/iv_patient_sex_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--出生日期-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_3"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_birthday_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_toLeftOf="@id/iv_patient_birthday_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--电话-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_4"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_phone_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/item_height50"
+                        android:layout_toLeftOf="@id/iv_patient_phone_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height50"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_10"
+                android:text="@string/add_patient_tip_5"
+                android:textColor="@color/color_9"
+                android:textSize="@dimen/text_size17" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <!--与本人关系-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_relation"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_6"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_relation_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_relation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_toLeftOf="@id/iv_patient_relation_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--身高-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_7"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_height_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/item_height50"
+                        android:layout_toLeftOf="@id/iv_patient_height_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--体重-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_8"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_weight_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/item_height50"
+                        android:layout_toLeftOf="@id/iv_patient_weight_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <!--过敏史-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_allergy"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_9"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_allergy_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_allergy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/item_height70"
+                        android:layout_toLeftOf="@id/iv_patient_allergy_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--家族史-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_family_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_10"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_family_history_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_family_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="@dimen/item_height70"
+                        android:layout_toLeftOf="@id/iv_patient_family_history_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--过往病史-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_past"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_11"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_past_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_past"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="90dp"
+                        android:layout_toLeftOf="@id/iv_patient_past_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+                <!--过敏药物-->
+                <RelativeLayout
+                    android:id="@+id/rl_patient_drug_allergy"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height60"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/add_patient_tip_12"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size17" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_patient_drug_allergy_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_more_right" />
+
+                    <TextView
+                        android:id="@+id/tv_patient_drug_allergy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginLeft="90dp"
+                        android:layout_toLeftOf="@id/iv_patient_drug_allergy_more"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/text_size17" />
+
+                    <View
+                        style="@style/user_line_2"
+                        android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height50"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_login_btn_bg"
+                android:gravity="center"
+                android:text="@string/add_patient_tip_13"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size17" />
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

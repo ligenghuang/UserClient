@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ui.mine.MedicalRecordsActivity">
+
+    <include layout="@layout/layout_title_black_bar"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="@color/color_f4">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/dp_10"
+                android:padding="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white">
+
+                <EditText
+                    android:id="@+id/tv_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/transparent"
+                    android:gravity="top"
+                    android:textColor="@color/color_3"
+                    android:textSize="@dimen/text_size16"
+                    android:textColorHint="@color/color_9"
+                    android:hint="@string/add_patient_tip_17"/>
+
+                <TextView
+                    android:id="@+id/tv_note_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0/200"
+                    android:gravity="right"
+                    android:textColor="@color/color_9"
+                    android:textSize="@dimen/text_size18"
+                    />
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height50"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_login_btn_bg"
+                android:gravity="center"
+                android:text="@string/doctor_certified_tip_12"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size17" />
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

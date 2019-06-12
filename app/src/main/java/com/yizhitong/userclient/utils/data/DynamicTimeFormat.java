@@ -114,7 +114,7 @@ public class DynamicTimeFormat extends SimpleDateFormat {
 
 
     public static String LongToString(long time) {
-        SimpleDateFormat format2 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
         return format2.format(new Date(time));
     }
 

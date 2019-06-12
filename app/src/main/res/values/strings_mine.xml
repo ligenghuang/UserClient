@@ -46,4 +46,68 @@
     <string name="address_tip_14">请输入联系电话</string>
     <string name="address_tip_15">请选择所在地区</string>
     <string name="address_tip_16">请输入详细地址</string>
+
+    <!--我关注的医生-->
+    <string name="concerned_doctor_tip_title">我关注的医生</string>
+    <string name="concerned_doctor_tip_1">医生认证</string>
+    <string name="concerned_doctor_tip_2">问医生</string>
+    <string name="concerned_doctor_tip_3">擅长：%0$s</string>
+
+    <!--医生认证-->
+    <string name="doctor_certified_tip_title">个人认证资料</string>
+    <string name="doctor_certified_tip_1">工作头像</string>
+    <string name="doctor_certified_tip_2">姓名</string>
+    <string name="doctor_certified_tip_3">性别</string>
+    <string name="doctor_certified_tip_4">从业时间</string>
+    <string name="doctor_certified_tip_5">职称</string>
+    <string name="doctor_certified_tip_6">特长</string>
+    <string name="doctor_certified_tip_7">科室</string>
+    <string name="doctor_certified_tip_8">所属医院</string>
+    <string name="doctor_certified_tip_9">开处方</string>
+    <string name="doctor_certified_tip_10">手机号码</string>
+    <string name="doctor_certified_tip_11">执业证书</string>
+    <string name="doctor_certified_tip_12">保存信息</string>
+    <string name="doctor_certified_tip_13">不可开处方药</string>
+    <string name="doctor_certified_tip_14">可开处方药</string>
+    <string name="doctor_certified_tip_15">未上传</string>
+    <string name="doctor_certified_tip_16">已上传</string>
+    <string name="doctor_certified_tip_17">请输入姓名</string>
+    <string name="doctor_certified_tip_18">请输入职称</string>
+    <string name="doctor_certified_tip_19">请输入手机号码</string>
+    <string name="doctor_certified_tip_20">请输入验证码</string>
+    <string name="doctor_certified_tip_21">立即获取</string>
+    <string name="doctor_certified_tip_22">确定绑定</string>
+    <string name="doctor_certified_tip_23">绑定手机</string>
+    <string name="doctor_certified_tip_24">已填写</string>
+    <string name="doctor_certified_tip_25">未填写</string>
+    <string name="doctor_certified_tip_26">请填写你的特长</string>
+    <string name="doctor_certified_tip_27">内容不能为空</string>
+    <string name="doctor_certified_tip_28">选择所属医院</string>
+
+    <!--健康档案-->
+    <string name="health_records_tip_title">问诊人信息</string>
+    <string name="health_records_tip_1">添加问诊人</string>
+
+    <!--问诊人详情-->
+    <string name="add_patient_tip_title">问诊人详情</string>
+    <string name="add_patient_tip_1">姓名</string>
+    <string name="add_patient_tip_2">性别</string>
+    <string name="add_patient_tip_3">出生日期</string>
+    <string name="add_patient_tip_4">电话</string>
+    <string name="add_patient_tip_5">以下信息提前填写可供主治医生更好问诊</string>
+    <string name="add_patient_tip_6">与本人关系</string>
+    <string name="add_patient_tip_7">身高</string>
+    <string name="add_patient_tip_8">体重</string>
+    <string name="add_patient_tip_9">过敏史</string>
+    <string name="add_patient_tip_10">家族史</string>
+    <string name="add_patient_tip_11">过往病历</string>
+    <string name="add_patient_tip_12">过敏药物</string>
+    <string name="add_patient_tip_13">保存信息</string>
+
+    <string name="add_patient_tip_14">请输入电话号码</string>
+    <string name="add_patient_tip_15">请输入身高</string>
+    <string name="add_patient_tip_16">请输入体重</string>
+    <string name="add_patient_tip_17">请补充您的过往病历</string>
+
+
 </resources>

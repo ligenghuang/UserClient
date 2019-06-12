@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="allergy_list">
+        <item>暂无</item>
+        <item>大麦</item>
+        <item>大米</item>
+        <item>玉米</item>
+        <item>乳制品</item>
+        <item>海鲜</item>
+        <item>咖啡</item>
+        <item>羊肉</item>
+        <item>禽类</item>
+    </string-array>
+
+    <string-array name="family_history_list">
+        <item>暂无</item>
+        <item>精神病</item>
+        <item>癌症</item>
+        <item>高血压</item>
+        <item>近视眼</item>
+        <item>糖尿病</item>
+        <item>血液病</item>
+        <item>肥胖</item>
+        <item>老年痴呆</item>
+        <item>风湿病</item>
+    </string-array>
+
+    <string-array name="past_list">
+        <item>暂无</item>
+        <item>精神病</item>
+        <item>癌症</item>
+        <item>高血压</item>
+        <item>近视眼</item>
+        <item>糖尿病</item>
+        <item>血液病</item>
+        <item>肥胖</item>
+        <item>老年痴呆</item>
+        <item>风湿病</item>
+    </string-array>
+
+    <string-array name="drug_allergy_list">
+        <item>暂无</item>
+        <item>青霉素</item>
+        <item>维生素B1</item>
+        <item>氨基苄青霉素</item>
+        <item>链霉素</item>
+        <item>卡那霉素</item>
+        <item>鲁米那</item>
+        <item>安定</item>
+        <item>阿司匹林</item>
+        <item>去痛片</item>
+        <item>普鲁卡因</item>
+        <item>丙种胎盘球蛋白</item>
+        <item>动物血清</item>
+    </string-array>
+
+
+</resources>

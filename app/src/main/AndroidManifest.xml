@@ -23,7 +23,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/activity_theme">
-        <activity android:name=".ui.mine.AddAddressActivity"></activity>
+        <activity android:name=".ui.mine.MedicalRecordsActivity"></activity>
+        <activity android:name=".ui.mine.AddPatientActivity" />
+        <activity android:name=".ui.mine.HealthRecordsActivity" />
+        <activity android:name=".ui.mine.ConcernedDoctorActivity" />
+        <activity android:name=".ui.mine.AddAddressActivity" />
         <activity android:name=".ui.mine.AddressManagementActivity" />
         <activity
             android:name=".ui.StartPageActivity"
@@ -44,6 +48,8 @@
         <activity android:name=".ui.login.FindPwdActivity" />
         <activity android:name=".ui.mine.UserInfoActivity" />
         <activity android:name=".ui.mine.FeedbackActivity" />
+        <activity android:name=".ui.mine.DoctorCertifiedActivity" />
+        <activity android:name=".ui.mine.SpecialtyActivity" />
     </application>
 
 </manifest>
