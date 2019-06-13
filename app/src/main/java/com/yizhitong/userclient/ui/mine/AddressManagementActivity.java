@@ -1,11 +1,13 @@
 package com.yizhitong.userclient.ui.mine;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -43,6 +45,7 @@ public class AddressManagementActivity extends UserBaseActivity<AddressManagemen
 
     AddressManagementAdapter addressManagementAdapter;
     boolean isEditor = false;
+    int type = 0;
 
     @Override
     public int intiLayout() {
@@ -81,10 +84,12 @@ public class AddressManagementActivity extends UserBaseActivity<AddressManagemen
         super.init();
         mContext = this;
         mActicity = this;
+        type = getIntent().getIntExtra("type",0);
 
-        addressManagementAdapter = new AddressManagementAdapter(this);
+        addressManagementAdapter = new AddressManagementAdapter(this,type);
         addressRv.setLayoutManager(new LinearLayoutManager(this));
         addressRv.setAdapter(addressManagementAdapter);
+        loadView();
     }
 
     @OnClick({R.id.f_right_tv,R.id.tv_btn})
@@ -104,6 +109,21 @@ public class AddressManagementActivity extends UserBaseActivity<AddressManagemen
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void loadView() {
+        super.loadView();
+        addressManagementAdapter.setOnClickListenter(new AddressManagementAdapter.OnClickListenter() {
+            @Override
+            public void OnClick(AddressListDto.DataBean m) {
+                Intent intent = new Intent();
+                intent.putExtra("name",m.getName());
+                intent.putExtra("phone",m.getPhone());
+                intent.putExtra("address",m.getUserAddress());
+                setResult(200,intent);
+            }
+        });
     }
 
     private String getDeteleData() {

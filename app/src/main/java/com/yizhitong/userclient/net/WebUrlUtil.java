@@ -144,6 +144,21 @@ public class WebUrlUtil {
     public static final String POST_ADD_PATIENT_INFO = "Mine/addPatient";
 
     /**
+     * 我的处方列表
+     */
+    public static final String POST_PRESCRIPTION_LIST = "Prescription/getPrescriptionApp";
+
+    /**
+     * 删除处方订单
+     */
+    public static final String POST_PRESCRIPTION_DELETE = "Prescription/deleteAskDrug";
+
+    /**
+     * 处方详情
+     */
+    public static final String POST_PRESCRIPTION_INFO = "Prescription/getPreInfoApp";
+
+    /**
      * 接收到消息
      */
     public static final String GET_MESSAGE = "getMessageApp";

@@ -1,6 +1,7 @@
 package com.yizhitong.userclient.actions;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.net.CollectionsUtils;
@@ -9,10 +10,9 @@ import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.yizhitong.userclient.event.GeneralDto;
-import com.yizhitong.userclient.event.PatientInfoDto;
-import com.yizhitong.userclient.event.post.AddPatientPost;
+import com.yizhitong.userclient.event.MyPrescriptionDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
-import com.yizhitong.userclient.ui.impl.AddPatientView;
+import com.yizhitong.userclient.ui.impl.MyPrescriptionView;
 import com.yizhitong.userclient.utils.data.MySp;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -22,12 +22,18 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 
-public class AddPatientAction extends BaseAction<AddPatientView> {
-    public AddPatientAction(RxAppCompatActivity _rxAppCompatActivity, AddPatientView view) {
+/**
+ * 我的处方药
+ *
+ * @author lgh
+ * created at 2019/5/18 0018 10:21
+ */
+public class MyPrescriptionAction extends BaseAction<MyPrescriptionView> {
+
+    public MyPrescriptionAction(RxAppCompatActivity _rxAppCompatActivity, MyPrescriptionView view) {
         super(_rxAppCompatActivity);
         attachView(view);
     }
-
 
     public void isLogin() {
         post(WebUrlUtil.POST_ISLOGIN, false, service -> manager.runHttp(
@@ -35,23 +41,23 @@ public class AddPatientAction extends BaseAction<AddPatientView> {
     }
 
     /**
-     * 获取问诊人详情
-     * @param iuid
+     * 获取我的处方 列表
+     *
+     * @param status
      */
-    public void getPatient(String iuid){
-        post(WebUrlUtil.POST_PATIENT_INFO, false, service -> manager.runHttp(
-                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("iuid", iuid), WebUrlUtil.POST_PATIENT_INFO)));
+    public void getPrescription(int status) {
+        post(WebUrlUtil.POST_PRESCRIPTION_LIST, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("H5ORDOC", "0", "status", status + ""), WebUrlUtil.POST_PRESCRIPTION_LIST)));
     }
 
     /**
-     * 新增、编辑问诊人详情
-     * @param type
-     * @param patientPost
+     * 删除处方订单
+     *
+     * @param iuid
      */
-    public void addPatient(int type, AddPatientPost patientPost){
-        post(WebUrlUtil.POST_ADD_PATIENT_INFO, false, service -> manager.runHttp(
-                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("type", type,
-                        "patient",patientPost.toString()), WebUrlUtil.POST_ADD_PATIENT_INFO)));
+    public void deletePrescription(String iuid) {
+        post(WebUrlUtil.POST_PRESCRIPTION_DELETE, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("iuid", iuid), WebUrlUtil.POST_PRESCRIPTION_DELETE)));
 
     }
 
@@ -93,32 +99,45 @@ public class AddPatientAction extends BaseAction<AddPatientView> {
                         }
 //                        view.isLoginError();
                         break;
-                    case WebUrlUtil.POST_PATIENT_INFO:
+                    case WebUrlUtil.POST_PRESCRIPTION_LIST:
+                        //TODO 获取处方订单列表
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
-                            PatientInfoDto patientInfoDto = gson.fromJson(action.getUserData().toString(), new TypeToken<PatientInfoDto>() {
-                            }.getType());
-                            view.getPatientSuccessful(patientInfoDto);
+                            try {
+                                MyPrescriptionDto myPrescriptionDto = gson.fromJson(action.getUserData().toString(), new TypeToken<MyPrescriptionDto>() {
+                                }.getType());
+                                view.getPrescriptionSuccessful(myPrescriptionDto);
+                            } catch (JsonSyntaxException e) {
+                                GeneralDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                                }.getType());
+                                if (generalDto.getCode() == -2) {
+                                    view.onLigonError();
+                                } else {
+                                    view.onError(generalDto.getMsg(), generalDto.getCode());
+                                }
+                                return;
+                            }
                             return;
                         }
-                        view.onError(msg,action.getErrorType());
+                        view.onError(msg, action.getErrorType());
                         break;
-                    case WebUrlUtil.POST_ADD_PATIENT_INFO:
-                        //todo 新增 修改 问诊人
+                    case WebUrlUtil.POST_PRESCRIPTION_DELETE:
+                        //todo 删除处方订单
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             GeneralDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
                             }.getType());
-                            if (generalDto.getCode() == 1){
-                                view.addPatientSuccessful(generalDto);
+                            if (generalDto.getCode() == 1) {
+                                view.deletePrescriptionSuccessful(generalDto);
                             }else {
-                                view.onError(generalDto.getMsg(),generalDto.getCode());
+                                view.onError(generalDto.getMsg(), generalDto.getCode());
                             }
+
                             return;
                         }
-                        view.onError(msg,action.getErrorType());
+                        view.onError(msg, action.getErrorType());
                         break;
                 }
 

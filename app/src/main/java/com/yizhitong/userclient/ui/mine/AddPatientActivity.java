@@ -43,7 +43,7 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
     TextView titleTv;
 
 
-    String iuid;
+    String iuid = "";
     int type;
 
     @BindView(R.id.tv_patient_name)
@@ -97,6 +97,10 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
 
     String height;
     String weight;
+    String allergy = "";
+    String familyHistory = "";
+    String past = "";
+    String drugAllergy = "";
 
     @Override
     public int intiLayout() {
@@ -164,13 +168,13 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
         switch (v.getId()) {
             case R.id.rl_patient_name:
                 //todo 修改姓名
-                ModifyDialog modifyDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_17));
+                ModifyDialog modifyDialog = new ModifyDialog(mContext, R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_17));
                 modifyDialog.setOnClickListener(new ModifyDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
-                        if (TextUtils.isEmpty(txet)){
+                        if (TextUtils.isEmpty(txet)) {
                             showNormalToast(ResUtil.getString(R.string.doctor_certified_tip_17));
-                        }else {
+                        } else {
                             tvPatientName.setText(txet);
                             hideInput();
                             modifyDialog.dismiss();
@@ -181,7 +185,7 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
                 break;
             case R.id.rl_patient_sex:
                 //todo 修改性别
-                new TimePickerBuilder(mContext).setSexPicker(sexLists,"选择性别",new TimePickerBuilder.SexPickerCustomListener() {
+                new TimePickerBuilder(mContext).setSexPicker(sexLists, "选择性别", new TimePickerBuilder.SexPickerCustomListener() {
                     @Override
                     public void sexSelect(String sexStr) {
                         tvPatientSex.setText(sexStr);
@@ -200,13 +204,13 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
                 break;
             case R.id.rl_patient_phone:
                 //todo 电话
-                ModifyPhoneDialog modifyPhoneDialog = new ModifyPhoneDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.add_patient_tip_4));
+                ModifyPhoneDialog modifyPhoneDialog = new ModifyPhoneDialog(mContext, R.style.MY_AlertDialog, ResUtil.getString(R.string.add_patient_tip_4));
                 modifyPhoneDialog.setOnClickListener(new ModifyPhoneDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
-                        if (TextUtils.isEmpty(txet)){
+                        if (TextUtils.isEmpty(txet)) {
                             showNormalToast(ResUtil.getString(R.string.add_patient_tip_14));
-                        }else {
+                        } else {
                             mTvPatientPhone.setText(txet);
                             hideInput();
                             modifyPhoneDialog.dismiss();
@@ -217,7 +221,7 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
                 break;
             case R.id.rl_patient_relation:
                 //TODO 与本人关系
-                new TimePickerBuilder(mContext).setSexPicker(relationList,"与本人关系",new TimePickerBuilder.SexPickerCustomListener() {
+                new TimePickerBuilder(mContext).setSexPicker(relationList, "与本人关系", new TimePickerBuilder.SexPickerCustomListener() {
                     @Override
                     public void sexSelect(String sexStr) {
                         mTvPatientRelation.setText(sexStr);
@@ -226,15 +230,15 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
                 break;
             case R.id.rl_patient_height:
                 //todo 身高
-                ModifyPhoneDialog heightDialog = new ModifyPhoneDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.add_patient_tip_7));
+                ModifyPhoneDialog heightDialog = new ModifyPhoneDialog(mContext, R.style.MY_AlertDialog, ResUtil.getString(R.string.add_patient_tip_7));
                 heightDialog.setOnClickListener(new ModifyPhoneDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
-                        if (TextUtils.isEmpty(txet)){
+                        if (TextUtils.isEmpty(txet)) {
                             showNormalToast(ResUtil.getString(R.string.add_patient_tip_15));
-                        }else {
+                        } else {
                             height = txet;
-                            mTvPatientHeight.setText(txet+"cm");
+                            mTvPatientHeight.setText(txet + "cm");
                             hideInput();
                             heightDialog.dismiss();
                         }
@@ -244,15 +248,15 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
                 break;
             case R.id.rl_patient_weight:
                 //todo 体重
-                ModifyPhoneDialog weightDialog = new ModifyPhoneDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.add_patient_tip_8));
+                ModifyPhoneDialog weightDialog = new ModifyPhoneDialog(mContext, R.style.MY_AlertDialog, ResUtil.getString(R.string.add_patient_tip_8));
                 weightDialog.setOnClickListener(new ModifyPhoneDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
-                        if (TextUtils.isEmpty(txet)){
+                        if (TextUtils.isEmpty(txet)) {
                             showNormalToast(ResUtil.getString(R.string.add_patient_tip_16));
-                        }else {
+                        } else {
                             weight = txet;
-                            mTvPatientWeight.setText(txet+"Kg");
+                            mTvPatientWeight.setText(txet + "Kg");
                             hideInput();
                             weightDialog.dismiss();
                         }
@@ -262,30 +266,121 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
                 break;
             case R.id.rl_patient_allergy:
                 //todo 过敏史
-                jumpMedicalRecordsActivity(1);
+                jumpMedicalRecordsActivity(1, allergy);
                 break;
             case R.id.rl_patient_family_history:
                 //todo 家族史
-                jumpMedicalRecordsActivity(2);
+                jumpMedicalRecordsActivity(2, familyHistory);
                 break;
             case R.id.rl_patient_past:
                 //TODO 过往病史
-                jumpMedicalRecordsActivity(3);
+                jumpMedicalRecordsActivity(3, past);
                 break;
             case R.id.rl_patient_drug_allergy:
                 //TODO 过敏药物
-                jumpMedicalRecordsActivity(4);
+                jumpMedicalRecordsActivity(4, drugAllergy);
                 break;
             case R.id.tv_btn:
                 //TODO 提交
+                submit();
                 break;
         }
     }
 
-    private void jumpMedicalRecordsActivity(int i) {
-        Intent intent = new Intent(mContext,MedicalRecordsActivity.class);
-        intent.putExtra("type",i);
-        startActivity(intent);
+    private void submit() {
+        AddPatientPost addPatientPost = new AddPatientPost();
+        addPatientPost.setIUID(iuid);
+
+        //todo 姓名
+        if (!isEmpty(tvPatientName.getText().toString(), R.string.doctor_certified_tip_17)) {
+            return;
+        }
+        addPatientPost.setName(tvPatientName.getText().toString());
+
+        //TODO 性别
+        if (!isEmpty(tvPatientSex.getText().toString(), R.string.add_patient_tip_19)) {
+            return;
+        }
+        addPatientPost.setSex(tvPatientSex.getText().toString());
+
+        //todo 出生日期
+        if (!isEmpty(mTvPatientBirthday.getText().toString(), R.string.add_patient_tip_20)) {
+            return;
+        }
+        addPatientPost.setBirt_date(mTvPatientBirthday.getText().toString());
+
+        //todo 电话
+        if (!isEmpty(mTvPatientPhone.getText().toString(), R.string.add_patient_tip_14)) {
+            return;
+        }
+        addPatientPost.setPhone(mTvPatientPhone.getText().toString());
+
+        //TODO 与本人关系
+        if (!isEmpty(mTvPatientRelation.getText().toString(), R.string.add_patient_tip_21)) {
+            return;
+        }
+        addPatientPost.setRelation(mTvPatientRelation.getText().toString());
+
+        //todo 身高
+        if (!isEmpty(mTvPatientHeight.getText().toString(), R.string.add_patient_tip_15)) {
+            return;
+        }
+        addPatientPost.setHeight(Float.parseFloat(height));
+
+        //todo 体重
+        if (!isEmpty(mTvPatientWeight.getText().toString(), R.string.add_patient_tip_15)) {
+            return;
+        }
+        addPatientPost.setWeight(Float.parseFloat(weight));
+
+        //todo 过敏史
+        if (!isEmpty(mTvPatientAllergy.getText().toString(), R.string.add_patient_tip_22)) {
+            return;
+        }
+        addPatientPost.setAllergy_note(mTvPatientAllergy.getText().toString());
+
+        //TODO 家族史
+        if (!isEmpty(mTvPatientFamilyHistory.getText().toString(), R.string.add_patient_tip_23)) {
+            return;
+        }
+        addPatientPost.setMed_family(mTvPatientFamilyHistory.getText().toString());
+
+        //todo 过往病历
+        if (!isEmpty(mTvPatientPast.getText().toString(), R.string.add_patient_tip_24)) {
+            return;
+        }
+        addPatientPost.setMed_history(mTvPatientPast.getText().toString());
+
+        //todo 过敏药物
+        if (!isEmpty(mTvPatientDrugAllergy.getText().toString(), R.string.add_patient_tip_25)) {
+            return;
+        }
+        addPatientPost.setMed_drug(mTvPatientDrugAllergy.getText().toString());
+
+        addPatient(addPatientPost);
+
+    }
+
+    /**
+     * 判空
+     *
+     * @param str
+     * @param resId
+     * @return
+     */
+    private boolean isEmpty(String str, int resId) {
+        if (TextUtils.isEmpty(str)) {
+            showNormalToast(ResUtil.getString(resId));
+            return false;
+        }
+        return true;
+    }
+
+    private void jumpMedicalRecordsActivity(int i, String str) {
+        Intent intent = new Intent(mContext, MedicalRecordsActivity.class);
+        intent.putExtra("type", i);
+        intent.putExtra("note", str);
+        startActivityForResult(intent, 200);
     }
 
     @Override
@@ -365,15 +460,19 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
         mTvPatientPhone.setText(dataBean.getPhone());
 
         mTvPatientRelation.setText(dataBean.getRelation());
-        mTvPatientHeight.setText(dataBean.getHeight()+"cm");
-        height = dataBean.getHeight()+"";
-        mTvPatientWeight.setText(dataBean.getWeight()+"Kg");
-        weight = dataBean.getWeight()+"";
+        mTvPatientHeight.setText(dataBean.getHeight() + "cm");
+        height = dataBean.getHeight() + "";
+        mTvPatientWeight.setText(dataBean.getWeight() + "Kg");
+        weight = dataBean.getWeight() + "";
 
         mTvPatientAllergy.setText(dataBean.getAllergy_note());
+        allergy = dataBean.getAllergy_note();
         mTvPatientFamilyHistory.setText(dataBean.getMed_family());
+        familyHistory = dataBean.getMed_family();
         mTvPatientPast.setText(dataBean.getMed_history());
+        past = dataBean.getMed_history();
         mTvPatientDrugAllergy.setText(dataBean.getMed_drug());
+        drugAllergy = dataBean.getMed_drug();
     }
 
     /**
@@ -411,6 +510,33 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
         super.onPause();
         if (baseAction != null) {
             baseAction.toUnregister();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 200) {
+            if (data != null) {
+                switch (data.getIntExtra("type", 1)) {
+                    case 1:
+                        allergy = data.getStringExtra("note");
+                        mTvPatientAllergy.setText(allergy);
+                        break;
+                    case 2:
+                        familyHistory = data.getStringExtra("note");
+                        mTvPatientFamilyHistory.setText(familyHistory);
+                        break;
+                    case 3:
+                        past = data.getStringExtra("note");
+                        mTvPatientPast.setText(past);
+                        break;
+                    case 4:
+                        drugAllergy = data.getStringExtra("note");
+                        mTvPatientDrugAllergy.setText(drugAllergy);
+                        break;
+                }
+            }
         }
     }
 

@@ -22,8 +22,8 @@ public class AddPatientPost {
     private String birt_date;
     private String phone;
     private String relation;
-    private int height;
-    private int weight;
+    private float height;
+    private float weight;
     private String allergy_note;
     private String med_family;
     private String med_history;
@@ -70,19 +70,19 @@ public class AddPatientPost {
         this.relation = relation;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(float height) {
         this.height = height;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yizhitong.userclient.R;
+import com.yizhitong.userclient.event.AddressInfoDto;
 import com.yizhitong.userclient.event.AddressListDto;
 import com.yizhitong.userclient.ui.mine.AddAddressActivity;
 import com.yizhitong.userclient.utils.Util;
@@ -14,9 +15,17 @@ import com.yizhitong.userclient.utils.Util;
 public class AddressManagementAdapter extends BaseRecyclerAdapter<AddressListDto.DataBean> {
     boolean isEditor = false;
     Context context;
-    public AddressManagementAdapter(Context context) {
+    int type;
+    OnClickListenter onClickListenter;
+
+    public void setOnClickListenter(OnClickListenter onClickListenter) {
+        this.onClickListenter = onClickListenter;
+    }
+
+    public AddressManagementAdapter(Context context, int type) {
         super(R.layout.layout_item_address);
         this.context = context;
+        this.type = type;
     }
 
     public void setEditor(boolean isEditor){
@@ -44,12 +53,20 @@ public class AddressManagementAdapter extends BaseRecyclerAdapter<AddressListDto
                     model.setClick(!model.isClick());
                     imageView.setSelected(model.isClick());
                 }else {
-                    //todo 跳转至地址管理
-                    Intent intent = new Intent(context, AddAddressActivity.class);
-                    intent.putExtra("iuid",model.getIUID());
-                    context.startActivity(intent);
+                   if (type == 0){
+                       //todo 跳转至地址管理
+                       Intent intent = new Intent(context, AddAddressActivity.class);
+                       intent.putExtra("iuid",model.getIUID());
+                       context.startActivity(intent);
+                   }else if (type == 1){
+                       onClickListenter.OnClick(model);
+                   }
                 }
             }
         });
+    }
+
+    public interface OnClickListenter{
+        void OnClick(AddressListDto.DataBean m);
     }
 }

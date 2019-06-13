@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f5f6f8"
+    android:orientation="vertical">
+
+    <!--<com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+    <!--android:id="@+id/refreshLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/iv_null_data"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:src="@drawable/my_prescription2" />
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+
+</LinearLayout>

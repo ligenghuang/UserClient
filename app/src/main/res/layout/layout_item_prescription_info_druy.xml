@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:background="@drawable/shape_et_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/tv_item_druy_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1、小儿多维元素片(小儿善存片)"
+        android:textColor="@color/color_3"
+        android:textSize="@dimen/text_size14" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_4">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prescription_tip_20"
+            android:textColor="@color/color_9"
+            android:textSize="@dimen/text_size14" />
+
+        <TextView
+            android:id="@+id/tv_item_druy_spec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="60片/瓶 30片/瓶 80片/瓶 120片/瓶 365片/瓶"
+            android:textColor="@color/color_9"
+            android:textSize="@dimen/text_size14" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_4">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prescription_tip_21"
+            android:textColor="@color/color_9"
+            android:textSize="@dimen/text_size14" />
+
+        <TextView
+            android:id="@+id/tv_item_druy_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textColor="@color/color_9"
+            android:textSize="@dimen/text_size14" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_4">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/prescription_tip_20"
+            android:textColor="@color/color_9"
+            android:textSize="@dimen/text_size14" />
+
+        <TextView
+            android:id="@+id/tv_item_druy_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textColor="@color/color_9"
+            android:textSize="@dimen/text_size14" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

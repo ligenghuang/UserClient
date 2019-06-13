@@ -108,6 +108,41 @@
     <string name="add_patient_tip_15">请输入身高</string>
     <string name="add_patient_tip_16">请输入体重</string>
     <string name="add_patient_tip_17">请补充您的过往病历</string>
+    <string name="add_patient_tip_18">请选择您的过往病历</string>
+    <string name="add_patient_tip_19">请选择性别</string>
+    <string name="add_patient_tip_20">请选择出生日期</string>
+    <string name="add_patient_tip_21">请选择与本人关系</string>
+    <string name="add_patient_tip_22">请填写过敏史</string>
+    <string name="add_patient_tip_23">请填写家族史</string>
+    <string name="add_patient_tip_24">请填写过往病历</string>
+    <string name="add_patient_tip_25">请填写过敏药物</string>
 
+    <!--我的处方-->
+    <string name="prescription_tip_title">我的处方</string>
+    <string name="prescription_tip_1">删除订单</string>
+    <string name="prescription_tip_2">确定购买</string>
+    <string name="prescription_tip_3">共%0$s件商品  合计：￥%0$s</string>
+    <string name="prescription_tip_4">待付款</string>
+    <string name="prescription_tip_5">待发货</string>
+    <string name="prescription_tip_6">已完成</string>
+    <string name="prescription_tip_7">已取消</string>
+    <string name="prescription_tip_8">合计：</string>
+    <string name="prescription_tip_9">立即支付</string>
+    <string name="prescription_tip_10">广大物联网医院电子处方笺</string>
+    <string name="prescription_tip_11">处方：%0$s</string>
+    <string name="prescription_tip_12">姓名:</string>
+    <string name="prescription_tip_13">性别:</string>
+    <string name="prescription_tip_14">年龄:</string>
+    <string name="prescription_tip_15">科室:</string>
+    <string name="prescription_tip_16">临床诊断:</string>
+    <string name="prescription_tip_17">RP :</string>
+    <string name="prescription_tip_18">备注:</string>
+    <string name="prescription_tip_19">处方医师:</string>
+    <string name="prescription_tip_20">药品规格:</string>
+    <string name="prescription_tip_21">药品数量:</string>
+    <string name="prescription_tip_22">用法用量:</string>
+    <string name="prescription_tip_23">处方详情</string>
+    <string name="prescription_tip_24">添加收货地址</string>
+    <string name="prescription_tip_25">支付</string>
 
 </resources>
