@@ -89,7 +89,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
     }
 
     @OnClick({R.id.ll_user_info, R.id.ll_feedback, R.id.ll_address_management, R.id.ll_concerned_doctor,
-            R.id.ll_health_records,R.id.ll_prescription_template})
+            R.id.ll_health_records,R.id.ll_prescription_template,R.id.ll_my_prescription})
     void OnClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user_info:
@@ -109,6 +109,15 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
                     return;
                 }
                 jumpActivityNotFinish(mContext, ConcernedDoctorActivity.class);
+                break;
+            case R.id.ll_my_prescription:
+                //todo 我的问诊单
+                if (!MySp.iSLoginLive(mContext)) {
+                    //todo 判断是否登录
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return;
+                }
+                ((MainActivity) getActivity()).setPosition(2);
                 break;
             case R.id.ll_prescription_template:
                 //todo 我的处方

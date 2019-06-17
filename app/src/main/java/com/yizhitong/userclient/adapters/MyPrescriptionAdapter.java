@@ -15,7 +15,12 @@ import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.MyPrescriptionDto;
 import com.yizhitong.userclient.ui.mine.PrescriptionInfoActivity;
-
+/**
+* description ： 处方列表适配器
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/6/13
+*/
 public class MyPrescriptionAdapter extends BaseRecyclerAdapter<MyPrescriptionDto.DataBean>{
     Context context;
     OnClickListener onClickListener;

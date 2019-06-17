@@ -286,6 +286,153 @@
                 </LinearLayout>
 
 
+            <LinearLayout
+                android:id="@+id/ll_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="15dp"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:background="@drawable/shape_prescription_info_bg"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_doctor_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="李医生"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:textSize="@dimen/text_size14"
+                        android:textColor="@color/color_3"/>
+
+                    <TextView
+                        android:id="@+id/tv_doctor_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="153032535225"
+                        android:textSize="@dimen/text_size14"
+                        android:textColor="@color/color_3"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_doctor_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_9"
+                    android:textSize="@dimen/text_size14"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="广州省广州市荔湾区杂牌路55号"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prescription_tip_27"
+                        android:textSize="@dimen/text_size14"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:textColor="@color/color_9"/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size14"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prescription_tip_28"
+                        android:textSize="@dimen/text_size14"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:textColor="@color/color_9"/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size14"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prescription_tip_29"
+                        android:textSize="@dimen/text_size14"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:textColor="@color/color_9"/>
+
+                    <TextView
+                        android:id="@+id/tv_druy_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size14"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prescription_tip_30"
+                        android:textSize="@dimen/text_size14"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:textColor="@color/color_9"/>
+
+                    <TextView
+                        android:id="@+id/tv_pay_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/text_size14"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
             </LinearLayout>
 
 
@@ -293,6 +440,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_prescription_money"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height50"
             android:background="@color/white"
@@ -314,7 +462,7 @@
                     android:textSize="@dimen/text_size16" />
 
                 <TextView
-                    android:id="@+id/tv_momey"
+                    android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_10"
@@ -338,6 +486,18 @@
                 android:textSize="@dimen/text_size16" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_check_logistics"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height50"
+            android:background="@color/color_289d23"
+            android:textColor="@color/white"
+            android:text="@string/prescription_tip_26"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="@dimen/text_size16"
+            />
 
 
     </LinearLayout>

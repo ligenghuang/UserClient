@@ -159,6 +159,69 @@ public class WebUrlUtil {
     public static final String POST_PRESCRIPTION_INFO = "Prescription/getPreInfoApp";
 
     /**
+     * 问诊单列表
+     */
+    public static final String POST_ASKHEAD ="Ask/getAskHeadApp";
+
+    /**
+     * 问诊单支付
+     */
+    public static final String POST_ASKHEAD_BYID ="Ask/getAskHeadByIdApp";
+
+    /**
+     * 问诊单评价 医生详情
+     */
+    public static final String POST_DOCTOR_BYID ="Doctors/getDocByAskIdApp";
+
+    /**
+     * 问诊单评价  提交评价
+     */
+    public static final String POST_ADD_DOCTOR_EVAL = "Doctors/addDoctorEval";
+
+    /**
+     * 问诊单详情
+     */
+    public static final String POST_ASKHEAD_BY_ID = "Ask/getAskHeadByIdApp";
+
+    /**
+     * 消息列表
+     */
+    public static final String POST_MESSAGE_LIST = "Inquiry/findAskChatByTouserID";
+    /**
+     * 消息详情  用户信息
+     */
+    public static final String POST_MESSAGE_USERID = "Ask/getAskHeadByUserIdApp";
+
+    /**
+     * 消息详情  消息列表
+     */
+    public static final String POST_ASKCHAT = "Ask/getAskChatApp";
+
+    /**
+     * 发送消息 文字
+     */
+    public static final String POST_SEND_MESSAGE  = "Ask/sendMessageApp";
+    /**
+     * 发送消息 图片
+     */
+    public static final String POST_SEND_PICTURESA = "Ask/sendPicturesApp";
+
+    /**
+     * 获取常用语
+     */
+    public static final String POST_COMMONLANGUGE = "Ask/getCommonLanguageApp";
+
+    /**
+     * 新增常用语
+     */
+    public static final String POST_ADD_COMMONLANGUGE = "Ask/addCommonLanguage";
+
+    /**
+     * 删除常用语
+     */
+    public static final String POST_DELETE_COMMONLANGUAGE = "Ask/deleteCommonLanguage";
+
+    /**
      * 接收到消息
      */
     public static final String GET_MESSAGE = "getMessageApp";

@@ -144,5 +144,10 @@
     <string name="prescription_tip_23">处方详情</string>
     <string name="prescription_tip_24">添加收货地址</string>
     <string name="prescription_tip_25">支付</string>
+    <string name="prescription_tip_26">查看物流</string>
+    <string name="prescription_tip_27">支付方式:</string>
+    <string name="prescription_tip_28">支付时间:</string>
+    <string name="prescription_tip_29">商品总额:</string>
+    <string name="prescription_tip_30">实付金额:</string>
 
 </resources>

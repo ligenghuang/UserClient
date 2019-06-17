@@ -71,5 +71,12 @@
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
 
+    <style name="roomRatingBar_big" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_ful_big</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxHeight">51dp</item>
+        <item name="android:isIndicator">false</item>
+    </style>
+
 
 </resources>

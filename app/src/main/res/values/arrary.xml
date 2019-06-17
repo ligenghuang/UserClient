@@ -64,4 +64,19 @@
         <item>已取消</item>
     </string-array>
 
+    <string-array name="inquiry_type_list">
+        <item>全部</item> 
+        <item>待付款</item>
+        <item>待接诊</item>
+        <item>问诊中</item>
+        <item>已完成</item>
+    </string-array>
+
+    <string-array name="evaluate_list">
+        <item>医术精湛</item>
+        <item>态度良好</item>
+        <item>解答详情</item>
+        <item>富有爱心</item>
+    </string-array>
+
 </resources>

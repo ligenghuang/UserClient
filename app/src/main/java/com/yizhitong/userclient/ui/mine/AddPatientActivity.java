@@ -32,7 +32,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+/**
+* description ： 添加问诊人
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/6/17
+*/
 public class AddPatientActivity extends UserBaseActivity<AddPatientAction> implements AddPatientView {
 
     @BindView(R.id.top_view)

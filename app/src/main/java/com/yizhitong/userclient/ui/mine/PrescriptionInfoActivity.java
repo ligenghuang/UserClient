@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -25,7 +26,12 @@ import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+/**
+* description ： 处方详情 缺少支付方式 收货信息 跳转物流查询页
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/6/14
+*/
 public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoAction> implements PrescriptionInfoView {
 
     @BindView(R.id.top_view)
@@ -58,14 +64,28 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
     TextView mTvPrescriptionNote;
     @BindView(R.id.tv_prescription_prescribers_are)
     TextView mTvPrescriptionPrescribersAre;
-    @BindView(R.id.tv_momey)
-    TextView mTvMomey;
+    @BindView(R.id.tv_money)
+    TextView mTvMoney;
     @BindView(R.id.tv_pay)
     TextView mTvPay;
 
     PrescriptionInfoDruyAdapter prescriptionInfoDruyAdapter;
 
     PreInfoDto preInfoDto;
+    @BindView(R.id.ll_prescription_money)
+    LinearLayout mLlPrescriptionMoney;
+    @BindView(R.id.tv_check_logistics)
+    TextView mTvCheckLogistics;
+    @BindView(R.id.tv_pay_type)
+    TextView mTvPayType;
+    @BindView(R.id.tv_pay_time)
+    TextView mTvPayTime;
+    @BindView(R.id.tv_druy_money)
+    TextView mTvDruyMoney;
+    @BindView(R.id.tv_pay_money)
+    TextView mTvPayMoney;
+    @BindView(R.id.ll_pay)
+    LinearLayout mLlPay;
 
     @Override
     public int intiLayout() {
@@ -139,8 +159,38 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
         mTvPrescriptionDepartment.setText(dataBean.getDepartName());
         mTvPrescriptionNote.setText(dataBean.getIll_note());
         mTvPrescriptionPrescribersAre.setText(dataBean.getDoctorName());
-        mTvMomey.setText("￥" + PriceUtils.formatPrice(dataBean.getDrug_money()));
+        mTvMoney.setText("￥" + PriceUtils.formatPrice(dataBean.getDrug_money()));
         prescriptionInfoDruyAdapter.refresh(dataBean.getDrugMV());
+
+        //todo 2019/06/14 缺少支付方式 收货信息
+        mTvPayTime.setText(DynamicTimeFormat.LongToString5(dataBean.getPay_time_stamp()));
+        mTvDruyMoney.setText("￥"+PriceUtils.formatPrice(dataBean.getDrug_money()));
+        mTvPayMoney.setText("￥"+PriceUtils.formatPrice(dataBean.getPay_money()));
+
+        if (dataBean.getReback_flag() == 1){
+            //todo 已取消
+           mLlPrescriptionMoney.setVisibility(View.GONE);
+           mTvCheckLogistics.setVisibility(View.GONE);
+            mLlPay.setVisibility(View.VISIBLE);
+        }else if (dataBean.getFinish_flag() == 1){
+            //todo 已完成
+            mLlPrescriptionMoney.setVisibility(View.GONE);
+            mTvCheckLogistics.setVisibility(View.GONE);
+            mLlPay.setVisibility(View.VISIBLE);
+        }else if (dataBean.getPay_flag() == 1){
+            //todo 待发货
+            mLlPrescriptionMoney.setVisibility(View.GONE);
+            mTvCheckLogistics.setVisibility(View.VISIBLE);
+            mLlPay.setVisibility(View.VISIBLE);
+        }else if (dataBean.getPay_flag() == 0){
+            //todo 待付款
+            mLlPrescriptionMoney.setVisibility(View.VISIBLE);
+            mTvCheckLogistics.setVisibility(View.GONE);
+            mLlPay.setVisibility(View.GONE);
+        }
+
+
+
     }
 
     /**
@@ -181,13 +231,15 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
         }
     }
 
-    @OnClick(R.id.tv_pay)
+    @OnClick({R.id.tv_pay, R.id.tv_check_logistics})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_pay:
-                Intent intent = new Intent(mContext,PrescriptionInfoPayActivity.class);
-                intent.putExtra("preInfoDto",preInfoDto);
-                startActivityForResult(intent,200);
+                Intent intent = new Intent(mContext, PrescriptionInfoPayActivity.class);
+                intent.putExtra("preInfoDto", preInfoDto);
+                startActivityForResult(intent, 200);
+                break;
+            case R.id.tv_check_logistics:
                 break;
         }
     }

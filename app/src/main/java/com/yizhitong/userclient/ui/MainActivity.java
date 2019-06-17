@@ -25,7 +25,12 @@ import com.yizhitong.userclient.event.MessageDto;
 import com.yizhitong.userclient.event.SendMessageDto;
 import com.yizhitong.userclient.event.post.SendMessagePost;
 import com.yizhitong.userclient.net.WebUrlUtil;
+import com.yizhitong.userclient.ui.home.HomeFragment;
+import com.yizhitong.userclient.ui.login.LoginActivity;
+import com.yizhitong.userclient.ui.message.MessageFragment;
 import com.yizhitong.userclient.ui.mine.MineFragment;
+import com.yizhitong.userclient.ui.mine.MyPrescriptionFragment;
+import com.yizhitong.userclient.ui.physicianvisits.PhysicianvisitsFragment;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.cusview.NotificationHelper;
 import com.yizhitong.userclient.utils.data.MySp;
@@ -65,8 +70,9 @@ public class MainActivity extends UserBaseActivity {
     private static final int POIONTFOUR = 3;
 
     MineFragment mineFragment;
-//    MessageFragment messageFragment;
-//    PhysicianvisitsFragment physicianvisitsFragment;
+    MessageFragment messageFragment;
+    HomeFragment homeFragment;
+    PhysicianvisitsFragment physicianvisitsFragment;
 
     @BindView(R.id.top_view)
     View topView;
@@ -136,31 +142,32 @@ public class MainActivity extends UserBaseActivity {
         for (int i = 0; i < fragmentSize; i++) {
             switch (i) {
                 case POIONTONE://
-//                    messageFragment = new MessageFragment();
-//                    if (Position != POIONTONE) {
-//                        messageFragment.setUserVisibleHint(false);//
-//                    }
-//
-//                    fragments.add(messageFragment);
+                    homeFragment = new HomeFragment();
+                    if (Position != POIONTONE) {
+                        homeFragment.setUserVisibleHint(false);//
+                    }
+
+                    fragments.add(homeFragment);
                     break;
                 case POIONTTWO://
-//                    physicianvisitsFragment = new PhysicianvisitsFragment();
-//                    if (Position != POIONTTWO) {
-//                        physicianvisitsFragment.setUserVisibleHint(false);//
-//                    }
-//                    fragments.add(physicianvisitsFragment);
+                  messageFragment = new MessageFragment();
+                    if (Position != POIONTTWO) {
+                        messageFragment.setUserVisibleHint(false);//
+                    }
+
+                    fragments.add(messageFragment);
                     break;
                 case POIONTTHREE://
-//                    mineFragment = new MineFragment();
-//                    if (Position != POIONTTHREE) {
-//                        mineFragment.setUserVisibleHint(false);
-//                    }
-//                    fragments.add(mineFragment);
+                    physicianvisitsFragment = new PhysicianvisitsFragment();
+                    if (Position != POIONTTHREE) {
+                        physicianvisitsFragment.setUserVisibleHint(false);//
+                    }
+                    fragments.add(physicianvisitsFragment);
 
                     break;
                 case POIONTFOUR:
                     mineFragment = new MineFragment();
-                    if (Position != POIONTTHREE) {
+                    if (Position != POIONTFOUR) {
                         mineFragment.setUserVisibleHint(false);
                     }
                     fragments.add(mineFragment);
@@ -194,20 +201,24 @@ public class MainActivity extends UserBaseActivity {
     public boolean onTouch(View v) {
         switch (v.getId()) {
             case R.id.lin_1:
-//                if (!MySp.iSLoginLive(mContext)) {
-//                    jumpActivityNotFinish(mContext, LoginActivity.class);
-//                    return false;
-//                }
+                if (!MySp.iSLoginLive(mContext)) {
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return false;
+                }
                 Position = POIONTONE;
                 break;
             case R.id.lin_2:
-//                if (!MySp.iSLoginLive(mContext)) {
-//                    jumpActivityNotFinish(mContext, LoginActivity.class);
-//                    return false;
-//                }
+                if (!MySp.iSLoginLive(mContext)) {
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return false;
+                }
                 Position = POIONTTWO;
                 break;
             case R.id.lin_3:
+                if (!MySp.iSLoginLive(mContext)) {
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return false;
+                }
                 Position = POIONTTHREE;
                 break;
             case R.id.lin_4:
@@ -219,6 +230,16 @@ public class MainActivity extends UserBaseActivity {
         setSelectedLin(Position);
         myPager.setCurrentItem(Position, false);
         return false;
+    }
+
+    /**
+     * 跳转fragment
+     * @param position
+     */
+    public void setPosition(int position){
+        Position = position;
+        setSelectedLin(Position);
+        myPager.setCurrentItem(Position, false);
     }
 
     public void changeStatusBar(boolean isBlack, int bgColor) {

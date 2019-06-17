@@ -26,7 +26,12 @@ import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+/**
+* description ： 收货地址
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/6/17
+*/
 public class AddressManagementActivity extends UserBaseActivity<AddressManagementAction> implements AddressManagementView {
 
     @BindView(R.id.top_view)
@@ -122,6 +127,7 @@ public class AddressManagementActivity extends UserBaseActivity<AddressManagemen
                 intent.putExtra("phone",m.getPhone());
                 intent.putExtra("address",m.getUserAddress());
                 setResult(200,intent);
+                finish();
             }
         });
     }

@@ -23,7 +23,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/activity_theme">
-        <activity android:name=".ui.mine.PrescriptionInfoPayActivity"></activity>
+        <activity android:name=".ui.physicianvisits.VisitActivity"></activity>
+        <activity android:name=".ui.physicianvisits.InquiryInfoActivity" />
+        <activity android:name=".ui.physicianvisits.InquiryInfoEvaluateActivity" />
+        <activity android:name=".ui.physicianvisits.InquiryInfoPayActivity" />
+        <activity android:name=".ui.mine.PrescriptionInfoPayActivity" />
         <activity android:name=".ui.mine.PrescriptionInfoActivity" />
         <activity android:name=".ui.mine.MyPrescriptionActivity" />
         <activity android:name=".ui.mine.MedicalRecordsActivity" />
@@ -53,6 +57,7 @@
         <activity android:name=".ui.mine.FeedbackActivity" />
         <activity android:name=".ui.mine.DoctorCertifiedActivity" />
         <activity android:name=".ui.mine.SpecialtyActivity" />
+        <activity android:name=".ui.message.MessageDetailActivity" />
     </application>
 
 </manifest>

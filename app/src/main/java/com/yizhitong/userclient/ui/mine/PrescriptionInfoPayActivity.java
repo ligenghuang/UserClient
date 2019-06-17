@@ -43,8 +43,8 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
     LinearLayout mLlAddress;
     @BindView(R.id.rv_drug)
     RecyclerView mRvDrug;
-    @BindView(R.id.tv_momey)
-    TextView mTvMomey;
+    @BindView(R.id.tv_money)
+    TextView mTvMoney;
     @BindView(R.id.tv_pay)
     TextView mTvPay;
 
@@ -97,17 +97,18 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
         mRvDrug.setLayoutManager(new LinearLayoutManager(mContext));
         mRvDrug.setAdapter(myPrescriptionPayDruyAdapter);
         myPrescriptionPayDruyAdapter.refresh(preInfoDto.getData().getDrugMV());
-        mTvMomey.setText("￥" + PriceUtils.formatPrice(preInfoDto.getData().getDrug_money()));
+        mTvMoney.setText("￥" + PriceUtils.formatPrice(preInfoDto.getData().getDrug_money()));
     }
 
 
-    @OnClick(R.id.ll_address_info)
+    @OnClick({R.id.ll_address_info})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_address_info:
-                Intent intent = new Intent(mContext,AddressManagementActivity.class);
-                intent.putExtra("type",1);
-                startActivityForResult(intent,200);
+                //todo
+                Intent intent = new Intent(mContext, AddressManagementActivity.class);
+                intent.putExtra("type", 1);
+                startActivityForResult(intent, 200);
                 break;
         }
     }
@@ -115,9 +116,13 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 200){
-            if (data != null){
-
+        if (resultCode == 200) {
+            if (data != null) {
+                mLlAddressNull.setVisibility(View.GONE);
+                mLlAddress.setVisibility(View.VISIBLE);
+                mTvAddressName.setText(data.getStringExtra("name"));
+                mTvAddressPhone.setText(data.getStringExtra("phone"));
+                mTvAddress.setText(data.getStringExtra("address"));
             }
         }
     }
