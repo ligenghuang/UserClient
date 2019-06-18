@@ -130,7 +130,6 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
         if (isVisible && MySp.iSLoginLive(mContext) && PhysicianvisitsFragment.Position == position) {
             //更新界面数据，如果数据还在下载中，就显示加载框
 //            loadNet();
-            loadDialog();
             getAskHead();
         }
 //        else if(!MySp.iSLoginLive(mContext) && MyInquiryActivity.Position == position){
@@ -171,8 +170,6 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
     @Override
     public void getAskHeadSuccessful(MyInquiryDto myInquiryDto) {
         myInquiryAdapter.refresh(myInquiryDto.getData());
-        loadDiss();
-        loadDiss();
     }
 
 

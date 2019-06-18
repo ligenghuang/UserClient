@@ -222,6 +222,26 @@ public class WebUrlUtil {
     public static final String POST_DELETE_COMMONLANGUAGE = "Ask/deleteCommonLanguage";
 
     /**
+     * 获取新闻类别
+     */
+    public static final String POST_NEWS_TYPE = "Mine/getNewsTypeApp";
+
+    /**
+     * 获取新闻列表
+     */
+    public static final String POST_NEWS_BYID = "Home/findNewsBytheClassApp";
+
+    /**
+     * 获取新闻详情
+     */
+    public static final String POST_NEWS_DETAIL = "Article/findTheNewsByIUID";
+
+    /**
+     * 获取科室
+     */
+    public static final String POST_DEPART_ALL = "Home/findDepartByAllApp";
+
+    /**
      * 接收到消息
      */
     public static final String GET_MESSAGE = "getMessageApp";

@@ -23,7 +23,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/activity_theme">
-        <activity android:name=".ui.physicianvisits.VisitActivity"></activity>
+        <activity android:name=".ui.home.FindDoctorActivity"></activity>
+        <activity android:name=".ui.home.NewsDetailActivity" />
+        <activity android:name=".ui.physicianvisits.VisitActivity" />
         <activity android:name=".ui.physicianvisits.InquiryInfoActivity" />
         <activity android:name=".ui.physicianvisits.InquiryInfoEvaluateActivity" />
         <activity android:name=".ui.physicianvisits.InquiryInfoPayActivity" />

@@ -83,9 +83,7 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
         super.onFragmentVisibleChange(isVisible);
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.white);
-            if (MySp.iSLoginLive(mContext)) {
-                getMessageList();
-            }
+            isLogin();
         }
 
     }
@@ -108,7 +106,6 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     @Override
     public void isLogin() {
         if (CheckNetwork.checkNetwork2(mContext)) {
-//            loadDialog(ResUtil.getString(R.string.registered_tip_17));
             baseAction.isLogin();
         }
     }
@@ -133,7 +130,6 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     @Override
     public void getMessageList() {
         if (CheckNetwork.checkNetwork2(mContext)) {
-//            loadDialog();
             baseAction.getMessageList();
         }
     }

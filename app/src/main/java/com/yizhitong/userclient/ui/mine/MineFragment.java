@@ -74,9 +74,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
     @Override
     protected void init() {
         super.init();
-        if (MySp.iSLoginLive(mContext)) {
-            loadDialog();
-        }
+
     }
 
     @Override
