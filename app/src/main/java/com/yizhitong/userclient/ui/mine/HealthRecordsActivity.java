@@ -1,5 +1,6 @@
 package com.yizhitong.userclient.ui.mine;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
     RecyclerView patientRv;
 
     HealthRecordAdapter healthRecordAdapter;
+    boolean isSelect = false;
 
     @Override
     public int intiLayout() {
@@ -66,7 +68,7 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
                 .navigationBarWithKitkatEnable(false)
                 .init();
         toolbar.setNavigationOnClickListener(view -> finish());
-        titleTv.setText(ResUtil.getString(R.string.health_records_tip_title));
+
     }
 
     @Override
@@ -75,9 +77,31 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
         mActicity = this;
         mContext = this;
 
-        healthRecordAdapter = new HealthRecordAdapter(this);
+        isSelect = getIntent().getBooleanExtra("isSelect",false);
+        titleTv.setText(ResUtil.getString(isSelect ?R.string.rapid_interrogation_tip_6:R.string.health_records_tip_title));
+
+        healthRecordAdapter = new HealthRecordAdapter(this,isSelect);
         patientRv.setLayoutManager(new LinearLayoutManager(this));
         patientRv.setAdapter(healthRecordAdapter);
+
+        loadView();
+    }
+
+
+    @Override
+    protected void loadView() {
+        super.loadView();
+        healthRecordAdapter.setOnClickListener(new HealthRecordAdapter.OnClickListener() {
+            @Override
+            public void OnClick(String id, String name) {
+                //todo 跳转至快速问诊页
+                Intent intent = new Intent();
+                intent.putExtra("id",id);
+                intent.putExtra("name",name);
+                setResult(200,intent);
+                finish();
+            }
+        });
     }
 
     @OnClick(R.id.tv_submit)

@@ -51,7 +51,12 @@ public interface HttpPostService {
     Observable<BaseResultEntity2> PostData_1(@Header("Cookie") String SessionId, @Body RequestBody Body, @Url String url);
 
     @POST
+    Observable<String> PostData_String(@Body RequestBody Body,@Url String url);
+    @POST
     Observable<String> PostData_String(@Header("Cookie") String SessionId, @Body Map<Object, Object> body, @Url String url);
     @POST
     Observable<String> PostData_String(@Header("Cookie") String SessionId, @Body RequestBody Body, @Url String url);
+
+    @POST
+    Observable<Double> PostData_double(@Body Map<Object, Object> body, @Url String url);
 }

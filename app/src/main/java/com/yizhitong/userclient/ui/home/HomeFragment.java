@@ -123,6 +123,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         switch (v.getId()) {
             case R.id.tv_btn_1:
                 //todo 快速问诊
+                jumpActivityNotFinish(mContext,RapidInterrogationActivity.class);
                 break;
             case R.id.tv_btn_2:
                 //TODO 找医生
@@ -161,7 +162,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                 }
 
                 L.e("lgh_news",newsTypeAdapter.getAllData().toString());
-                newsTypeAdapter.notifyListDataSetChanged();
+                newsTypeAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -184,6 +185,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @Override
     public void getNewsTypeSuccessful(NewsTypeDto newsTypeDto) {
         loadDiss();
+        L.e("lgh_news",newsTypeDto.getData().toString());
         List<NewsTypeDto.DataBean> list = new ArrayList<>();
         NewsTypeDto.DataBean dataBean = new NewsTypeDto.DataBean();
         dataBean.setClick(true);

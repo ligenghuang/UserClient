@@ -13,6 +13,17 @@
     <string name="news_detail_tip_2">擅长：%0$s</string>
 
     <string name="find_doctor_tip_title">按项目找医生</string>
-    <!--<string name="find_doctor_tip_1"></string>-->
+
+    <string name="rapid_interrogation_tip_title">开药问诊</string>
+    <string name="rapid_interrogation_tip_1">患者</string>
+    <string name="rapid_interrogation_tip_2">请选择患者</string>
+    <string name="rapid_interrogation_tip_3">请详细描述已经确认的疾病和相关的症状，以便医生准确了解您的病情和用药需求</string>
+    <string name="rapid_interrogation_tip_4">请上传相关疾病图片或者处方记录,仅对外开药医生可见</string>
+    <string name="rapid_interrogation_tip_5">可上传8张</string>
+    <string name="rapid_interrogation_tip_6">选择患者</string>
+    <string name="rapid_interrogation_tip_7">删除成功</string>
+    <string name="rapid_interrogation_tip_8">请输入病情描述</string>
+
+    <string name="rapid_interrogation_tip_9">待分配医生</string>
 
 </resources>

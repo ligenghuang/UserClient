@@ -242,6 +242,22 @@ public class WebUrlUtil {
     public static final String POST_DEPART_ALL = "Home/findDepartByAllApp";
 
     /**
+     * 获取问诊价格
+     */
+    public static final String POST_DOCTOR_AMOUNT = "Doctors/getRegisteredAmount";
+
+    /**
+     * 上传图片
+     */
+    public static final String POST_ASK_FILENAME = "Ask/fileName";
+
+    /**
+     * 提交快速问诊单
+     */
+    public static final String POST_ADD_ASKHEAD = "Ask/addAskHead";
+
+
+    /**
      * 接收到消息
      */
     public static final String GET_MESSAGE = "getMessageApp";
