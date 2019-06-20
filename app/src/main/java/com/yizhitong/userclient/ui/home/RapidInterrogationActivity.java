@@ -134,7 +134,7 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
         mActicity = this;
 
         initImagePicker();
-        imageItemAdapter = new ImageItemAdapter(mContext);
+        imageItemAdapter = new ImageItemAdapter(mContext,true);
         mRvImg.setLayoutManager(new GridLayoutManager(mContext, 4));
         mRvImg.setAdapter(imageItemAdapter);
 

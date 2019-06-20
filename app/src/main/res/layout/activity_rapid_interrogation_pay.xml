@@ -47,12 +47,13 @@
                     android:textColor="@color/color_3"
                     android:textSize="@dimen/text_size17" />
 
-                <ImageView
+                <TextView
+                    android:id="@+id/tv_inquiry_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/icon_more_right" />
+                    android:layout_marginRight="15dp"
+                    android:textSize="@dimen/text_size15"
+                    android:textColor="@color/color_e22525"/>
 
 
             </LinearLayout>
@@ -82,6 +83,11 @@
                     android:text="@string/inquity_tip_3"
                     android:textColor="@color/color_3"
                     android:textSize="@dimen/text_size16" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>

@@ -256,6 +256,10 @@ public class WebUrlUtil {
      */
     public static final String POST_ADD_ASKHEAD = "Ask/addAskHead";
 
+    /**
+     * 搜索医生
+     */
+    public static final String POST_FINDDOCTOR_LIST = "Doctors/findDoctorBydepartidApp";
 
     /**
      * 接收到消息

@@ -79,4 +79,25 @@
         <item>富有爱心</item>
     </string-array>
 
+    <string-array name="sort_list">
+        <item>默认排序</item>
+        <item>咨询人数从多到少</item>
+        <item>评分从高到低</item>
+        <item>价格从低到高</item>
+    </string-array>
+
+    <string-array name="level_list">
+        <item>主任医师</item>
+        <item>副主任医师</item>
+        <item>主治医生</item>
+        <item>医师</item>
+    </string-array>
+
+    <string-array name="money_list">
+        <item>0-10</item>
+        <item>11-30</item>
+        <item>31-50</item>
+        <item>50以上</item>
+    </string-array>
+
 </resources>

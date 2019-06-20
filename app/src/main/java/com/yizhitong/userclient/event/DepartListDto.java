@@ -99,6 +99,7 @@ public class DepartListDto {
         private Object the_memo;
         private Object Accessid;
         private List<DataBean> depart2;
+        private boolean isClick;
 
         public String getIUID() {
             return IUID == null ? "" : IUID;
@@ -149,6 +150,14 @@ public class DepartListDto {
 
         public void setDepart2(List<DataBean> depart2) {
             this.depart2 = depart2;
+        }
+
+        public boolean isClick() {
+            return isClick;
+        }
+
+        public void setClick(boolean click) {
+            isClick = click;
         }
     }
 }

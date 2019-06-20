@@ -14,6 +14,7 @@ import com.yizhitong.userclient.event.NewsDetailDto;
 import com.yizhitong.userclient.event.post.AddAskHeadPost;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationView;
+import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.config.MyApp;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -87,7 +88,7 @@ public class RapidInterrogationAction extends BaseAction<RapidInterrogationView>
                 .addFormDataPart("mycars",post.toString())
                 .build();
         post(WebUrlUtil.POST_ADD_ASKHEAD,false,service -> manager.runHttp(
-                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApp.getContext()),requestBody,WebUrlUtil.POST_ADD_ASKHEAD)));
+                service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApp.getContext()),requestBody,WebUrlUtil.POST_ADD_ASKHEAD)));
     }
 
     /**

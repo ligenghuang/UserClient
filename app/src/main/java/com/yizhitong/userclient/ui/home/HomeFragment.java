@@ -2,14 +2,12 @@ package com.yizhitong.userclient.ui.home;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -25,7 +23,6 @@ import com.yizhitong.userclient.ui.MainActivity;
 import com.yizhitong.userclient.ui.impl.HomeView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.ui.mine.MyPrescriptionActivity;
-import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.base.UserBaseFragment;
 import com.yizhitong.userclient.utils.cusview.CustomLinearLayoutManager;
 import com.yizhitong.userclient.utils.data.MySp;
@@ -84,6 +81,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
+        L.e("lgh_home","isVisible  =  "+isVisible);
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.transparent);
 //            loadDialog();
@@ -127,10 +125,11 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                 break;
             case R.id.tv_btn_2:
                 //TODO 找医生
-                jumpActivityNotFinish(mContext, FindDoctorActivity.class);
+                jumpActivityNotFinish(mContext, DepartFindDoctorActivity.class);
                 break;
             case R.id.tv_btn_3:
                 //TODO 名医专区
+                jumpActivityNotFinish(mContext, FindDoctorActivity.class);
                 break;
             case R.id.tv_btn_4:
                 //TODO 我的处方
@@ -194,6 +193,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         list.add(dataBean);
         list.addAll(newsTypeDto.getData());
         newsTypeAdapter.refresh(list);
+        loadDialog();
         getNewsBytheClass("");
     }
 
@@ -216,18 +216,19 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
      */
     @Override
     public void getNewsBytheClassSuccessful(NewsBytheClassDto newsBytheClassDto) {
+        loadDiss();
         newsListAdapter.refresh(newsBytheClassDto.getData());
         bottomTv.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onError(String message, int code) {
-
+        loadDiss();
     }
 
     @Override
     public void onLigonError() {
-
+        loadDiss();
     }
 
     @Override

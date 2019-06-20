@@ -1,31 +1,37 @@
 package com.yizhitong.userclient.ui.home;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.base.ActivityStack;
+import com.lgh.huanglib.util.data.PriceUtils;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.RapidInterrogationPayAction;
 import com.yizhitong.userclient.adapters.ImageItemAdapter;
 import com.yizhitong.userclient.event.InquiryInfoDto;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationPayView;
+import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
-* description ：快速问诊 支付
-* author : lgh
-* email : 1045105946@qq.com
-* date : 2019/6/19
-*/
+ * description ：快速问诊 支付
+ * author : lgh
+ * email : 1045105946@qq.com
+ * date : 2019/6/19
+ */
 public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterrogationPayAction> implements RapidInterrogationPayView {
     @BindView(R.id.top_view)
     View topView;
@@ -33,7 +39,24 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
     Toolbar toolbar;
     @BindView(R.id.f_title_tv)
     TextView titleTv;
+    @BindView(R.id.tv_inquiry_note)
+    TextView mTvInquiryNote;
+    @BindView(R.id.checkbox)
+    CheckBox mCheckbox;
+    @BindView(R.id.ll_cb)
+    LinearLayout mLlCb;
+    @BindView(R.id.tv_money)
+    TextView mTvMoney;
+    @BindView(R.id.tv_inquiry_money)
+    TextView mTvInquiryMoney;
+    @BindView(R.id.tv_pay)
+    TextView mTvPay;
+    @BindView(R.id.rv_img)
+    RecyclerView mRvImg;
 
+    String iuid;
+    ImageItemAdapter imageItemAdapter;
+    boolean isRead = false;
 
     @Override
     public int intiLayout() {
@@ -42,7 +65,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
 
     @Override
     protected RapidInterrogationPayAction initAction() {
-        return new RapidInterrogationPayAction(this,this);
+        return new RapidInterrogationPayAction(this, this);
     }
 
     @Override
@@ -72,26 +95,84 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         mContext = this;
         mActicity = this;
 
+        iuid = getIntent().getStringExtra("id");
+
+        imageItemAdapter = new ImageItemAdapter(mContext,false);
+        mRvImg.setLayoutManager(new GridLayoutManager(mContext, 4));
+        mRvImg.setAdapter(imageItemAdapter);
+
+
+        getAskHeadById();
     }
 
+    @OnClick({R.id.checkbox, R.id.ll_cb, R.id.tv_pay})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_cb:
+            case R.id.checkbox:
+                isRead = !isRead;
+                mCheckbox.setChecked(isRead);
+                mTvPay.setSelected(isRead);
+                break;
+            case R.id.tv_pay:
+                break;
+        }
+    }
 
+    /**
+     * 获取问诊单信息
+     */
     @Override
     public void getAskHeadById() {
-
+        if (CheckNetwork.checkNetwork2(mContext)) {
+            loadDialog();
+            baseAction.getAskHeadById(iuid);
+        }
     }
 
+    /**
+     * 获取问诊单信息 成功
+     *
+     * @param inquiryInfoDto
+     */
     @Override
     public void getAskHeadByIdSuccessful(InquiryInfoDto inquiryInfoDto) {
-
+        loadDiss();
+        InquiryInfoDto.DataBean dataBean = inquiryInfoDto.getData();
+        mTvInquiryNote.setText(dataBean.getIll_note());
+        String money = "￥" + PriceUtils.formatPrice(dataBean.getAll_money());
+        mTvInquiryMoney.setText(money);
+        mTvMoney.setText(money);
+        imageItemAdapter.refresh(dataBean.getIll_img());
     }
 
     @Override
     public void onError(String message, int code) {
-
+        loadDiss();
+        showNormalToast(message);
     }
 
     @Override
     public void onLigonError() {
-
+        loadDiss();
+        jumpActivity(mContext, LoginActivity.class);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (baseAction != null) {
+            baseAction.toRegister();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (baseAction != null) {
+            baseAction.toUnregister();
+        }
+    }
+
+
 }
