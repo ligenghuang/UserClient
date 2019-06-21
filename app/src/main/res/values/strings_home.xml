@@ -41,4 +41,26 @@
     <string name="search_doctor_tip_13">%0$s/次</string>
 
 
+    <string name="doctor_detail_tip_1">关注</string>
+    <string name="doctor_detail_tip_2">已关注</string>
+    <string name="doctor_detail_tip_3">医生简介：</string>
+    <string name="doctor_detail_tip_4">擅长疾病：</string>
+    <string name="doctor_detail_tip_5">接受咨询</string>
+    <string name="doctor_detail_tip_6">患者好评</string>
+    <string name="doctor_detail_tip_7">购买服务</string>
+    <string name="doctor_detail_tip_8"><Data><![CDATA[超过  <font color="#ffad00">%0$s</font>医生]]></Data></string>
+    <string name="doctor_detail_tip_9">用户评价</string>
+    <string name="doctor_detail_tip_10">好评率：</string>
+    <string name="doctor_detail_tip_11">图文问诊</string>
+    <string name="doctor_detail_tip_12">平均应答时间</string>
+    <string name="doctor_detail_tip_13">0分%0$s秒</string>
+
+    <string name="order_pay_successfil_tip_1">支付成功</string>
+    <string name="order_pay_successfil_tip_2">已通知医生</string>
+    <string name="order_pay_successfil_tip_3">该医生平均响应时间%0$s，请耐心等候</string>
+    <string name="order_pay_successfil_tip_4">医生接诊</string>
+    <string name="order_pay_successfil_tip_5">如果医生在12小时内未回复，将全额退款</string>
+    <string name="order_pay_successfil_tip_6">查看问诊单</string>
+    <string name="order_pay_successfil_tip_7">返回首页</string>
+
 </resources>

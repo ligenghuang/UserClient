@@ -20,4 +20,6 @@ public interface FindDoctorView extends BaseView {
     void findDoctor(FindDoctorPost post);
 
     void findDoctorSuccessful(FindDoctorDto findDoctorDto);
+
+    void findDoctorCondition(String condition);
 }

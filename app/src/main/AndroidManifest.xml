@@ -23,7 +23,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/activity_theme">
-        <activity android:name=".ui.home.FindDoctorActivity"></activity>
+        <activity android:name=".ui.home.OrderPaySuccessfulActivity"></activity>
+        <activity android:name=".ui.home.DoctorDetailActivity" />
+        <activity android:name=".ui.home.FindDoctorActivity" />
         <activity android:name=".ui.home.RapidInterrogationPayActivity" />
         <activity android:name=".ui.home.RapidInterrogationActivity" />
         <activity android:name=".ui.home.DepartFindDoctorActivity" />

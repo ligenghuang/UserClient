@@ -1,6 +1,8 @@
 package com.yizhitong.userclient.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 
@@ -10,6 +12,7 @@ import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.ConcernedDoctorListDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
+import com.yizhitong.userclient.ui.home.DoctorDetailActivity;
 
 public class ConcernedDoctorAdapter extends BaseRecyclerAdapter<ConcernedDoctorListDto.DataBean> {
     Context context;
@@ -34,7 +37,14 @@ public class ConcernedDoctorAdapter extends BaseRecyclerAdapter<ConcernedDoctorL
         String portrait = model.getThe_img();
         GlideUtil.setImage(context, WebUrlUtil.IMG_URL + portrait, imageView, R.drawable.icon_placeholder);
 
-
+        holder.itemView.findViewById(R.id.tv_item_doctor_consulting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DoctorDetailActivity.class);
+                intent.putExtra("iuid",model.getIUID());
+                context.startActivity(intent);
+            }
+        });
 
     }
 }

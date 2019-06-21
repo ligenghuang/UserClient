@@ -1,9 +1,17 @@
 package com.yizhitong.userclient.adapters;
 
+import android.view.View;
+
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.DepartListDto;
 
 public class DepartListAdapter extends BaseRecyclerAdapter<DepartListDto.DataBean> {
+    OnClickListener onClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
     public DepartListAdapter() {
         super(R.layout.layout_item_depart_list);
     }
@@ -20,5 +28,15 @@ public class DepartListAdapter extends BaseRecyclerAdapter<DepartListDto.DataBea
             list = list + model.getDepart2().get(i).getName();
         }
         holder.text(R.id.tv_depart_2,list);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(model.getName(),model.getIUID());
+            }
+        });
+    }
+
+    public interface OnClickListener{
+        void onClick(String name,String id);
     }
 }

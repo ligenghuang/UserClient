@@ -262,6 +262,31 @@ public class WebUrlUtil {
     public static final String POST_FINDDOCTOR_LIST = "Doctors/findDoctorBydepartidApp";
 
     /**
+     * 根据关键字搜索医生
+     */
+    public static final String POST_FINDDOCTOR_CONDITION_LIST = "Doctors/findDoctorConditionApp";
+
+    /**
+     * 医生详情
+     */
+    public static final String POST_DOCTOR_DETAIL = "Doctors/getDoctorApp";
+
+    /**
+     * 获取是否关注此医生
+     */
+    public static final String POST_FAV_DOCTOR = "Doctors/getFavDoctorByuserApp";
+
+    /**
+     * 取消关注
+     */
+    public static final String POST_REMOVE_DOCTOR = "Doctors/removeDoctor";
+
+    /**
+     * 关注
+     */
+    public static final String POST_CONCERNS_DOCOTR = "Doctors/concernsDoctor";
+
+    /**
      * 接收到消息
      */
     public static final String GET_MESSAGE = "getMessageApp";

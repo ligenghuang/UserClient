@@ -28,7 +28,10 @@
             android:textSize="@dimen/text_size15"
             android:textColor="@color/color_3"
             android:textColorHint="@color/color_9"
+            android:imeOptions="actionSearch"
             android:maxLines="1"
+            android:ellipsize="end"
+            android:inputType="text"
             android:layout_marginLeft="@dimen/dp_4"
             android:background="@color/transparent"/>
 

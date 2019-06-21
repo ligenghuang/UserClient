@@ -311,6 +311,7 @@ public class MainActivity extends UserBaseActivity {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 Log.e("lgh_Socket:", "------连接成功!!!");
+                Heartbeat = 0;
                 isFirst = true;
                 handler.postDelayed(runnable, 1000);
             }
@@ -533,6 +534,7 @@ public class MainActivity extends UserBaseActivity {
                 client.close();
             }
         }
+       setPosition(Position);
 
     }
 

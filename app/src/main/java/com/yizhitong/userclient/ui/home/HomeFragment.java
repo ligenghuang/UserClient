@@ -1,13 +1,20 @@
 package com.yizhitong.userclient.ui.home;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -52,10 +59,13 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
 
     @BindView(R.id.tv_bottom)
     TextView bottomTv;
+    @BindView(R.id.et_search)
+    EditText mEtSearch;
 
     NewsTypeAdapter newsTypeAdapter;
     NewsListAdapter newsListAdapter;
     CustomLinearLayoutManager customLinearLayoutManager;
+
 
     @Override
     protected HomeAction initAction() {
@@ -81,7 +91,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
-        L.e("lgh_home","isVisible  =  "+isVisible);
+        L.e("lgh_home", "isVisible  =  " + isVisible);
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.transparent);
 //            loadDialog();
@@ -121,7 +131,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         switch (v.getId()) {
             case R.id.tv_btn_1:
                 //todo 快速问诊
-                jumpActivityNotFinish(mContext,RapidInterrogationActivity.class);
+                jumpActivityNotFinish(mContext, RapidInterrogationActivity.class);
                 break;
             case R.id.tv_btn_2:
                 //TODO 找医生
@@ -160,8 +170,27 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                     getNewsBytheClass(newsTypeAdapter.getAllData().get(position).getName());
                 }
 
-                L.e("lgh_news",newsTypeAdapter.getAllData().toString());
+                L.e("lgh_news", newsTypeAdapter.getAllData().toString());
                 newsTypeAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mActivity.getWindow().getDecorView().getWindowToken(), 0);
+                    if (!TextUtils.isEmpty(mEtSearch.getText().toString())) {
+                        Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                        intent.putExtra("condition", mEtSearch.getText().toString());
+                        startActivity(intent);
+                        mEtSearch.setText("");
+                    }
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -184,7 +213,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @Override
     public void getNewsTypeSuccessful(NewsTypeDto newsTypeDto) {
         loadDiss();
-        L.e("lgh_news",newsTypeDto.getData().toString());
+        L.e("lgh_news", newsTypeDto.getData().toString());
         List<NewsTypeDto.DataBean> list = new ArrayList<>();
         NewsTypeDto.DataBean dataBean = new NewsTypeDto.DataBean();
         dataBean.setClick(true);

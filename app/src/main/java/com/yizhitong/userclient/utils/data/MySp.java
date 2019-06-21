@@ -54,7 +54,8 @@ public class MySp extends MySharedPreferencesUtil {
     public static boolean iSLoginLive(Context context) {
 //        String txSig = getTxSig(context);
         String accessToken = getToken(context);
-        if (accessToken != null) {
+        String Cookie = MySharedPreferencesUtil.getSessionId(context);
+        if (accessToken != null && Cookie != null) {
             L.e("MySharedPreferencesUtil", " 登陆了");
             return true;
         } else {

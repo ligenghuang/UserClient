@@ -12,6 +12,7 @@ import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.MyInquiryDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
+import com.yizhitong.userclient.ui.home.DoctorDetailActivity;
 import com.yizhitong.userclient.ui.message.MessageDetailActivity;
 import com.yizhitong.userclient.ui.physicianvisits.InquiryInfoActivity;
 import com.yizhitong.userclient.ui.physicianvisits.InquiryInfoEvaluateActivity;
@@ -81,6 +82,10 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                         intent.putExtra("iuid",model.getAskIUID());
                         break;
                     case 4:
+                        //todo 已取消
+                        intent = new Intent(context, DoctorDetailActivity.class);
+                        intent.putExtra("iuid",model.getDoctorid());
+                        break;
                 }
                 context.startActivity(intent);
             }

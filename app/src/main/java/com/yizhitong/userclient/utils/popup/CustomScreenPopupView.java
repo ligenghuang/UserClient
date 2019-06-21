@@ -88,6 +88,7 @@ public class CustomScreenPopupView extends PartShadowPopupView {
                 for (int i = 0; i < typeListAdapter1.getAllData().size(); i++) {
                     typeListAdapter1.getAllData().get(i).setClick(i == position);
                 }
+                the_level = name;
                 typeListAdapter1.notifyDataSetChanged();
             }
         });
@@ -98,6 +99,7 @@ public class CustomScreenPopupView extends PartShadowPopupView {
                 for (int i = 0; i < typeListAdapter2.getAllData().size(); i++) {
                     typeListAdapter2.getAllData().get(i).setClick(i == position);
                 }
+                money = name;
                 typeListAdapter2.notifyDataSetChanged();
             }
         });

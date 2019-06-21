@@ -1,6 +1,8 @@
 package com.yizhitong.userclient.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 
@@ -10,6 +12,7 @@ import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.FindDoctorDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
+import com.yizhitong.userclient.ui.home.DoctorDetailActivity;
 
 /**
 * description ： 医生列表 适配器
@@ -38,5 +41,14 @@ public class FindDoctorAdapter extends BaseRecyclerAdapter<FindDoctorDto.DataBea
         ratingBar.setRating(model.getThe_star());
         ImageView imageView = holder.itemView.findViewById(R.id.iv_item_doctor_img);
         GlideUtil.setImage(context, WebUrlUtil.IMG_URL+model.getThe_img(),imageView,R.drawable.icon_placeholder);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DoctorDetailActivity.class);
+                intent.putExtra("iuid",model.getIUID());
+                context.startActivity(intent);
+            }
+        });
     }
 }

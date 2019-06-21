@@ -115,6 +115,9 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
                 mTvPay.setSelected(isRead);
                 break;
             case R.id.tv_pay:
+               if (isRead){
+                   jumpActivityNotFinish(mContext,OrderPaySuccessfulActivity.class);
+               }
                 break;
         }
     }

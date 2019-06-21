@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,6 +77,8 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
     EditText mEtDescribe;
     @BindView(R.id.tv_describe_num)
     TextView mTvDescribeNum;
+    @BindView(R.id.iv_title)
+    ImageView titleIv;
 
 
     String patientid = "";
@@ -94,6 +97,8 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
 
     ImageItemAdapter imageItemAdapter;
     double amount = 0;
+
+    boolean isShow = false;
 
     @Override
     public int intiLayout() {
@@ -132,6 +137,10 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
         super.init();
         mContext = this;
         mActicity = this;
+
+        isShow = getIntent().getBooleanExtra("isShow",false);
+
+        titleIv.setVisibility(isShow?View.GONE :View.VISIBLE);
 
         initImagePicker();
         imageItemAdapter = new ImageItemAdapter(mContext,true);

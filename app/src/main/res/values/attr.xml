@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="RoundProgress">
+        <attr name="round_color" format="color" />
+        <attr name="round_progress_color" format="color" />
+        <attr name="round_width" format="dimension"/>
+        <attr name="width" format="dimension"/>
+        <attr name="text_color" format="color" />
+        <attr name="text_size" format="dimension" />
+        <attr name="max_" format="integer"/>
+        <attr name="text_isDisplayable" format="boolean"/>
+        <attr name="style_">
+            <enum name="STROKE" value="0"/>
+            <enum name="FILL" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

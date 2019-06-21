@@ -1,5 +1,6 @@
 package com.yizhitong.userclient.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -62,6 +63,8 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
     @BindView(R.id.tv_consult)
     TextView mTvConsult;
 
+    String doctorId;
+
     @Override
     public int intiLayout() {
         return R.layout.activity_news_detail;
@@ -121,6 +124,7 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         mXrichtext.text(Util.toUtf8(dataBean.getThe_note()));
 
         NewsDetailDto.DataBean.DoctorMVBean doctorMVBean = dataBean.getDoctorMV();
+        doctorId = doctorMVBean.getIUID();
         GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL+doctorMVBean.getThe_img(),mIvCard,R.drawable.icon_placeholder);
         mTvDoctorName.setText(doctorMVBean.getName());
         mTvDoctorLevel.setText(doctorMVBean.getThe_level());
@@ -163,6 +167,9 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
             default:
                 break;
             case R.id.tv_consult:
+                Intent intent = new Intent(mContext, DoctorDetailActivity.class);
+                intent.putExtra("iuid",doctorId);
+                mContext.startActivity(intent);
                 break;
         }
     }

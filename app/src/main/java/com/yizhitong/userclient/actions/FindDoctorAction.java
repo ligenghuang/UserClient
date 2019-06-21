@@ -25,13 +25,13 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 
 /**
-* description ： 搜索医生
-* author : lgh
-* email : 1045105946@qq.com
-* date : 2019/6/20
-*/
+ * description ： 搜索医生
+ * author : lgh
+ * email : 1045105946@qq.com
+ * date : 2019/6/20
+ */
 public class FindDoctorAction extends BaseAction<FindDoctorView> {
-    public FindDoctorAction(RxAppCompatActivity _rxAppCompatActivity,FindDoctorView view) {
+    public FindDoctorAction(RxAppCompatActivity _rxAppCompatActivity, FindDoctorView view) {
         super(_rxAppCompatActivity);
         attachView(view);
     }
@@ -40,24 +40,35 @@ public class FindDoctorAction extends BaseAction<FindDoctorView> {
      * 获取科室
      */
     public void findDepartByAll() {
-        post(WebUrlUtil.POST_DEPART_ALL,false,service -> manager.runHttp(
-                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),WebUrlUtil.POST_DEPART_ALL)));
+        post(WebUrlUtil.POST_DEPART_ALL, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), WebUrlUtil.POST_DEPART_ALL)));
     }
 
     /**
      * 搜索医生
+     *
      * @param post
      */
-    public void findDoctor(FindDoctorPost post){
-        post(WebUrlUtil.POST_FINDDOCTOR_LIST,false,service -> manager.runHttp(
+    public void findDoctor(FindDoctorPost post) {
+        post(WebUrlUtil.POST_FINDDOCTOR_LIST, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("departid",post.getDepartid(),
-                                "region",post.getRegion(),"sort",post.getSort(),"chufang",post.getChufang()
-                                , "the_level",post.getThe_level(),"JIAGEQ",post.getJIAGEQ()
+                        CollectionsUtils.generateMap("departid", post.getDepartid(),
+                                "region", post.getRegion(), "sort", post.getSort(), "chufang", post.getChufang()
+                                , "the_level", post.getThe_level(), "JIAGEQ", post.getJIAGEQ()
                         ),
                         WebUrlUtil.POST_FINDDOCTOR_LIST)));
     }
 
+    /**
+     * 关键字搜索医生
+     *
+     * @param condition
+     */
+    public void findDoctorCondition(String condition) {
+        post(WebUrlUtil.POST_FINDDOCTOR_CONDITION_LIST, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
+                        CollectionsUtils.generateMap("condition", condition), WebUrlUtil.POST_FINDDOCTOR_CONDITION_LIST)));
+    }
 
     /**
      * sticky:表明优先接收最高级  threadMode = ThreadMode.MAIN：表明在主线程
@@ -98,6 +109,7 @@ public class FindDoctorAction extends BaseAction<FindDoctorView> {
                         view.onError(msg, action.getErrorType());
                         break;
                     case WebUrlUtil.POST_FINDDOCTOR_LIST:
+                    case WebUrlUtil.POST_FINDDOCTOR_CONDITION_LIST:
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();

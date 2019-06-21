@@ -1,10 +1,16 @@
 package com.yizhitong.userclient.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -90,6 +96,39 @@ public class DepartFindDoctorActivity extends UserBaseActivity<DepartFindDoctorA
         mRvDepart.setAdapter(departListAdapter);
 
         findDepartByAll();
+        loadView();
+    }
+
+    @Override
+    protected void loadView() {
+        super.loadView();
+        departListAdapter.setOnClickListener(new DepartListAdapter.OnClickListener() {
+            @Override
+            public void onClick(String name, String id) {
+                Intent intent = new Intent(mContext,FindDoctorActivity.class);
+                intent.putExtra("departName",name);
+                intent.putExtra("departId",id);
+                intent.putExtra("type",1);
+                startActivity(intent);
+            }
+        });
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                   hideInput();
+                    if (!TextUtils.isEmpty(mEtSearch.getText().toString())) {
+                        Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                        intent.putExtra("condition", mEtSearch.getText().toString());
+                        startActivity(intent);
+                        mEtSearch.setText("");
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -135,14 +174,20 @@ public class DepartFindDoctorActivity extends UserBaseActivity<DepartFindDoctorA
         }
     }
 
-    @OnClick({R.id.iv_search, R.id.rv_depart})
+    @OnClick({R.id.iv_search})
     public void onClick(View v) {
         switch (v.getId()) {
             default:
                 break;
             case R.id.iv_search:
-                break;
-            case R.id.rv_depart:
+
+                hideInput();
+                if (!TextUtils.isEmpty(mEtSearch.getText().toString())) {
+                    Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                    intent.putExtra("condition", mEtSearch.getText().toString());
+                    startActivity(intent);
+                    mEtSearch.setText("");
+                }
                 break;
         }
     }

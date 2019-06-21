@@ -1,10 +1,18 @@
 package com.yizhitong.userclient.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -62,6 +70,10 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
     LinearLayout mLlTab4;
     @BindView(R.id.rv_doctor)
     RecyclerView mRvDoctor;
+    @BindView(R.id.et_search)
+    EditText mEtSearch;
+    @BindView(R.id.iv_search)
+    ImageView mIvSearch;
 
     CustomDepartPopupView customDepartPopupView;
     CustomCitytPopupView customCitytPopupView;
@@ -69,6 +81,9 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
     CustomScreenPopupView customScreenPopupView;
     FindDoctorPost post;
     FindDoctorAdapter findDoctorAdapter;
+
+    String condition = "";
+    int type = 0;
 
     @Override
     public int intiLayout() {
@@ -118,7 +133,26 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
         mRvDoctor.setLayoutManager(new LinearLayoutManager(mContext));
         mRvDoctor.setAdapter(findDoctorAdapter);
 
-        findDoctor(post);
+        type = getIntent().getIntExtra("type",0);
+
+       switch (type){
+           case 1:
+               String name = getIntent().getStringExtra("departName");
+               String id = getIntent().getStringExtra("departId");
+               post.setDepartid(id);
+               mTvTab1.setText(name);
+               findDoctor(post);
+               break;
+           case 0:
+               condition = getIntent().getStringExtra("condition");
+               if (!TextUtils.isEmpty(condition)) {
+                   findDoctorCondition(condition);
+                   mEtSearch.setText(condition);
+               } else {
+                   findDoctor(post);
+               }
+               break;
+       }
         loadView();
     }
 
@@ -146,9 +180,22 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
                 customScreenPopupView.dismiss();
             }
         });
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    hideInput();
+                    if (!TextUtils.isEmpty(mEtSearch.getText().toString())){
+                        findDoctorCondition(mEtSearch.getText().toString());
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
-    @OnClick({R.id.tv_tab_1, R.id.ll_tab_2, R.id.ll_tab_3, R.id.ll_tab_4})
+    @OnClick({R.id.tv_tab_1, R.id.ll_tab_2, R.id.ll_tab_3, R.id.ll_tab_4, R.id.iv_search})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_tab_1:
@@ -164,6 +211,11 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
             case R.id.ll_tab_4:
                 //todo 显示筛选弹窗
                 customScreenPopupView.show();
+                break;
+            case R.id.iv_search:
+                if (!TextUtils.isEmpty(mEtSearch.getText().toString())){
+                    findDoctorCondition(mEtSearch.getText().toString());
+                }
                 break;
         }
     }
@@ -188,6 +240,9 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
         customCitytPopupView.show();
     }
 
+    /**
+     * 获取科室
+     */
     @Override
     public void findDepartByAll() {
         if (CheckNetwork.checkNetwork2(mContext)) {
@@ -196,6 +251,11 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
         }
     }
 
+    /**
+     * 获取科室 成功
+     *
+     * @param departListDto
+     */
     @Override
     public void findDepartByAllSuccessful(DepartListDto departListDto) {
         loadDiss();
@@ -226,6 +286,14 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
     public void findDoctorSuccessful(FindDoctorDto findDoctorDto) {
         loadDiss();
         findDoctorAdapter.refresh(findDoctorDto.getData());
+    }
+
+    @Override
+    public void findDoctorCondition(String condition) {
+        if (CheckNetwork.checkNetwork2(mContext)) {
+            loadDialog();
+            baseAction.findDoctorCondition(condition);
+        }
     }
 
     /**
