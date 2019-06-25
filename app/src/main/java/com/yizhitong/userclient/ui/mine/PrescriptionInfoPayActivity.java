@@ -101,7 +101,7 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
     }
 
 
-    @OnClick({R.id.ll_address_info})
+    @OnClick({R.id.ll_address_info,R.id.tv_pay})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_address_info:
@@ -109,6 +109,9 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
                 Intent intent = new Intent(mContext, AddressManagementActivity.class);
                 intent.putExtra("type", 1);
                 startActivityForResult(intent, 200);
+                break;
+            case R.id.tv_pay:
+                //todo 2019-06-24 立即支付
                 break;
         }
     }

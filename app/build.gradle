@@ -10,6 +10,19 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                if ("release".equals(variant.buildType.name)) {
+                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_test_release.apk"
+//                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_formal_release.apk"
+                    outputFileName = fileName
+                } else if ("debug".equals(variant.buildType.name)) {
+                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_debug.apk"
+                    outputFileName = fileName
+                }
+//                outputFileName = "${variant.name}-${variant.versionName}.apk"
+            }
+        }
     }
     buildTypes {
         release {
@@ -34,6 +47,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+}
+def packageTime() {
+    return new Date().format("yyyyMMdd")
 }
 
 dependencies {
@@ -60,5 +76,8 @@ dependencies {
     implementation 'com.lxj:xpopup:1.7.13'
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
     implementation 'com.android.support:cardview-v7:27.1.1'
-//    compile 'com.pgyersdk:sdk:2.8.1'
+    implementation 'cn.bingoogolapple:bga-banner:+'
+    compile 'com.pgyersdk:sdk:2.8.1'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.zzhoujay.richtext:richtext:3.0.7'
 }

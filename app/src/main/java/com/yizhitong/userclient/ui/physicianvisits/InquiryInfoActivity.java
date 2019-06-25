@@ -1,5 +1,6 @@
 package com.yizhitong.userclient.ui.physicianvisits;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,15 +14,21 @@ import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.InquiryInfoAction;
+import com.yizhitong.userclient.adapters.AskDrugListAdapter;
 import com.yizhitong.userclient.adapters.IllessImgAdapter;
+import com.yizhitong.userclient.event.AskDrugListDto;
 import com.yizhitong.userclient.event.InquiryInfoDto;
+import com.yizhitong.userclient.event.PreInfoDto;
 import com.yizhitong.userclient.ui.impl.InquiryInfoView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
+import com.yizhitong.userclient.ui.message.MessageDetailActivity;
+import com.yizhitong.userclient.ui.mine.PrescriptionInfoPayActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * description ： 问诊详情
@@ -58,8 +65,18 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
     TextView mTvIllness;
     @BindView(R.id.rv_img_illness)
     RecyclerView mRvImgIllness;
+    @BindView(R.id.rv_prescription)
+    RecyclerView mRvPrescription;
+    @BindView(R.id.tv_submit)
+    TextView mTvSubmit;
 
     IllessImgAdapter illessImgAdapter;
+    AskDrugListAdapter askDrugListAdapter;
+    boolean isSelect = false;
+
+    String userId;
+    String askId;
+
 
     @Override
     public int intiLayout() {
@@ -99,13 +116,33 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
         mContext = this;
         mActicity = this;
         iuid = getIntent().getStringExtra("iuid");
+        isSelect = getIntent().getBooleanExtra("isSelect", false);
         illessImgAdapter = new IllessImgAdapter(mContext);
         mRvImgIllness.setLayoutManager(new GridLayoutManager(mContext, 4));
         mRvImgIllness.setAdapter(illessImgAdapter);
 
+        askDrugListAdapter = new AskDrugListAdapter(mContext);
+        mRvPrescription.setLayoutManager(new LinearLayoutManager(mContext));
+        mRvPrescription.setAdapter(askDrugListAdapter);
+
         getAskHeadById();
+        if (isSelect) {
+            getAskDrugByAskId();
+        }
+        loadView();
     }
 
+
+    @Override
+    protected void loadView() {
+        super.loadView();
+        askDrugListAdapter.setOnClickListener(new AskDrugListAdapter.OnClickListener() {
+            @Override
+            public void onClick(String iuid) {
+                getPreInfo(iuid);
+            }
+        });
+    }
 
     @Override
     public void getAskHeadById() {
@@ -120,6 +157,8 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
         loadDiss();
         InquiryInfoDto.DataBean dataBean = inquiryInfoDto.getData();
         InquiryInfoDto.DataBean.PatientMVBean patientMVBean = dataBean.getPatientMV();
+        userId = dataBean.getUserid();
+        askId = dataBean.getAskIUID();
         mTvAge.setText(patientMVBean.getAge() + "岁");
         mTvName.setText(patientMVBean.getName());
         mTvSex.setText(patientMVBean.getSex());
@@ -129,8 +168,43 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
         mTvMedicalHistory.setText(patientMVBean.getMed_history());
         mTvIllness.setText(dataBean.getIll_note());
         illessImgAdapter.refresh(dataBean.getIll_img());
+        mTvSubmit.setVisibility(dataBean.getAsk_flag() == 0?View.GONE:View.VISIBLE);
     }
 
+    @Override
+    public void getAskDrugByAskId() {
+        if (CheckNetwork.checkNetwork2(mContext)) {
+            baseAction.getAskDrugByAskId(iuid);
+        }
+    }
+
+    @Override
+    public void getAskDrugByAskIdSuccessful(AskDrugListDto askDrugListDto) {
+        loadDiss();
+        askDrugListAdapter.refresh(askDrugListDto.getData());
+    }
+
+
+    /**
+     * 获取处方详情
+     *
+     * @param iuid
+     */
+    @Override
+    public void getPreInfo(String iuid) {
+        if (CheckNetwork.checkNetwork2(mContext)) {
+            loadDialog();
+            baseAction.getPreInfo(iuid);
+        }
+    }
+
+    @Override
+    public void getPreInfoSuccessful(PreInfoDto preInfoDto) {
+        loadDiss();
+        Intent intent = new Intent(mContext, PrescriptionInfoPayActivity.class);
+        intent.putExtra("preInfoDto", preInfoDto);
+        startActivityForResult(intent, 200);
+    }
     /**
      * 失败
      *
@@ -165,4 +239,22 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
         }
     }
 
+    @OnClick(R.id.tv_submit)
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.tv_submit:
+                if (isSelect){
+                    finish();
+                }else {
+                    Intent intent = new Intent(mContext, MessageDetailActivity.class);
+                    intent.putExtra("touserId",userId);
+                    intent.putExtra("askId",askId);
+                    intent.putExtra("userid",userId);
+                    startActivity(intent);
+                }
+                break;
+        }
+    }
 }

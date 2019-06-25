@@ -2,6 +2,7 @@ package com.yizhitong.userclient.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
         holder.text(R.id.tv_item_prescription,model.getThe_level());
         holder.text(R.id.tv_item_inquiry_note,model.getIll_note());
         holder.text(R.id.tv_item_inquiry_time, DynamicTimeFormat.LongToString2(model.getCreate_time_stamp()));
-
+        holder.text(R.id.tv_item_name, TextUtils.isEmpty(model.getDoctorName())?ResUtil.getString(R.string.inquity_tip_24):model.getDoctorName());
 
         if(model.getPay_flag() == 0){
             //todo 待付款

@@ -23,7 +23,12 @@ import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+/**
+* description ： 我关注的医生
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/6/25
+*/
 public class ConcernedDoctorActivity extends UserBaseActivity<ConcernedDoctorAction> implements ConcernedDoctorView {
 
     @BindView(R.id.top_view)

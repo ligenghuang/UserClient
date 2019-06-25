@@ -2,13 +2,17 @@ package com.yizhitong.userclient.ui.physicianvisits;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.L;
@@ -22,6 +26,10 @@ import com.yizhitong.userclient.ui.impl.MyInquiryView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseFragment;
 import com.yizhitong.userclient.utils.data.MySp;
+import com.yizhitong.userclient.utils.diffcallback.InquiryDiffCallBack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +45,8 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.iv_null_data)
+    ImageView nullDataIv;
 
     MyInquiryAdapter myInquiryAdapter;
     int position = 0;
@@ -44,6 +54,10 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
     String ConfirmationId;
     String UserId;
     boolean isMessage = false;
+
+    List<MyInquiryDto.DataBean> mDatas = new ArrayList<>();
+    private static final int H_CODE_UPDATE = 1;
+    private List<MyInquiryDto.DataBean> mNewDatas;//增加一个变量暂存newList
 
     @Override
     public void onAttach(Activity activity) {
@@ -169,9 +183,43 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
      */
     @Override
     public void getAskHeadSuccessful(MyInquiryDto myInquiryDto) {
-        myInquiryAdapter.refresh(myInquiryDto.getData());
+      if (myInquiryDto.getData().size() == 0){
+          nullDataIv.setVisibility(View.VISIBLE);
+          recyclerView.setVisibility(View.GONE);
+      }else {
+          mNewDatas = myInquiryDto.getData();
+          new Thread(new Runnable() {
+              @Override
+              public void run() {
+                  //放在子线程中计算DiffResult
+                  DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new InquiryDiffCallBack(mDatas, mNewDatas), true);
+                  Message message = mHandler.obtainMessage(H_CODE_UPDATE);
+                  message.obj = diffResult;//obj存放DiffResult
+                  message.sendToTarget();
+              }
+          }).start();
+      }
+
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case H_CODE_UPDATE:
+                    //取出Result
+                    DiffUtil.DiffResult diffResult = (DiffUtil.DiffResult) msg.obj;
+                    //利用DiffUtil.DiffResult对象的dispatchUpdatesTo（）方法，传入RecyclerView的Adapter，轻松成为文艺青年
+                    diffResult.dispatchUpdatesTo(myInquiryAdapter);
+                    //别忘了将新数据给Adapter
+                    mDatas = mNewDatas;
+                    myInquiryAdapter.refresh(mDatas);
+                    nullDataIv.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+    };
 
     /**
      * 失败
@@ -203,8 +251,9 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
         if (baseAction != null) {
             baseAction.toRegister();
         }
-        L.e("lgh", "onResume  = " + true);
+
         if (PhysicianvisitsFragment.Position == position&&MySp.iSLoginLive(mContext)) {
+            L.e("lgh", "onResume  = " + true);
             getAskHead();
         }
     }

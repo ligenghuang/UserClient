@@ -2,6 +2,8 @@ package com.yizhitong.userclient.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.UiThread;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +30,7 @@ import com.yizhitong.userclient.ui.impl.DoctorDetailView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.cusview.CollapsibleTextView;
-import com.yizhitong.userclient.utils.cusview.RoundProgress;
+import com.yizhitong.userclient.utils.cusview.ScoreCircle;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -70,8 +72,6 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
     TextView mTvDoctorGoodReputation;
     @BindView(R.id.tv_doctor_buy)
     TextView mTvDoctorBuy;
-    @BindView(R.id.rp_num)
-    RoundProgress mRpNum;
     @BindView(R.id.tv_doctor_num)
     TextView mTvDoctorNum;
     @BindView(R.id.tv_money)
@@ -85,6 +85,8 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
     TextView ratioTv;
     @BindView(R.id.tv_time)
     TextView mTvTime;
+    @BindView(R.id.scoreCircle)
+    ScoreCircle scoreCircle;
 
     EvaluationAdapter evaluationAdapter;
 
@@ -134,8 +136,6 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
 
         iuid = getIntent().getStringExtra("iuid");
 
-        mRpNum.setMax(100);
-        mRpNum.setProgress(0);
         getDoctor();
         getFavDoctorByuser();
     }
@@ -146,15 +146,15 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
             default:
                 break;
             case R.id.tv_doctor_attention:
-                if (isAttention){
+                if (isAttention) {
                     removeDoctor();
-                }else {
+                } else {
                     concernsDoctor();
                 }
                 break;
             case R.id.tv_pay:
-                Intent intent = new Intent(mContext,RapidInterrogationActivity.class);
-                intent.putExtra("isShow",true);
+                Intent intent = new Intent(mContext, RapidInterrogationActivity.class);
+                intent.putExtra("isShow", true);
                 startActivity(intent);
                 break;
         }
@@ -199,7 +199,7 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
         }
         evaluationAdapter.refresh(list);
         mTvMoney.setText(PriceUtils.formatPrice(dataBean.getFact_price()) + "/次");
-
+        scoreCircle.setScore(num);
     }
 
     @Override
@@ -214,12 +214,12 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
         loadDiss();
         FavDoctorDto.DataBean dataBean = favDoctorDto.getData();
         isAttention = dataBean.isAttention();
-        mTvDoctorAttention.setText(ResUtil.getString(dataBean.isAttention()?R.string.doctor_detail_tip_2:R.string.doctor_detail_tip_1));
+        mTvDoctorAttention.setText(ResUtil.getString(dataBean.isAttention() ? R.string.doctor_detail_tip_2 : R.string.doctor_detail_tip_1));
     }
 
     @Override
     public void removeDoctor() {
-        if (CheckNetwork.checkNetwork2(mContext)){
+        if (CheckNetwork.checkNetwork2(mContext)) {
             loadDialog();
             baseAction.removeDoctor(iuid);
         }
@@ -234,7 +234,7 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
 
     @Override
     public void concernsDoctor() {
-        if (CheckNetwork.checkNetwork2(mContext)){
+        if (CheckNetwork.checkNetwork2(mContext)) {
             loadDialog();
             baseAction.concernsDoctor(iuid);
         }

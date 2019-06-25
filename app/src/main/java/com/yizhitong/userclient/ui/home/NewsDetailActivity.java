@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
+import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.config.GlideUtil;
 import com.lgh.huanglib.util.cusview.richtxtview.XRichText;
+import com.lgh.huanglib.util.data.IsFastClick;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.NewsDetailAction;
@@ -21,6 +23,9 @@ import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
+import com.yizhitong.userclient.utils.data.MySp;
+import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
 import java.lang.ref.WeakReference;
 
@@ -28,7 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * description ： 新闻详情页(缺少咨询)
+ * description ： 新闻详情页
  * author : lgh
  * email : 1045105946@qq.com
  * date : 2019/6/18
@@ -48,8 +53,8 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
     TextView mTvNewsMan;
     @BindView(R.id.tv_news_time)
     TextView mTvNewsTime;
-    @BindView(R.id.xrichtext)
-    XRichText mXrichtext;
+    //    @BindView(R.id.xrichtext)
+//    XRichText mXrichtext;
     @BindView(R.id.iv_card)
     ImageView mIvCard;
     @BindView(R.id.tv_doctor_name)
@@ -62,6 +67,8 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
     TextView mTvDoctorNote;
     @BindView(R.id.tv_consult)
     TextView mTvConsult;
+    @BindView(R.id.textview)
+    TextView textview;
 
     String doctorId;
 
@@ -106,6 +113,9 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         getNewsDetail();
     }
 
+    /**
+     * 获取新闻详情
+     */
     @Override
     public void getNewsDetail() {
         if (CheckNetwork.checkNetwork2(mContext)) {
@@ -114,6 +124,11 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         }
     }
 
+    /**
+     * 获取新闻详情 成功
+     *
+     * @param newsDetailDto
+     */
     @Override
     public void getNewsDetailSuccessful(NewsDetailDto newsDetailDto) {
         loadDiss();
@@ -121,15 +136,30 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         mTvNewsTitle.setText(dataBean.getThe_title());
         mTvNewsMan.setText(dataBean.getThe_man());
         mTvNewsTime.setText(DynamicTimeFormat.LongToString(dataBean.getCreate_time_stamp()));
-        mXrichtext.text(Util.toUtf8(dataBean.getThe_note()));
-
+//        mXrichtext.text(Util.toUtf8(dataBean.getThe_note()));
+        L.e("lgh_note", Util.toUtf8(dataBean.getThe_note()));
+        RichText.initCacheDir(this);
+        RichText.debugMode = true;
+        RichText.from(Util.toUtf8(dataBean.getThe_note()))
+                .urlClick(new OnUrlClickListener() {
+                    @Override
+                    public boolean urlClicked(String url) {
+                        if (url.startsWith("code://")) {
+//                            Toast.makeText(MainActivity.this, url.replaceFirst("code://", ""), Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        return false;
+                    }
+                })
+                .into(textview);
         NewsDetailDto.DataBean.DoctorMVBean doctorMVBean = dataBean.getDoctorMV();
         doctorId = doctorMVBean.getIUID();
-        GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL+doctorMVBean.getThe_img(),mIvCard,R.drawable.icon_placeholder);
+        GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + doctorMVBean.getThe_img(), mIvCard, R.drawable.icon_placeholder);
         mTvDoctorName.setText(doctorMVBean.getName());
         mTvDoctorLevel.setText(doctorMVBean.getThe_level());
         mTvDoctorHospital.setText(doctorMVBean.getHospital());
-        mTvDoctorNote.setText(ResUtil.getFormatString(R.string.news_detail_tip_2,doctorMVBean.getThe_spec()));
+        mTvDoctorNote.setText(ResUtil.getFormatString(R.string.news_detail_tip_2, doctorMVBean.getThe_spec()));
+//        GlideUtil.setImage(mContext,WebUrlUtil.IMG_URL+dataBean.getThe_img(),newsImgIv,0);
     }
 
     @Override
@@ -167,10 +197,21 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
             default:
                 break;
             case R.id.tv_consult:
+                if (!MySp.iSLoginLive(mContext)) {
+                    //todo 判断是否登录
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return;
+                }
                 Intent intent = new Intent(mContext, DoctorDetailActivity.class);
-                intent.putExtra("iuid",doctorId);
+                intent.putExtra("iuid", doctorId);
                 mContext.startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        IsFastClick.lastClickTime = 0;
     }
 }

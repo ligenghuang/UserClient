@@ -24,16 +24,18 @@ public class CustomDepartPopupView extends PartShadowPopupView {
 
     OnClickListener onClickListener;
     String title= "";
+    String departId;
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
-    public CustomDepartPopupView(@NonNull Context context, DepartListDto departListDto,String title) {
+    public CustomDepartPopupView(@NonNull Context context, DepartListDto departListDto,String title,String departId) {
         super(context);
         this.context = context;
         this.departListDto = departListDto;
         this.title = title;
+        this.departId = departId;
     }
 
     @Override
@@ -80,6 +82,14 @@ public class CustomDepartPopupView extends PartShadowPopupView {
         dataBean.setIUID("0");
         list.add(dataBean);
         list.addAll(departListDto.getData());
+        for (int i = 0; i <list.size() ; i++) {
+           list.get(i).setClick(list.get(i).getIUID().equals(departId));
+           if (!departId.equals("0")){
+               if (list.get(i).getIUID().equals(departId)){
+                   departList2Adapter.refresh(list.get(i).getDepart2());
+               }
+           }
+        }
         departList1Adapter.refresh(list);
 
     }

@@ -46,7 +46,12 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+/**
+* description ： 个人信息
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/6/25
+*/
 public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implements UserInfoView {
 
     @BindView(R.id.top_view)

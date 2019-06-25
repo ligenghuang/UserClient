@@ -180,13 +180,15 @@ public class DepartFindDoctorActivity extends UserBaseActivity<DepartFindDoctorA
             default:
                 break;
             case R.id.iv_search:
-
                 hideInput();
                 if (!TextUtils.isEmpty(mEtSearch.getText().toString())) {
                     Intent intent = new Intent(mContext, FindDoctorActivity.class);
                     intent.putExtra("condition", mEtSearch.getText().toString());
                     startActivity(intent);
                     mEtSearch.setText("");
+                }else {
+                    Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }

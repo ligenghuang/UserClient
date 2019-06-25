@@ -116,7 +116,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
                 break;
             case R.id.tv_pay:
                if (isRead){
-                   jumpActivityNotFinish(mContext,OrderPaySuccessfulActivity.class);
+//                   jumpActivityNotFinish(mContext,OrderPaySuccessfulActivity.class);
                }
                 break;
         }

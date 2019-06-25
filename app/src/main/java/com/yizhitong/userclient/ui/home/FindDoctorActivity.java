@@ -84,6 +84,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
 
     String condition = "";
     int type = 0;
+    String departId = "0";
 
     @Override
     public int intiLayout() {
@@ -138,8 +139,8 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
        switch (type){
            case 1:
                String name = getIntent().getStringExtra("departName");
-               String id = getIntent().getStringExtra("departId");
-               post.setDepartid(id);
+               departId = getIntent().getStringExtra("departId");
+               post.setDepartid(departId);
                mTvTab1.setText(name);
                findDoctor(post);
                break;
@@ -187,6 +188,9 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
                     hideInput();
                     if (!TextUtils.isEmpty(mEtSearch.getText().toString())){
                         findDoctorCondition(mEtSearch.getText().toString());
+                    }else {
+                        Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                        startActivity(intent);
                     }
                     return true;
                 }
@@ -215,6 +219,9 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
             case R.id.iv_search:
                 if (!TextUtils.isEmpty(mEtSearch.getText().toString())){
                     findDoctorCondition(mEtSearch.getText().toString());
+                }else {
+                    Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }
@@ -261,7 +268,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
         loadDiss();
         customDepartPopupView = (CustomDepartPopupView) new XPopup.Builder(mContext)
                 .atView(mLlTab1)
-                .asCustom(new CustomDepartPopupView(mContext, departListDto, mTvTab1.getText().toString()));
+                .asCustom(new CustomDepartPopupView(mContext, departListDto, mTvTab1.getText().toString(),departId));
         customDepartPopupView.setOnClickListener(new CustomDepartPopupView.OnClickListener() {
             @Override
             public void onDepartPopupClick(String id, String name) {

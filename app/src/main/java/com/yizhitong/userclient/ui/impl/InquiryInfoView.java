@@ -1,7 +1,9 @@
 package com.yizhitong.userclient.ui.impl;
 
 import com.lgh.huanglib.util.base.BaseView;
+import com.yizhitong.userclient.event.AskDrugListDto;
 import com.yizhitong.userclient.event.InquiryInfoDto;
+import com.yizhitong.userclient.event.PreInfoDto;
 
 /**
 * description ： 问诊单详情
@@ -12,4 +14,10 @@ import com.yizhitong.userclient.event.InquiryInfoDto;
 public interface InquiryInfoView extends BaseView {
     void getAskHeadById();
     void getAskHeadByIdSuccessful(InquiryInfoDto inquiryInfoDto);
+
+    void getAskDrugByAskId();
+    void getAskDrugByAskIdSuccessful(AskDrugListDto askDrugListDto);
+
+    void getPreInfo(String iuid);
+    void getPreInfoSuccessful(PreInfoDto preInfoDto);
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
 import com.lgh.huanglib.util.config.MyApplication;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -71,6 +72,6 @@ public class MyApp extends MyApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        PgyCrashManager.register(this);
     }
 }

@@ -201,10 +201,6 @@ public class MainActivity extends UserBaseActivity {
     public boolean onTouch(View v) {
         switch (v.getId()) {
             case R.id.lin_1:
-                if (!MySp.iSLoginLive(mContext)) {
-                    jumpActivityNotFinish(mContext, LoginActivity.class);
-                    return false;
-                }
                 Position = POIONTONE;
                 break;
             case R.id.lin_2:

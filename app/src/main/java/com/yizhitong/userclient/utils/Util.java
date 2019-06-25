@@ -63,10 +63,29 @@ public class Util {
      * @return
      */
     public static String replaceAll(String str){
+        String result ="";
+        try{
+           if (str.contains("<p><img")){
+               result = str.replace(str.substring(str.indexOf("<p>")+1,str.indexOf("></p>")+5),"");
+           }else {
+               result  = str;
+           }
+        }catch (StringIndexOutOfBoundsException e){
+            L.e("lgh_note",e.toString());
+        }
+        return result;
+    }
+    /**
+     * 替换字符
+     * @param str
+     * @return
+     */
+    public static String replaceAll2(String str){
         String result = null;
         String str1 = str.replaceAll("<p>","");
         result = str1.replaceAll("</p>","");
         return result;
     }
+
 
 }

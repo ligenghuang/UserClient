@@ -249,18 +249,22 @@
                     android:orientation="horizontal">
 
 
+
+
                  <RelativeLayout
-                     android:layout_width="120dp"
-                     android:layout_height="120dp">
+                     android:layout_width="140dp"
+                     android:layout_height="140dp">
 
 
-                     <com.yizhitong.userclient.utils.cusview.RoundProgress
-                         android:id="@+id/rp_num"
+                     <com.yizhitong.userclient.utils.cusview.ScoreCircle
+                         android:id="@+id/scoreCircle"
                          android:layout_width="140dp"
                          android:layout_height="140dp"
-                         app:width="140dp"
-                         app:round_color="@color/color_f4"
-                         app:round_width="12dp"/>
+                         android:layout_centerInParent="true"
+                         app:ScoreCircle_sendColorStart="@color/color_ffb100"
+                         app:ScoreCircle_sendColorEnd="@color/color_ff6700"
+                         app:ScoreCircle_padding="4dp"
+                         />
 
                      <LinearLayout
                          android:layout_width="match_parent"

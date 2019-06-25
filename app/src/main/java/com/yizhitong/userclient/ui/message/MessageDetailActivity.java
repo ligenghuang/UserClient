@@ -45,7 +45,9 @@ import com.yizhitong.userclient.ui.impl.MessageDetailView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.ui.physicianvisits.InquiryInfoActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.config.MyApp;
 import com.yizhitong.userclient.utils.cusview.CustomLinearLayoutManager;
+import com.yizhitong.userclient.utils.cusview.SoftKeyBoardListener;
 import com.yizhitong.userclient.utils.data.MySp;
 import com.yizhitong.userclient.utils.dialog.PicturesDialog;
 import com.yizhitong.userclient.utils.imageloader.GlideImageLoader;
@@ -227,7 +229,26 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         initImagePicker();
         isLogin();
         loadView();
+        SoftKeyBoardListener.setListener(this, onSoftKeyBoardChangeListener);
     }
+
+    /**
+     * 软键盘弹出收起监听
+     */
+    private SoftKeyBoardListener.OnSoftKeyBoardChangeListener onSoftKeyBoardChangeListener = new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+        @Override
+        public void keyBoardShow(int height) {
+            L.e("lgh_key","键盘显示 高度 : " + height);
+            infoLl.setVisibility(View.GONE);
+            recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
+        }
+        @Override
+        public void keyBoardHide(int height) {
+            L.e("lgh_key","键盘隐藏 高度 : " + height);
+            infoLl.setVisibility(View.VISIBLE);
+            recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
+        }
+    };
 
 
     @Override
@@ -445,6 +466,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     public void getAskHeadByUserIdSuccessful(MessageDetailInquiryDto inquiryDetailDto) {
         loadDiss();
         MessageDetailInquiryDto.DataBean dataBean = inquiryDetailDto.getData();
+        MySp.setAskId(MyApp.getContext(),dataBean.getAskID());
         endSessionTimeTv.setText(ResUtil.getFormatString(R.string.message_tip_3, dataBean.getLastTime()));
         nameInfoTv.setText(dataBean.getName());
         ageInfoTv.setText(dataBean.getSex() + "   " + dataBean.getAge() + "岁");
@@ -530,7 +552,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     @Override
     public void sendMessage(String chat_note) {
         if (CheckNetwork.checkNetwork2(mContext)) {
-            loadDialog();
+//            loadDialog();
             baseAction.sendMessage(chat_note, touserId, askId);
             editText.setText("");
         }

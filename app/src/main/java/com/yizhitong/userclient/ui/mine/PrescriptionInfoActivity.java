@@ -150,7 +150,7 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
         loadDiss();
         this.preInfoDto = preInfoDto;
         PreInfoDto.DataBean dataBean = preInfoDto.getData();
-        mTvPrescriptionNo.setText("NO:" + dataBean.getAskdrug_no());
+//        mTvPrescriptionNo.setText("NO:" + dataBean.getAskdrug_no());
         mTvPrescriptionTime.setText(DynamicTimeFormat.LongToString(dataBean.getCreate_time_stamp()));
         PreInfoDto.DataBean.PatientMVBean patientMVBean = preInfoDto.getData().getPatientMV();
         mTvPrescriptionName.setText(patientMVBean.getName());

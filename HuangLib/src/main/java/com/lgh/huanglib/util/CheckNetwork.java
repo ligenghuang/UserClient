@@ -32,16 +32,20 @@ public class CheckNetwork {
 
         ConnectivityManager CM = (ConnectivityManager) myContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (CM.getActiveNetworkInfo() != null)
-            flag = CM.getActiveNetworkInfo().isAvailable();
-        if (flag) {
+   try{
+       if (CM.getActiveNetworkInfo() != null)
+           flag = CM.getActiveNetworkInfo().isAvailable();
+       if (flag) {
 
-            return flag;
-        } else {
+           return flag;
+       } else {
 
-            ToastUtils.getToast().cancel();
-            ToastUtils.show(ResUtil.getString(R.string.main_net_error));
-        }
+           ToastUtils.getToast().cancel();
+           ToastUtils.show(ResUtil.getString(R.string.main_net_error));
+       }
+   }catch (NullPointerException e){
+
+   }
 
         return flag;
     }

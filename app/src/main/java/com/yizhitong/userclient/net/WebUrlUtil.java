@@ -184,6 +184,11 @@ public class WebUrlUtil {
     public static final String POST_ASKHEAD_BY_ID = "Ask/getAskHeadByIdApp";
 
     /**
+     * 获取问诊单详情 药品列表
+     */
+    public static final String POST_ASK_DRUG_BY_ID_LIST = "Prescription/getAskDrugByAskIdApp";
+
+    /**
      * 消息列表
      */
     public static final String POST_MESSAGE_LIST = "Inquiry/findAskChatByTouserID";
@@ -285,6 +290,8 @@ public class WebUrlUtil {
      * 关注
      */
     public static final String POST_CONCERNS_DOCOTR = "Doctors/concernsDoctor";
+
+
 
     /**
      * 接收到消息

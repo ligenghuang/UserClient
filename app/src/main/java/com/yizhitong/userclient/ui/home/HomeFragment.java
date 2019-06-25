@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.lgh.huanglib.util.L;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.HomeAction;
+import com.yizhitong.userclient.adapters.Banner;
 import com.yizhitong.userclient.adapters.NewsListAdapter;
 import com.yizhitong.userclient.adapters.NewsTypeAdapter;
 import com.yizhitong.userclient.event.NewsBytheClassDto;
@@ -40,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.bgabanner.BGABanner;
 
 /**
  * description ： 首页
@@ -62,10 +65,16 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @BindView(R.id.et_search)
     EditText mEtSearch;
 
+    @BindView(R.id.banner_main)
+    BGABanner banner_main;
+
     NewsTypeAdapter newsTypeAdapter;
     NewsListAdapter newsListAdapter;
     CustomLinearLayoutManager customLinearLayoutManager;
 
+    boolean isFirst = true;
+
+    Banner banner;
 
     @Override
     protected HomeAction initAction() {
@@ -93,12 +102,16 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         super.onFragmentVisibleChange(isVisible);
         L.e("lgh_home", "isVisible  =  " + isVisible);
         if (isVisible) {
-            ((MainActivity) getActivity()).changeStatusBar(true, R.color.transparent);
-//            loadDialog();
+            ((MainActivity) getActivity()).changeStatusBar(false, R.color.transparent);
+           if (isFirst){
+               loadDialog();
+               isFirst = false;
+           }
             getNewsType();
         }
 
     }
+
 
     @Override
     protected void initialize() {
@@ -123,6 +136,21 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         customLinearLayoutManager.setStackFromEnd(true);
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mRvContent.setAdapter(newsListAdapter);
+
+        //轮播图
+        banner = new Banner();
+        banner_main.setAdapter(banner);
+        getBannerData();
+    }
+
+    private void getBannerData() {
+        List<String> stringList = new ArrayList<>();
+        List<String> tips = new ArrayList<>();
+        for (int i = 0; i <3 ; i++) {
+            stringList.add("ddd");
+            tips.add("");
+        }
+        banner_main.setData(stringList,tips);
     }
 
 
@@ -187,6 +215,9 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                         intent.putExtra("condition", mEtSearch.getText().toString());
                         startActivity(intent);
                         mEtSearch.setText("");
+                    }else {
+                        Intent intent = new Intent(mContext, FindDoctorActivity.class);
+                        startActivity(intent);
                     }
                     return true;
                 }
@@ -212,7 +243,6 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
      */
     @Override
     public void getNewsTypeSuccessful(NewsTypeDto newsTypeDto) {
-        loadDiss();
         L.e("lgh_news", newsTypeDto.getData().toString());
         List<NewsTypeDto.DataBean> list = new ArrayList<>();
         NewsTypeDto.DataBean dataBean = new NewsTypeDto.DataBean();
@@ -222,7 +252,6 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         list.add(dataBean);
         list.addAll(newsTypeDto.getData());
         newsTypeAdapter.refresh(list);
-        loadDialog();
         getNewsBytheClass("");
     }
 

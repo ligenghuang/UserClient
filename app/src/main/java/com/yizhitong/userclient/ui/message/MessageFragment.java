@@ -83,7 +83,6 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
         super.onFragmentVisibleChange(isVisible);
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.white);
-            isLogin();
         }
 
     }
@@ -197,7 +196,7 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
         super.onResume();
         baseAction.toRegister();
         if (MySp.getToken(mContext) != null) {
-            isLogin();
+           getMessageList();
         }
     }
 

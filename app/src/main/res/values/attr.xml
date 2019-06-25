@@ -16,4 +16,17 @@
             <enum name="FILL" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="ScoreCircle">
+        <attr name="ScoreCircle_android_layout_width" format="dimension"/>
+        <attr name="ScoreCircle_android_layout_height" format="dimension"/>
+        <attr name="ScoreCircle_padding" format="dimension"/>
+        <attr name="ScoreCircle_stroke" format="dimension"/>
+        <attr name="ScoreCircle_firstCircleColor" format="color"/>
+        <attr name="ScoreCircle_sendColorStart" format="color"/>
+        <attr name="ScoreCircle_sendColorEnd" format="color"/>
+        <attr name="ScoreCircle_front_color" format="color"/>
+        <attr name="ScoreCircle_front_size" format="dimension"/>
+    </declare-styleable>
+
 </resources>

@@ -8,7 +8,9 @@ import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.yizhitong.userclient.event.AskDrugListDto;
 import com.yizhitong.userclient.event.InquiryInfoDto;
+import com.yizhitong.userclient.event.PreInfoDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.InquiryInfoView;
 
@@ -44,6 +46,27 @@ public class InquiryInfoAction extends BaseAction<InquiryInfoView> {
         ));
     }
 
+    public void getAskDrugByAskId(String iuid){
+        post(WebUrlUtil.POST_ASK_DRUG_BY_ID_LIST, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
+                        CollectionsUtils.generateMap("askId",iuid
+                        ),
+                        WebUrlUtil.POST_ASK_DRUG_BY_ID_LIST)
+        ));
+    }
+
+    /**
+     * 获取处方订单
+     * @param iuid
+     */
+    public void getPreInfo(String iuid){
+        post(WebUrlUtil.POST_PRESCRIPTION_INFO, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
+                        CollectionsUtils.generateMap("iuid",iuid
+                        ),
+                        WebUrlUtil.POST_PRESCRIPTION_INFO)
+        ));
+    }
 
     /**
      * sticky:表明优先接收最高级  threadMode = ThreadMode.MAIN：表明在主线程
@@ -78,6 +101,36 @@ public class InquiryInfoAction extends BaseAction<InquiryInfoView> {
                                 view.getAskHeadByIdSuccessful(inquiryInfoDto);
                             } else {
                                 view.onError(inquiryInfoDto.getMsg(), inquiryInfoDto.getCode());
+                            }
+                            return;
+                        }
+                        view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_ASK_DRUG_BY_ID_LIST:
+                        if (aBoolean){
+                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            Gson gson = new Gson();
+                            AskDrugListDto askDrugListDto = gson.fromJson(action.getUserData().toString(), new TypeToken<AskDrugListDto>() {
+                            }.getType());
+                            if (askDrugListDto.getCode() == 1) {
+                                view.getAskDrugByAskIdSuccessful(askDrugListDto);
+                            } else {
+                                view.onError(askDrugListDto.getMsg(), askDrugListDto.getCode());
+                            }
+                            return;
+                        }
+                        view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_PRESCRIPTION_INFO:
+                        if (aBoolean) {
+                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            Gson gson = new Gson();
+                            PreInfoDto preInfoDto = gson.fromJson(action.getUserData().toString(), new TypeToken<PreInfoDto>() {
+                            }.getType());
+                            if (preInfoDto.getCode() == 1) {
+                                view.getPreInfoSuccessful(preInfoDto);
+                            } else {
+                                view.onError(preInfoDto.getMsg(), preInfoDto.getCode());
                             }
                             return;
                         }

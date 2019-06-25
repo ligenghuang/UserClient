@@ -25,6 +25,7 @@
     <string name="inquity_tip_21">一般</string>
     <string name="inquity_tip_22">好</string>
     <string name="inquity_tip_23">非常满意</string>
+    <string name="inquity_tip_24">暂未分配</string>
 
 
     <string name="inquity_info_tip_1">问诊详情</string>
@@ -37,4 +38,9 @@
     <string name="inquity_info_tip_8">家族史:</string>
     <string name="inquity_info_tip_9">过往病史:</string>
     <string name="inquity_info_tip_10">病情描述:</string>
+    <string name="inquity_info_tip_11">查看聊天记录</string>
+
+    <string name="inquity_info_tip_12">支付</string>
+    <string name="inquity_info_tip_13">处方备注：</string>
+    <string name="inquity_info_tip_14">第%0$s次处方药品</string>
 </resources>

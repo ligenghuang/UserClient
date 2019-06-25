@@ -21,7 +21,7 @@
     <string name="user_info_tip_7">请输入身份证号码</string>
 
     <!--意见反馈-->
-    <string name="feedback_tip_1">请描述退回的理由</string>
+    <string name="feedback_tip_1">请描述意见和反馈</string>
     <string name="feedback_tip_2">手机号码（选填）</string>
     <string name="feedback_tip_3">提交</string>
     <string name="feedback_tip_4">意见反馈</string>
@@ -149,5 +149,15 @@
     <string name="prescription_tip_28">支付时间:</string>
     <string name="prescription_tip_29">商品总额:</string>
     <string name="prescription_tip_30">实付金额:</string>
+
+
+    <string name="setting_tip_1">新消息提醒</string>
+    <string name="setting_tip_2">声音提醒</string>
+    <string name="setting_tip_3">震动提醒</string>
+    <string name="setting_tip_4">消除咨询记录</string>
+    <string name="setting_tip_5">检查更新</string>
+    <string name="setting_tip_6">服务条款</string>
+    <string name="setting_tip_7">关于我们</string>
+    <string name="setting_tip_9">系统设置</string>
 
 </resources>
