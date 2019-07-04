@@ -19,10 +19,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
-* 修改
-* @author lgh
-* created at 2019/5/17 0017 9:59
-*/
+ * 修改
+ *
+ * @author lgh
+ * created at 2019/5/17 0017 9:59
+ */
 public class ModifyDialog extends Dialog {
 
     String title = "";
@@ -34,15 +35,17 @@ public class ModifyDialog extends Dialog {
     TextView titleTv;
 
     OnClickListener onClickListener;
+    String str;
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
-    public ModifyDialog(@NonNull Context context, int themeResId, String title) {
+    public ModifyDialog(@NonNull Context context, int themeResId, String title, String str) {
         super(context, themeResId);
         this.context = context;
         this.title = title;
+        this.str = str;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class ModifyDialog extends Dialog {
 
     private void initView() {
         titleTv.setText(title);
-
+        contentEt.setText(str);
     }
 
     @Override
@@ -68,9 +71,9 @@ public class ModifyDialog extends Dialog {
         super.dismiss();
     }
 
-    @OnClick({R.id.tv_cancel,R.id.tv_confirm})
-    void OnClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.tv_cancel, R.id.tv_confirm})
+    void OnClick(View view) {
+        switch (view.getId()) {
             case R.id.tv_cancel:
                 dismiss();
                 break;
@@ -80,7 +83,7 @@ public class ModifyDialog extends Dialog {
         }
     }
 
-    public interface OnClickListener{
+    public interface OnClickListener {
         void confirm(String txet);
     }
 

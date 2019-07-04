@@ -74,8 +74,8 @@ public class ConcernedDoctorActivity extends UserBaseActivity<ConcernedDoctorAct
                 .init();
         toolbar.setNavigationOnClickListener(view -> finish());
         titleTv.setText(ResUtil.getString(R.string.concerned_doctor_tip_title));
-        rightTv.setText(ResUtil.getString(R.string.concerned_doctor_tip_1));
-        rightTv.setTextColor(ResUtil.getColor(R.color.color_289d23));
+//        rightTv.setText(ResUtil.getString(R.string.concerned_doctor_tip_1));
+//        rightTv.setTextColor(ResUtil.getColor(R.color.color_289d23));
     }
 
     @Override
@@ -89,17 +89,17 @@ public class ConcernedDoctorActivity extends UserBaseActivity<ConcernedDoctorAct
         doctorRv.setAdapter(concernedDoctorAdapter);
 
         loadDialog();
-        isLogin();
+
     }
 
-    @OnClick(R.id.f_right_tv)
-    void OnClick(View view){
-        switch (view.getId()){
-            case R.id.f_right_tv:
-                jumpActivityNotFinish(mContext,DoctorCertifiedActivity.class);
-                break;
-        }
-    }
+//    @OnClick(R.id.f_right_tv)
+//    void OnClick(View view){
+//        switch (view.getId()){
+//            case R.id.f_right_tv:
+//                jumpActivityNotFinish(mContext,DoctorCertifiedActivity.class);
+//                break;
+//        }
+//    }
 
     @Override
     public void isLogin() {
@@ -162,6 +162,7 @@ public class ConcernedDoctorActivity extends UserBaseActivity<ConcernedDoctorAct
         if (baseAction != null) {
             baseAction.toRegister();
         }
+        isLogin();
     }
 
     @Override

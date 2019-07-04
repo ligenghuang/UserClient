@@ -152,7 +152,7 @@ public class FindDoctorDto {
         private String userid;
         private String hospital;
         private String the_img;
-        private int the_star;
+        private float the_star;
         private double fact_price;
         private String create_time;
         private Object departName;
@@ -357,11 +357,11 @@ public class FindDoctorDto {
             this.the_img = the_img;
         }
 
-        public int getThe_star() {
+        public float getThe_star() {
             return the_star;
         }
 
-        public void setThe_star(int the_star) {
+        public void setThe_star(float the_star) {
             this.the_star = the_star;
         }
 

@@ -10,9 +10,18 @@ public class AddAskHeadPost {
      */
 
     private String patientid;
+    private String doctorid;
     private String ill_note;
     private double doctor_money;
     private double all_money;
+
+    public String getDoctorid() {
+        return doctorid == null ? "" : doctorid;
+    }
+
+    public void setDoctorid(String doctorid) {
+        this.doctorid = doctorid;
+    }
 
     public String getPatientid() {
         return patientid == null ? "" : patientid;
@@ -50,6 +59,16 @@ public class AddAskHeadPost {
     public String toString() {
         return "{" +
                 "\"patientid\":\'" + patientid + "\'" +
+                ", \"ill_note\":\'" + ill_note + "\'" +
+                ", \"doctor_money\":" + doctor_money +
+                ", \"all_money\":" + all_money +
+                '}';
+    }
+
+    public String toString2() {
+        return "{" +
+                "\"patientid\":\'" + patientid + "\'" +
+                ", \"doctorid\":\'" + doctorid + "\'" +
                 ", \"ill_note\":\'" + ill_note + "\'" +
                 ", \"doctor_money\":" + doctor_money +
                 ", \"all_money\":" + all_money +

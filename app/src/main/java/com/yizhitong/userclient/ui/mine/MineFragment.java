@@ -83,6 +83,15 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
         loadDiss();
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(false, R.color.color_38a234);
+            if (MySp.getToken(mContext) != null) {
+                L.e("lgh_mine","onResume 3");
+                isLogin();
+            } else {
+                L.e("lgh_mine","onResume 4");
+                userPortraitIv.setImageResource(R.drawable.icon_placeholder);
+                userNmaeTv.setText("未登录");
+                userHealthValueTv.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -156,7 +165,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
                 break;
             case R.id.ll_setting:
                 //todo 设置
-                jumpActivityNotFinish(mContext, SettingActivity.class);
+//                jumpActivityNotFinish(mContext, SettingActivity.class);
                 break;
         }
     }
@@ -172,13 +181,13 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
 
     @Override
     public void isLoginSuccessful() {
-        loadDiss();
         getUserInfo();
     }
 
     @Override
     public void getUserInfo() {
         if (CheckNetwork.checkNetwork2(mContext)) {
+//            loadDialog();
             baseAction.getUserInfo();
         }
     }
@@ -193,13 +202,8 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
             String portrait = userInfoBean.getNiceImg();
             userHealthValueTv.setVisibility(View.VISIBLE);
             userHealthValueTv.setText(ResUtil.getFormatString(R.string.mine_tip_8, userInfoBean.getHealthCoin()));
-            if (portrait.indexOf("H5/Uimg") != -1) {
-                GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + portrait, userPortraitIv, R.drawable.icon_placeholder);
-                L.e("lgh", WebUrlUtil.IMG_URL + portrait);
-            } else {
-                GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + "H5/Uimg" + portrait, userPortraitIv, R.drawable.icon_placeholder);
-                L.e("lgh", WebUrlUtil.IMG_URL + "H5/Uimg" + portrait);
-            }
+            GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + portrait, userPortraitIv, R.drawable.icon_placeholder);
+            L.e("lgh_img", WebUrlUtil.IMG_URL + portrait);
         } else {
             loadDiss();
             MySp.setToken(mContext, null);
@@ -230,8 +234,10 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
         super.onResume();
         baseAction.toRegister();
         if (MySp.getToken(mContext) != null) {
+            L.e("lgh_mine","onResume 1");
             isLogin();
         } else {
+            L.e("lgh_mine","onResume 2");
             userPortraitIv.setImageResource(R.drawable.icon_placeholder);
             userNmaeTv.setText("未登录");
             userHealthValueTv.setVisibility(View.GONE);

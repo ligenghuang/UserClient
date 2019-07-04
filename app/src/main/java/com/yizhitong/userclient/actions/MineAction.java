@@ -34,7 +34,7 @@ public class MineAction extends BaseAction<MineView> {
     }
 
     public void isLogin() {
-        post(WebUrlUtil.POST_ISLOGIN, false, service -> manager.runHttp(
+        post(WebUrlUtil.POST_ISLOGIN+1, false, service -> manager.runHttp(
                 service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("userId", MySp.getToken(MyApplication.getContext())), WebUrlUtil.POST_ISLOGIN)));
     }
 
@@ -70,10 +70,10 @@ public class MineAction extends BaseAction<MineView> {
                 L.e("xx", "输出返回结果 " + aBoolean);
 
                 switch (action.getIdentifying()) {
-                    case WebUrlUtil.POST_ISLOGIN:
+                    case WebUrlUtil.POST_ISLOGIN+1:
 
                         if (aBoolean) {
-                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            L.e("lgh_img", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             String generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<String>() {
                             }.getType());
@@ -88,7 +88,7 @@ public class MineAction extends BaseAction<MineView> {
                         break;
                     case WebUrlUtil.POST_USERINFO:
                         if (aBoolean) {
-                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            L.e("lgh_img", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             UserInfoDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<UserInfoDto>() {
                             }.getType());

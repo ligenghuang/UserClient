@@ -6,9 +6,10 @@ import java.util.List;
 
 public class PreInfoDto implements Serializable {
 
+
     /**
      * code : 1
-     * data : {"patienName":null,"askIUID":"0fa683d3-0861-4a68-80cd-af9bf17c7338","askdrugheadid":"810126b2-c3ac-4e46-9ae5-6daf502ee1fd","userid":null,"patientid":"a446a0bf-c03f-4ec4-8035-1a52853c6a8b","PatientMV":{"IUID":null,"userid":null,"name":"小李","sex":"女","birt_date":null,"birt_date_stamp":null,"height":null,"weight":132,"phone":null,"relation":null,"allergy_note":"大麦 大米 海鲜 咖啡 活动啊农村弄死你减肥noon搭讪","med_history":"风湿病 回复的loan你才哦哦","med_family":"精神病 ","create_time":null,"age":1,"med_drug":null},"the_img":null,"doctorid":"dd97fdea-4327-46dd-80ad-6783dca2a1e5","docUserId":null,"doctorName":"小李","the_level":null,"hospital":null,"diagnosis":"","departid":null,"ill_note":"1","Ill_img":[],"doctor_money":null,"drug_money":99,"all_money":null,"drug_flag":null,"pay_money":0,"pay_class":null,"pay_flag":0,"start_time":null,"end_time":null,"create_time":"/Date(1559700549033)/","pay_time":null,"prescription_name":null,"status_flag":null,"ask_flag":null,"isEval":0,"DrugMV":[{"IUID":"77","askDrugId":"46991cbe-d712-4ec5-baee-af1508c6a41c","name":"小儿多维元素片(小儿善存片)","the_class":null,"otc_class":null,"the_company":null,"the_spec":"60片/瓶 30片/瓶 80片/瓶 120片/瓶 365片/瓶","element":null,"appear":null,"indication":null,"num_note":"口服，一日1片","bad_effect":null,"bad_no":null,"attention_note":null,"drug_response":null,"theory":null,"keep_note":null,"the_img":"/DOC/prescription/img/editorial_prescription_imgs.png","Accessid":null,"EndDate":null,"DateStart":null,"create_time":null,"brokerage":null,"price":49.5,"drug_num":1,"pinyin":null,"py":null,"xq":null},{"IUID":"116","askDrugId":"e3b6d691-3296-4944-a09a-4cff09fdf08d","name":"盐酸阿莫罗芬搽剂","the_class":null,"otc_class":null,"the_company":null,"the_spec":"0.05","element":null,"appear":null,"indication":null,"num_note":"日用三次","bad_effect":null,"bad_no":null,"attention_note":null,"drug_response":null,"theory":null,"keep_note":null,"the_img":"/DOC/prescription/img/editorial_prescription_imgs.png","Accessid":null,"EndDate":null,"DateStart":null,"create_time":null,"brokerage":null,"price":49.5,"drug_num":1,"pinyin":null,"py":null,"xq":null}],"brokerage":0.99,"agree_flag":0,"finish_flag":0,"reback_flag":0,"askdrug_no":"20190605100909032","Askdrug_img":[],"laveTime":null,"the_memo":"好红红火火恍恍惚惚","departName":"皮肤科","create_time_stamp":1559700549033,"pay_time_stamp":1559700549033}
+     * data : {"patienName":null,"askIUID":"5364a288-5d11-4440-9477-9b7d32c93a0a","askdrugheadid":"4f9ee624-20fe-4936-b30a-9dde3c80afbd","userid":null,"patientid":"2ed4faa4-b4b5-4854-924b-d0fb49cfdea6","PatientMV":{"IUID":null,"userid":null,"name":"xiezhongjun","sex":"男","birt_date":null,"birt_date_stamp":null,"height":null,"weight":5555,"phone":null,"relation":null,"allergy_note":"玉米 羊肉 就吐","med_history":"精神病 癌症 高血压 坎坎坷坷","med_family":" 暂无mm","create_time":null,"age":49,"med_drug":null},"the_img":null,"doctorid":"1db4883e-8d1f-4d68-bf2a-582146b554f3","docUserId":null,"doctorName":"Zeng","the_level":null,"hospital":null,"diagnosis":"哈哈哈","departid":null,"ill_note":"Test","Ill_img":[],"doctor_money":null,"drug_money":49.5,"all_money":null,"drug_flag":null,"pay_money":0,"pay_class":null,"pay_flag":0,"start_time":null,"end_time":null,"create_time":"/Date(1562065512060)/","pay_time":null,"prescription_name":null,"status_flag":null,"ask_flag":null,"isEval":0,"DrugMV":[{"IUID":"74","askDrugId":"66aae9eb-a4cf-437f-acb7-0e0b19c3397a","name":"龙血竭片","the_class":null,"otc_class":null,"the_company":null,"the_spec":"基片重0.4克","element":null,"appear":null,"indication":null,"num_note":"口服，一次4～6片，一日3次，或遵医嘱","bad_effect":null,"bad_no":null,"attention_note":null,"drug_response":null,"theory":null,"keep_note":null,"the_img":"/DOC/prescription/img/editorial_prescription_imgs.png","Accessid":null,"EndDate":null,"DateStart":null,"create_time":null,"brokerage":null,"price":49.5,"drug_num":1,"pinyin":null,"py":null,"xq":null}],"UserAddMV":{"IUID":"06f8cc40-7a27-47f3-abad-844023cc8c9b","userid":null,"the_add":null,"phone":"55555","name":"阿里啦咯啦","default_flag":null,"province":null,"city":null,"zone":null,"userAddress":"北京市丰台区土土"},"brokerage":504.9,"agree_flag":0,"finish_flag":0,"reback_flag":0,"askdrug_no":"20190702190512058","Askdrug_img":[],"laveTime":null,"the_memo":"好","departName":"皮肤科","create_time_stamp":1562065512060,"pay_time_stamp":1562065512060}
      * msg :
      * url : null
      * wait : 0
@@ -80,26 +81,26 @@ public class PreInfoDto implements Serializable {
         this.data2 = data2;
     }
 
-    public static class DataBean implements Serializable {
+    public static class DataBean implements Serializable{
         /**
          * patienName : null
-         * askIUID : 0fa683d3-0861-4a68-80cd-af9bf17c7338
-         * askdrugheadid : 810126b2-c3ac-4e46-9ae5-6daf502ee1fd
+         * askIUID : 5364a288-5d11-4440-9477-9b7d32c93a0a
+         * askdrugheadid : 4f9ee624-20fe-4936-b30a-9dde3c80afbd
          * userid : null
-         * patientid : a446a0bf-c03f-4ec4-8035-1a52853c6a8b
-         * PatientMV : {"IUID":null,"userid":null,"name":"小李","sex":"女","birt_date":null,"birt_date_stamp":null,"height":null,"weight":132,"phone":null,"relation":null,"allergy_note":"大麦 大米 海鲜 咖啡 活动啊农村弄死你减肥noon搭讪","med_history":"风湿病 回复的loan你才哦哦","med_family":"精神病 ","create_time":null,"age":1,"med_drug":null}
+         * patientid : 2ed4faa4-b4b5-4854-924b-d0fb49cfdea6
+         * PatientMV : {"IUID":null,"userid":null,"name":"xiezhongjun","sex":"男","birt_date":null,"birt_date_stamp":null,"height":null,"weight":5555,"phone":null,"relation":null,"allergy_note":"玉米 羊肉 就吐","med_history":"精神病 癌症 高血压 坎坎坷坷","med_family":" 暂无mm","create_time":null,"age":49,"med_drug":null}
          * the_img : null
-         * doctorid : dd97fdea-4327-46dd-80ad-6783dca2a1e5
+         * doctorid : 1db4883e-8d1f-4d68-bf2a-582146b554f3
          * docUserId : null
-         * doctorName : 小李
+         * doctorName : Zeng
          * the_level : null
          * hospital : null
-         * diagnosis :
+         * diagnosis : 哈哈哈
          * departid : null
-         * ill_note : 1
+         * ill_note : Test
          * Ill_img : []
          * doctor_money : null
-         * drug_money : 99.0
+         * drug_money : 49.5
          * all_money : null
          * drug_flag : null
          * pay_money : 0.0
@@ -107,44 +108,45 @@ public class PreInfoDto implements Serializable {
          * pay_flag : 0
          * start_time : null
          * end_time : null
-         * create_time : /Date(1559700549033)/
+         * create_time : /Date(1562065512060)/
          * pay_time : null
          * prescription_name : null
          * status_flag : null
          * ask_flag : null
          * isEval : 0
-         * DrugMV : [{"IUID":"77","askDrugId":"46991cbe-d712-4ec5-baee-af1508c6a41c","name":"小儿多维元素片(小儿善存片)","the_class":null,"otc_class":null,"the_company":null,"the_spec":"60片/瓶 30片/瓶 80片/瓶 120片/瓶 365片/瓶","element":null,"appear":null,"indication":null,"num_note":"口服，一日1片","bad_effect":null,"bad_no":null,"attention_note":null,"drug_response":null,"theory":null,"keep_note":null,"the_img":"/DOC/prescription/img/editorial_prescription_imgs.png","Accessid":null,"EndDate":null,"DateStart":null,"create_time":null,"brokerage":null,"price":49.5,"drug_num":1,"pinyin":null,"py":null,"xq":null},{"IUID":"116","askDrugId":"e3b6d691-3296-4944-a09a-4cff09fdf08d","name":"盐酸阿莫罗芬搽剂","the_class":null,"otc_class":null,"the_company":null,"the_spec":"0.05","element":null,"appear":null,"indication":null,"num_note":"日用三次","bad_effect":null,"bad_no":null,"attention_note":null,"drug_response":null,"theory":null,"keep_note":null,"the_img":"/DOC/prescription/img/editorial_prescription_imgs.png","Accessid":null,"EndDate":null,"DateStart":null,"create_time":null,"brokerage":null,"price":49.5,"drug_num":1,"pinyin":null,"py":null,"xq":null}]
-         * brokerage : 0.99
+         * DrugMV : [{"IUID":"74","askDrugId":"66aae9eb-a4cf-437f-acb7-0e0b19c3397a","name":"龙血竭片","the_class":null,"otc_class":null,"the_company":null,"the_spec":"基片重0.4克","element":null,"appear":null,"indication":null,"num_note":"口服，一次4～6片，一日3次，或遵医嘱","bad_effect":null,"bad_no":null,"attention_note":null,"drug_response":null,"theory":null,"keep_note":null,"the_img":"/DOC/prescription/img/editorial_prescription_imgs.png","Accessid":null,"EndDate":null,"DateStart":null,"create_time":null,"brokerage":null,"price":49.5,"drug_num":1,"pinyin":null,"py":null,"xq":null}]
+         * UserAddMV : {"IUID":"06f8cc40-7a27-47f3-abad-844023cc8c9b","userid":null,"the_add":null,"phone":"55555","name":"阿里啦咯啦","default_flag":null,"province":null,"city":null,"zone":null,"userAddress":"北京市丰台区土土"}
+         * brokerage : 504.9
          * agree_flag : 0
          * finish_flag : 0
          * reback_flag : 0
-         * askdrug_no : 20190605100909032
+         * askdrug_no : 20190702190512058
          * Askdrug_img : []
          * laveTime : null
-         * the_memo : 好红红火火恍恍惚惚
+         * the_memo : 好
          * departName : 皮肤科
-         * create_time_stamp : 1559700549033
-         * pay_time_stamp : 1559700549033
+         * create_time_stamp : 1562065512060
+         * pay_time_stamp : 1562065512060
          */
 
-        private Object patienName;
+        private String patienName;
         private String askIUID;
         private String askdrugheadid;
-        private Object userid;
+        private String userid;
         private String patientid;
         private PatientMVBean PatientMV;
-        private Object the_img;
+        private String the_img;
         private String doctorid;
-        private Object docUserId;
+        private String docUserId;
         private String doctorName;
-        private Object the_level;
-        private Object hospital;
+        private String the_level;
+        private String hospital;
         private String diagnosis;
         private Object departid;
         private String ill_note;
-        private Object doctor_money;
+        private String doctor_money;
         private double drug_money;
-        private Object all_money;
+        private String all_money;
         private Object drug_flag;
         private double pay_money;
         private Object pay_class;
@@ -157,6 +159,7 @@ public class PreInfoDto implements Serializable {
         private Object status_flag;
         private Object ask_flag;
         private int isEval;
+        private UserAddMVBean UserAddMV;
         private double brokerage;
         private int agree_flag;
         private int finish_flag;
@@ -167,15 +170,15 @@ public class PreInfoDto implements Serializable {
         private String departName;
         private long create_time_stamp;
         private long pay_time_stamp;
-        private List<?> Ill_img;
+        private List<String> Ill_img;
         private List<DrugMVBean> DrugMV;
-        private List<?> Askdrug_img;
+        private List<String> Askdrug_img;
 
-        public Object getPatienName() {
-            return patienName;
+        public String getPatienName() {
+            return patienName == null ? "" : patienName;
         }
 
-        public void setPatienName(Object patienName) {
+        public void setPatienName(String patienName) {
             this.patienName = patienName;
         }
 
@@ -195,11 +198,11 @@ public class PreInfoDto implements Serializable {
             this.askdrugheadid = askdrugheadid;
         }
 
-        public Object getUserid() {
-            return userid;
+        public String getUserid() {
+            return userid == null ? "" : userid;
         }
 
-        public void setUserid(Object userid) {
+        public void setUserid(String userid) {
             this.userid = userid;
         }
 
@@ -219,11 +222,11 @@ public class PreInfoDto implements Serializable {
             PatientMV = patientMV;
         }
 
-        public Object getThe_img() {
-            return the_img;
+        public String getThe_img() {
+            return the_img == null ? "" : the_img;
         }
 
-        public void setThe_img(Object the_img) {
+        public void setThe_img(String the_img) {
             this.the_img = the_img;
         }
 
@@ -235,11 +238,11 @@ public class PreInfoDto implements Serializable {
             this.doctorid = doctorid;
         }
 
-        public Object getDocUserId() {
-            return docUserId;
+        public String getDocUserId() {
+            return docUserId == null ? "" : docUserId;
         }
 
-        public void setDocUserId(Object docUserId) {
+        public void setDocUserId(String docUserId) {
             this.docUserId = docUserId;
         }
 
@@ -251,19 +254,19 @@ public class PreInfoDto implements Serializable {
             this.doctorName = doctorName;
         }
 
-        public Object getThe_level() {
-            return the_level;
+        public String getThe_level() {
+            return the_level == null ? "" : the_level;
         }
 
-        public void setThe_level(Object the_level) {
+        public void setThe_level(String the_level) {
             this.the_level = the_level;
         }
 
-        public Object getHospital() {
-            return hospital;
+        public String getHospital() {
+            return hospital == null ? "" : hospital;
         }
 
-        public void setHospital(Object hospital) {
+        public void setHospital(String hospital) {
             this.hospital = hospital;
         }
 
@@ -291,11 +294,11 @@ public class PreInfoDto implements Serializable {
             this.ill_note = ill_note;
         }
 
-        public Object getDoctor_money() {
-            return doctor_money;
+        public String getDoctor_money() {
+            return doctor_money == null ? "" : doctor_money;
         }
 
-        public void setDoctor_money(Object doctor_money) {
+        public void setDoctor_money(String doctor_money) {
             this.doctor_money = doctor_money;
         }
 
@@ -307,11 +310,11 @@ public class PreInfoDto implements Serializable {
             this.drug_money = drug_money;
         }
 
-        public Object getAll_money() {
-            return all_money;
+        public String getAll_money() {
+            return all_money == null ? "" : all_money;
         }
 
-        public void setAll_money(Object all_money) {
+        public void setAll_money(String all_money) {
             this.all_money = all_money;
         }
 
@@ -411,6 +414,14 @@ public class PreInfoDto implements Serializable {
             this.isEval = isEval;
         }
 
+        public UserAddMVBean getUserAddMV() {
+            return UserAddMV;
+        }
+
+        public void setUserAddMV(UserAddMVBean userAddMV) {
+            UserAddMV = userAddMV;
+        }
+
         public double getBrokerage() {
             return brokerage;
         }
@@ -491,14 +502,14 @@ public class PreInfoDto implements Serializable {
             this.pay_time_stamp = pay_time_stamp;
         }
 
-        public List<?> getIll_img() {
+        public List<String> getIll_img() {
             if (Ill_img == null) {
                 return new ArrayList<>();
             }
             return Ill_img;
         }
 
-        public void setIll_img(List<?> ill_img) {
+        public void setIll_img(List<String> ill_img) {
             Ill_img = ill_img;
         }
 
@@ -513,46 +524,46 @@ public class PreInfoDto implements Serializable {
             DrugMV = drugMV;
         }
 
-        public List<?> getAskdrug_img() {
+        public List<String> getAskdrug_img() {
             if (Askdrug_img == null) {
                 return new ArrayList<>();
             }
             return Askdrug_img;
         }
 
-        public void setAskdrug_img(List<?> askdrug_img) {
+        public void setAskdrug_img(List<String> askdrug_img) {
             Askdrug_img = askdrug_img;
         }
 
-        public static class PatientMVBean implements Serializable {
+        public static class PatientMVBean implements Serializable{
             /**
              * IUID : null
              * userid : null
-             * name : 小李
-             * sex : 女
+             * name : xiezhongjun
+             * sex : 男
              * birt_date : null
              * birt_date_stamp : null
              * height : null
-             * weight : 132.0
+             * weight : 5555.0
              * phone : null
              * relation : null
-             * allergy_note : 大麦 大米 海鲜 咖啡 活动啊农村弄死你减肥noon搭讪
-             * med_history : 风湿病 回复的loan你才哦哦
-             * med_family : 精神病
+             * allergy_note : 玉米 羊肉 就吐
+             * med_history : 精神病 癌症 高血压 坎坎坷坷
+             * med_family :  暂无mm
              * create_time : null
-             * age : 1
+             * age : 49
              * med_drug : null
              */
 
-            private Object IUID;
-            private Object userid;
+            private String IUID;
+            private String userid;
             private String name;
             private String sex;
             private Object birt_date;
             private Object birt_date_stamp;
             private Object height;
             private double weight;
-            private Object phone;
+            private String phone;
             private Object relation;
             private String allergy_note;
             private String med_history;
@@ -561,19 +572,19 @@ public class PreInfoDto implements Serializable {
             private int age;
             private Object med_drug;
 
-            public Object getIUID() {
-                return IUID;
+            public String getIUID() {
+                return IUID == null ? "" : IUID;
             }
 
-            public void setIUID(Object IUID) {
+            public void setIUID(String IUID) {
                 this.IUID = IUID;
             }
 
-            public Object getUserid() {
-                return userid;
+            public String getUserid() {
+                return userid == null ? "" : userid;
             }
 
-            public void setUserid(Object userid) {
+            public void setUserid(String userid) {
                 this.userid = userid;
             }
 
@@ -625,11 +636,11 @@ public class PreInfoDto implements Serializable {
                 this.weight = weight;
             }
 
-            public Object getPhone() {
-                return phone;
+            public String getPhone() {
+                return phone == null ? "" : phone;
             }
 
-            public void setPhone(Object phone) {
+            public void setPhone(String phone) {
                 this.phone = phone;
             }
 
@@ -690,19 +701,125 @@ public class PreInfoDto implements Serializable {
             }
         }
 
-        public static class DrugMVBean implements Serializable {
+        public static class UserAddMVBean implements Serializable{
             /**
-             * IUID : 77
-             * askDrugId : 46991cbe-d712-4ec5-baee-af1508c6a41c
-             * name : 小儿多维元素片(小儿善存片)
+             * IUID : 06f8cc40-7a27-47f3-abad-844023cc8c9b
+             * userid : null
+             * the_add : null
+             * phone : 55555
+             * name : 阿里啦咯啦
+             * default_flag : null
+             * province : null
+             * city : null
+             * zone : null
+             * userAddress : 北京市丰台区土土
+             */
+
+            private String IUID;
+            private Object userid;
+            private Object the_add;
+            private String phone;
+            private String name;
+            private Object default_flag;
+            private Object province;
+            private Object city;
+            private Object zone;
+            private String userAddress;
+
+            public String getIUID() {
+                return IUID == null ? "" : IUID;
+            }
+
+            public void setIUID(String IUID) {
+                this.IUID = IUID;
+            }
+
+            public Object getUserid() {
+                return userid;
+            }
+
+            public void setUserid(Object userid) {
+                this.userid = userid;
+            }
+
+            public Object getThe_add() {
+                return the_add;
+            }
+
+            public void setThe_add(Object the_add) {
+                this.the_add = the_add;
+            }
+
+            public String getPhone() {
+                return phone == null ? "" : phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public String getName() {
+                return name == null ? "" : name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public Object getDefault_flag() {
+                return default_flag;
+            }
+
+            public void setDefault_flag(Object default_flag) {
+                this.default_flag = default_flag;
+            }
+
+            public Object getProvince() {
+                return province;
+            }
+
+            public void setProvince(Object province) {
+                this.province = province;
+            }
+
+            public Object getCity() {
+                return city;
+            }
+
+            public void setCity(Object city) {
+                this.city = city;
+            }
+
+            public Object getZone() {
+                return zone;
+            }
+
+            public void setZone(Object zone) {
+                this.zone = zone;
+            }
+
+            public String getUserAddress() {
+                return userAddress == null ? "" : userAddress;
+            }
+
+            public void setUserAddress(String userAddress) {
+                this.userAddress = userAddress;
+            }
+        }
+
+        public static class DrugMVBean implements Serializable{
+            /**
+             * IUID : 74
+             * askDrugId : 66aae9eb-a4cf-437f-acb7-0e0b19c3397a
+             * name : 龙血竭片
              * the_class : null
              * otc_class : null
              * the_company : null
-             * the_spec : 60片/瓶 30片/瓶 80片/瓶 120片/瓶 365片/瓶
+             * the_spec : 基片重0.4克
              * element : null
              * appear : null
              * indication : null
-             * num_note : 口服，一日1片
+             * num_note : 口服，一次4～6片，一日3次，或遵医嘱
              * bad_effect : null
              * bad_no : null
              * attention_note : null
@@ -746,7 +863,7 @@ public class PreInfoDto implements Serializable {
             private Object create_time;
             private Object brokerage;
             private double price;
-            private int drug_num;
+            private double drug_num;
             private Object pinyin;
             private Object py;
             private Object xq;
@@ -943,11 +1060,11 @@ public class PreInfoDto implements Serializable {
                 this.price = price;
             }
 
-            public int getDrug_num() {
+            public double getDrug_num() {
                 return drug_num;
             }
 
-            public void setDrug_num(int drug_num) {
+            public void setDrug_num(double drug_num) {
                 this.drug_num = drug_num;
             }
 

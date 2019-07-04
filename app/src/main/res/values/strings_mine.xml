@@ -19,6 +19,7 @@
     <string name="user_info_tip_5">退出</string>
     <string name="user_info_tip_6">请输入昵称</string>
     <string name="user_info_tip_7">请输入身份证号码</string>
+    <string name="user_info_tip_8">请输入手机号码</string>
 
     <!--意见反馈-->
     <string name="feedback_tip_1">请描述意见和反馈</string>
@@ -149,6 +150,7 @@
     <string name="prescription_tip_28">支付时间:</string>
     <string name="prescription_tip_29">商品总额:</string>
     <string name="prescription_tip_30">实付金额:</string>
+    <string name="prescription_tip_31">下一步</string>
 
 
     <string name="setting_tip_1">新消息提醒</string>

@@ -95,7 +95,7 @@ public class DepartListDto {
 
         private String IUID;
         private String name;
-        private Object parentid;
+        private String parentid;
         private Object the_memo;
         private Object Accessid;
         private List<DataBean> depart2;
@@ -117,11 +117,11 @@ public class DepartListDto {
             this.name = name;
         }
 
-        public Object getParentid() {
+        public String getParentid() {
             return parentid;
         }
 
-        public void setParentid(Object parentid) {
+        public void setParentid(String parentid) {
             this.parentid = parentid;
         }
 

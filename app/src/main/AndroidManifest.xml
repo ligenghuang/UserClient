@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yizhitong.userclient">
+    <!-- 8867c8490cf0765131891d361b65e8b1-->
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -34,7 +35,6 @@
         <activity android:name=".ui.home.RapidInterrogationActivity" />
         <activity android:name=".ui.home.DepartFindDoctorActivity" />
         <activity android:name=".ui.home.NewsDetailActivity" />
-        <activity android:name=".ui.physicianvisits.VisitActivity" />
         <activity android:name=".ui.physicianvisits.InquiryInfoActivity" />
         <activity android:name=".ui.physicianvisits.InquiryInfoEvaluateActivity" />
         <activity android:name=".ui.physicianvisits.InquiryInfoPayActivity" />
@@ -70,6 +70,12 @@
         <activity android:name=".ui.mine.SpecialtyActivity" />
         <activity android:name=".ui.message.MessageDetailActivity" />
         <activity android:name=".ui.mine.SettingActivity"/>
+        <activity android:name=".ui.home.DoctorVisitsActivity"/>
+
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="c9kqb3rdc4wxj" />
+
     </application>
 
 </manifest>

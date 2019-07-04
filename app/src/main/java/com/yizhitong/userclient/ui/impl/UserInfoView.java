@@ -12,6 +12,7 @@ public interface UserInfoView extends BaseView {
     void updataFile(String filePath);
     void updataNicename(String nicename);
     void updataIdNumber(String idNumber);
+    void updataPhone(String phone);
 
     void updataSuccessful(UpdataInfoDto updataInfoDto);
 

@@ -300,7 +300,7 @@ public class DoctorDetailDto {
         }
 
         public String getAnswer_len() {
-            return answer_len == null ? "0" : answer_len;
+            return answer_len == null ? "" : answer_len;
         }
 
         public void setAnswer_len(String answer_len) {

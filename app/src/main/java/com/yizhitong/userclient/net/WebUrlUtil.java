@@ -134,6 +134,11 @@ public class WebUrlUtil {
     public static final String POST_MY_PATIENT = "Mine/getMyPatientApp";
 
     /**
+     * 删除问诊人
+     */
+    public static final String POST_DELETE_PATIENT = "Mine/deletePatient";
+
+    /**
      * 获取问诊人详情
      */
     public static final String POST_PATIENT_INFO = "Mine/getPatientApp";
@@ -249,7 +254,7 @@ public class WebUrlUtil {
     /**
      * 获取问诊价格
      */
-    public static final String POST_DOCTOR_AMOUNT = "Doctors/getRegisteredAmount";
+    public static final String POST_DOCTOR_AMOUNT = "Doctors/getRegisteredAmountApp";
 
     /**
      * 上传图片
@@ -259,7 +264,7 @@ public class WebUrlUtil {
     /**
      * 提交快速问诊单
      */
-    public static final String POST_ADD_ASKHEAD = "Ask/addAskHead";
+    public static final String POST_ADD_ASKHEAD = "Ask/addAskHeadApp";
 
     /**
      * 搜索医生

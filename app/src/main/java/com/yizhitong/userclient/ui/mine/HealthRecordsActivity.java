@@ -1,29 +1,39 @@
 package com.yizhitong.userclient.ui.mine;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
+import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.data.ResUtil;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.HealthRecordsAction;
 import com.yizhitong.userclient.adapters.HealthRecordAdapter;
+import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.PatientListDto;
 import com.yizhitong.userclient.ui.impl.HealthRecordsView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.data.DisplayUtil;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction> implements HealthRecordsView {
 
@@ -35,7 +45,7 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
     TextView titleTv;
 
     @BindView(R.id.rv_patient)
-    RecyclerView patientRv;
+    SwipeMenuRecyclerView patientRv;
 
     HealthRecordAdapter healthRecordAdapter;
     boolean isSelect = false;
@@ -47,7 +57,7 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
 
     @Override
     protected HealthRecordsAction initAction() {
-        return new HealthRecordsAction(this,this);
+        return new HealthRecordsAction(this, this);
     }
 
     @Override
@@ -77,11 +87,15 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
         mActicity = this;
         mContext = this;
 
-        isSelect = getIntent().getBooleanExtra("isSelect",false);
-        titleTv.setText(ResUtil.getString(isSelect ?R.string.rapid_interrogation_tip_6:R.string.health_records_tip_title));
+        isSelect = getIntent().getBooleanExtra("isSelect", false);
+        titleTv.setText(ResUtil.getString(isSelect ? R.string.rapid_interrogation_tip_6 : R.string.health_records_tip_title));
 
-        healthRecordAdapter = new HealthRecordAdapter(this,isSelect);
+        healthRecordAdapter = new HealthRecordAdapter(this, isSelect);
         patientRv.setLayoutManager(new LinearLayoutManager(this));
+       if (!isSelect){
+           patientRv.setSwipeMenuCreator(swipeMenuCreator);
+           patientRv.setSwipeMenuItemClickListener(menuItemClickListener);
+       }
         patientRv.setAdapter(healthRecordAdapter);
 
         loadView();
@@ -96,36 +110,81 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
             public void OnClick(String id, String name) {
                 //todo 跳转至快速问诊页
                 Intent intent = new Intent();
-                intent.putExtra("id",id);
-                intent.putExtra("name",name);
-                setResult(200,intent);
+                intent.putExtra("id", id);
+                intent.putExtra("name", name);
+                setResult(200, intent);
                 finish();
             }
         });
+
     }
 
+    /**
+     * 删除问诊人
+     */
+    SwipeMenuItemClickListener menuItemClickListener = new SwipeMenuItemClickListener() {
+        @Override
+        public void onItemClick(SwipeMenuBridge menuBridge, int position) {
+            L.e("lgh_item", "position   = " + position);
+            menuBridge.closeMenu();
+            deletePatient(healthRecordAdapter.getmDataList().get(position).getIUID());
+        }
+    };
+
     @OnClick(R.id.tv_submit)
-    void OnClick(View view){
-        switch (view.getId()){
+    void OnClick(View view) {
+        switch (view.getId()) {
             case R.id.tv_submit:
                 //todo 新增问诊人
-                jumpActivityNotFinish(mContext,AddPatientActivity.class);
+                jumpActivityNotFinish(mContext, AddPatientActivity.class);
                 break;
         }
     }
 
+    /**
+     * 获取问诊人列表
+     */
     @Override
     public void getMyPatient() {
-        if (CheckNetwork.checkNetwork2(mContext)){
-            loadDialog();
+        if (CheckNetwork.checkNetwork2(mContext)) {
             baseAction.getMyPatient();
         }
     }
 
+    /**
+     * 获取问诊人列表  成功
+     * @param patientListDto
+     */
     @Override
     public void getMyPatientSuccessful(PatientListDto patientListDto) {
         loadDiss();
-        healthRecordAdapter.refresh(patientListDto.getData());
+        healthRecordAdapter.notifyDataSetChanged(patientListDto.getData());
+    }
+
+    /**
+     * 删除问诊人
+     * @param id
+     */
+    @Override
+    public void deletePatient(String id) {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            loadDialog();
+            baseAction.deletePatient(id);
+        }
+    }
+
+    /**
+     * 删除问诊人 成功
+     * @param generalDto
+     */
+    @Override
+    public void deletePatientSuccessful(GeneralDto generalDto) {
+        if (generalDto.getCode() == 1){
+            getMyPatient();
+        }else {
+            loadDiss();
+            showNormalToast(generalDto.getMsg());
+        }
     }
 
     /**
@@ -155,6 +214,7 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
         super.onResume();
         if (baseAction != null) {
             baseAction.toRegister();
+            loadDialog();
             getMyPatient();
         }
     }
@@ -166,4 +226,23 @@ public class HealthRecordsActivity extends UserBaseActivity<HealthRecordsAction>
             baseAction.toUnregister();
         }
     }
+
+    /**
+     * 菜单创建器。在Item要创建菜单的时候调用。
+     */
+    private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
+        @Override
+        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
+
+            SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
+                    .setBackgroundColor(ResUtil.getColor(R.color.color_e22525))
+                    .setText("删除") // 文字。
+                    .setTextColor(Color.WHITE) // 文字颜色。
+                    .setTextSize(16)
+                    .setWidth(DisplayUtil.dip2px(mContext,60))
+                    .setHeight(MATCH_PARENT); // 文字大小。
+            swipeRightMenu.addMenuItem(deleteItem);// 添加一个按钮到右侧侧菜单。.
+
+        }
+    };
 }

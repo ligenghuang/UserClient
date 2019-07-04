@@ -74,22 +74,22 @@ public class MessageAction extends BaseAction<MessageView> {
                 L.e("xx", "输出返回结果 " + aBoolean);
 
                 switch (action.getIdentifying()) {
-                    case WebUrlUtil.POST_ISLOGIN:
-
-                        if (aBoolean) {
-                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
-                            Gson gson = new Gson();
-                            String generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<String>() {
-                            }.getType());
-                            if (generalDto.equals("1")) {
-                                view.isLoginSuccessful();
-                                return;
-                            }
-                            view.isLoginError();
-                            return;
-                        }
-//                        view.isLoginError();
-                        break;
+//                    case WebUrlUtil.POST_ISLOGIN:
+//
+//                        if (aBoolean) {
+//                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+//                            Gson gson = new Gson();
+//                            String generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<String>() {
+//                            }.getType());
+//                            if (generalDto.equals("1")) {
+//                                view.isLoginSuccessful();
+//                                return;
+//                            }
+//                            view.isLoginError();
+//                            return;
+//                        }
+////                        view.isLoginError();
+//                        break;
                     case WebUrlUtil.POST_MESSAGE_LIST:
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());

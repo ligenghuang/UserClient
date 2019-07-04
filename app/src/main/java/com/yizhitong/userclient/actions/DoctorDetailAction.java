@@ -1,6 +1,7 @@
 package com.yizhitong.userclient.actions;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.net.CollectionsUtils;
@@ -51,7 +52,7 @@ public class DoctorDetailAction extends BaseAction<DoctorDetailView> {
     public void getFavDoctorByuser(String iuid){
         post(WebUrlUtil.POST_FAV_DOCTOR, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("IUID",iuid),WebUrlUtil.POST_FAV_DOCTOR)));
+                        CollectionsUtils.generateMap("doctorid",iuid),WebUrlUtil.POST_FAV_DOCTOR)));
     }
 
     /**
@@ -115,13 +116,23 @@ public class DoctorDetailAction extends BaseAction<DoctorDetailView> {
                         if (aBoolean){
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
-                            FavDoctorDto favDoctorDto = gson.fromJson(action.getUserData().toString(), new TypeToken<FavDoctorDto>() {
-                            }.getType());
-                            if (favDoctorDto.getCode() == 1) {
-                                view.getFavDoctorByuserSuccessful(favDoctorDto);
-                            } else {
-                                view.onError(favDoctorDto.getMsg(), favDoctorDto.getCode());
-                            }
+                           try {
+                               FavDoctorDto favDoctorDto = gson.fromJson(action.getUserData().toString(), new TypeToken<FavDoctorDto>() {
+                               }.getType());
+                               if (favDoctorDto.getCode() == 1) {
+                                   view.getFavDoctorByuserSuccessful(favDoctorDto);
+                               } else {
+                                   view.onError(favDoctorDto.getMsg(), favDoctorDto.getCode());
+                               }
+                           }catch (JsonSyntaxException e){
+                               GeneralDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                               }.getType());
+                              if (generalDto.getCode() == -2){
+                                  view.onLigonError();
+                              }else {
+                                  view.onError(generalDto.getMsg(), generalDto.getCode());
+                              }
+                           }
                             return;
                         }
                         view.onError(msg,action.getErrorType());

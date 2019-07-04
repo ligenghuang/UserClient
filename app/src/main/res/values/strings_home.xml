@@ -7,6 +7,8 @@
     <string name="home_tip_4">名医专区</string>
     <string name="home_tip_5">我的处方</string>
     <string name="home_tip_6">已经到底部了</string>
+    <string name="home_tip_7">当前没有内容</string>
+
 
     <string name="news_detail_tip_title">文章详情</string>
     <string name="news_detail_tip_1">咨询</string>
@@ -19,7 +21,7 @@
     <string name="rapid_interrogation_tip_2">请选择患者</string>
     <string name="rapid_interrogation_tip_3">请详细描述已经确认的疾病和相关的症状，以便医生准确了解您的病情和用药需求</string>
     <string name="rapid_interrogation_tip_4">请上传相关疾病图片或者处方记录,仅对外开药医生可见</string>
-    <string name="rapid_interrogation_tip_5">可上传8张</string>
+    <string name="rapid_interrogation_tip_5">可上传9张</string>
     <string name="rapid_interrogation_tip_6">选择患者</string>
     <string name="rapid_interrogation_tip_7">删除成功</string>
     <string name="rapid_interrogation_tip_8">请输入病情描述</string>

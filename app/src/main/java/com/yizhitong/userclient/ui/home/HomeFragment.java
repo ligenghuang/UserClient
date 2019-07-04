@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -16,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -68,11 +70,17 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @BindView(R.id.banner_main)
     BGABanner banner_main;
 
+    @BindView(R.id.ll_news_list)
+    LinearLayout newsListLl;
+    @BindView(R.id.tv_null_data)
+    TextView nullDataTv;
+
     NewsTypeAdapter newsTypeAdapter;
     NewsListAdapter newsListAdapter;
     CustomLinearLayoutManager customLinearLayoutManager;
 
     boolean isFirst = true;
+    public static boolean isJumpNewsDetail = false;
 
     Banner banner;
 
@@ -103,11 +111,14 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         L.e("lgh_home", "isVisible  =  " + isVisible);
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(false, R.color.transparent);
-           if (isFirst){
-               loadDialog();
-               isFirst = false;
-           }
-            getNewsType();
+            if (isFirst) {
+                loadDialog();
+                isFirst = false;
+            }
+          if (!isJumpNewsDetail){
+              getNewsType();
+          }
+            isJumpNewsDetail = false;
         }
 
     }
@@ -146,11 +157,11 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     private void getBannerData() {
         List<String> stringList = new ArrayList<>();
         List<String> tips = new ArrayList<>();
-        for (int i = 0; i <3 ; i++) {
+        for (int i = 0; i < 3; i++) {
             stringList.add("ddd");
             tips.add("");
         }
-        banner_main.setData(stringList,tips);
+        banner_main.setData(stringList, tips);
     }
 
 
@@ -215,7 +226,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                         intent.putExtra("condition", mEtSearch.getText().toString());
                         startActivity(intent);
                         mEtSearch.setText("");
-                    }else {
+                    } else {
                         Intent intent = new Intent(mContext, FindDoctorActivity.class);
                         startActivity(intent);
                     }
@@ -224,6 +235,8 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                 return false;
             }
         });
+
+
     }
 
     /**
@@ -275,8 +288,16 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     @Override
     public void getNewsBytheClassSuccessful(NewsBytheClassDto newsBytheClassDto) {
         loadDiss();
-        newsListAdapter.refresh(newsBytheClassDto.getData());
-        bottomTv.setVisibility(View.VISIBLE);
+
+        if (newsBytheClassDto.getData().size() == 0){
+            newsListLl.setVisibility(View.GONE);
+            nullDataTv.setVisibility(View.VISIBLE);
+        }else {
+            newsListLl.setVisibility(View.VISIBLE);
+            nullDataTv.setVisibility(View.GONE);
+            newsListAdapter.refresh(newsBytheClassDto.getData());
+            bottomTv.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -293,6 +314,10 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     public void onResume() {
         super.onResume();
         baseAction.toRegister();
+        if (!isJumpNewsDetail){
+            getNewsType();
+        }
+        isJumpNewsDetail = false;
     }
 
     @Override

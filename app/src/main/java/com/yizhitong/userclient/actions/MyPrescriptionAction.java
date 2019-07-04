@@ -113,7 +113,7 @@ public class MyPrescriptionAction extends BaseAction<MyPrescriptionView> {
                                 }.getType());
                                 if (generalDto.getCode() == -2) {
                                     view.onLigonError();
-                                } else {
+                                } else if (generalDto.getCode() != 1){
                                     view.onError(generalDto.getMsg(), generalDto.getCode());
                                 }
                                 return;

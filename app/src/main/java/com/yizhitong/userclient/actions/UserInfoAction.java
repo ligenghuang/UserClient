@@ -84,6 +84,20 @@ public class UserInfoAction extends BaseAction<UserInfoView> {
     }
 
     /**
+     * 修改手机号码
+     * @param phone
+     */
+    public void updataPhone(String phone){
+        ParamPost paramPost = new ParamPost();
+        paramPost.setPhome(phone);
+        MultipartBody.Builder build = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("param",paramPost.toPhone());
+        RequestBody requestBody = build.build();
+        post(WebUrlUtil.POST_USER_UPDATE, false, service -> manager.runHttp(service.PostData_1(
+                MySharedPreferencesUtil.getSessionId(MyApp.getContext()), requestBody, WebUrlUtil.POST_USER_UPDATE)));
+    }
+
+    /**
      * 退出登录
      */
     public void logout(){

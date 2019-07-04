@@ -31,12 +31,18 @@ public class TypeListAdapter extends BaseRecyclerAdapter<TypeListDto> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onClick(model.getType(),position);
+
+                if (model.isClick()){
+                    onClickListener.onNoClick(position);
+                }else {
+                    onClickListener.onClick(model.getType(),position);
+                }
             }
         });
     }
 
     public interface OnClickListener{
         void onClick(String name,int position);
+        void onNoClick(int position);
     }
 }

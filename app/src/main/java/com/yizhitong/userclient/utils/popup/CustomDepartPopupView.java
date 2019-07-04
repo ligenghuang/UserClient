@@ -102,7 +102,7 @@ public class CustomDepartPopupView extends PartShadowPopupView {
             @Override
             public void onClick(String id, String name, int position, List<DepartListDto.DataBean> list) {
                 if (id.equals("0")){
-                    onClickListener.onDepartPopupClick(id,name);
+                    onClickListener.onDepartPopupClick(id,name,"0");
                 }else {
                     departList2Adapter.refresh(list);
                 }
@@ -110,8 +110,8 @@ public class CustomDepartPopupView extends PartShadowPopupView {
         });
         departList2Adapter.setOnClickListener(new DepartList2Adapter.OnClickListener() {
             @Override
-            public void onClick(String IUID, String name) {
-                onClickListener.onDepartPopupClick(IUID, name);
+            public void onClick(String IUID, String name,String departId) {
+                onClickListener.onDepartPopupClick(IUID, name,departId);
             }
         });
     }
@@ -130,6 +130,6 @@ public class CustomDepartPopupView extends PartShadowPopupView {
         Log.e("tag", "CustomPartShadowPopupView onDismiss");
     }
     public interface OnClickListener {
-        void onDepartPopupClick(String id,String name);
+        void onDepartPopupClick(String id,String name,String departId);
     }
 }

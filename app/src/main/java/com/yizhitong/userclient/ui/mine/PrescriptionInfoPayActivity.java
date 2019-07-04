@@ -98,6 +98,18 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
         mRvDrug.setAdapter(myPrescriptionPayDruyAdapter);
         myPrescriptionPayDruyAdapter.refresh(preInfoDto.getData().getDrugMV());
         mTvMoney.setText("￥" + PriceUtils.formatPrice(preInfoDto.getData().getDrug_money()));
+
+        if (preInfoDto.getData().getUserAddMV()!= null){
+            mLlAddressNull.setVisibility(View.GONE);
+            mLlAddress.setVisibility(View.VISIBLE);
+            PreInfoDto.DataBean.UserAddMVBean userAddMVBean = preInfoDto.getData().getUserAddMV();
+            mTvAddressName.setText(userAddMVBean.getName());
+            mTvAddressPhone.setText(userAddMVBean.getPhone());
+            mTvAddress.setText(userAddMVBean.getUserAddress());
+        }else {
+            mLlAddressNull.setVisibility(View.VISIBLE);
+            mLlAddress.setVisibility(View.GONE);
+        }
     }
 
 
@@ -105,7 +117,7 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_address_info:
-                //todo
+                //todo 选择地址
                 Intent intent = new Intent(mContext, AddressManagementActivity.class);
                 intent.putExtra("type", 1);
                 startActivityForResult(intent, 200);

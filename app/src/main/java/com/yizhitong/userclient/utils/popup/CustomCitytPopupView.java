@@ -28,13 +28,16 @@ public class CustomCitytPopupView extends PartShadowPopupView {
     OnClickListener onClickListener;
     String cityName = "";
     String title= "";
+    CityListDto cityListDto;
+    int index = 0;
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
-    public CustomCitytPopupView(@NonNull Context context,String title) {
+    public CustomCitytPopupView(@NonNull Context context,String title,int index) {
         super(context);
+        this.index = index;
         this.context = context;
         this.title = title;
     }
@@ -82,13 +85,14 @@ public class CustomCitytPopupView extends PartShadowPopupView {
             public void onClick( String name, int position, List<String> list) {
                 cityList2Adapter.refresh(list);
                 cityName = name;
+               index = position;
             }
         });
         cityList2Adapter.setOnClickListener(new CityList2Adapter.OnClickListener() {
             @Override
             public void onClick(String name) {
                 cityName = cityName+"-"+name;
-                onClickListener.onDepartPopupClick(cityName,name);
+                onClickListener.onDepartPopupClick(cityName,name,index);
             }
         });
     }
@@ -98,8 +102,11 @@ public class CustomCitytPopupView extends PartShadowPopupView {
      */
     private void initJsonData() {//解析数据
         String JsonData = new GetJsonDataUtil().getJson(context, "a.json");//获取assets目录下的json文件数据
-        CityListDto cityListDto = new Gson().fromJson(JsonData, new TypeToken<CityListDto>() {
+        cityListDto = new Gson().fromJson(JsonData, new TypeToken<CityListDto>() {
         }.getType());
+        cityListDto.getProvinces().get(index).setClick(true);
+        cityList2Adapter.refresh(cityListDto.getProvinces().get(index).getCitys());
+        cityName = cityListDto.getProvinces().get(index).getName();
         cityList1Adapter.refresh(cityListDto.getProvinces());
     }
 
@@ -116,6 +123,6 @@ public class CustomCitytPopupView extends PartShadowPopupView {
     }
 
     public interface OnClickListener {
-        void onDepartPopupClick(String city,String name);
+        void onDepartPopupClick(String city,String name, int index);
     }
 }

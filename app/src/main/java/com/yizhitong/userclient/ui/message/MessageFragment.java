@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -49,6 +50,8 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.iv_null_message)
+    ImageView nullMessageIV;
 
     MessageLlistAdapter messageLlistAdapter;
 
@@ -83,6 +86,7 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
         super.onFragmentVisibleChange(isVisible);
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.white);
+            getMessageList();
         }
 
     }
@@ -151,7 +155,8 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
                 message.sendToTarget();
             }
         }).start();
-
+        recyclerView.setVisibility(messageListDto.getData().size() == 0?View.GONE:View.VISIBLE);
+        nullMessageIV.setVisibility(messageListDto.getData().size() == 0?View.VISIBLE:View.GONE);
     }
 
     private Handler mHandler = new Handler() {

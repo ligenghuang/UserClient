@@ -15,6 +15,18 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.yizhitong.userclient.utils.Constanst;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+import cn.rongcloud.rtc.room.RongRTCRoom;
+import io.rong.imlib.RongIMClient;
+
+import static com.yizhitong.userclient.utils.Constanst.appkey;
 
 
 /**
@@ -63,6 +75,8 @@ public class MyApp extends MyApplication {
     }
 
 
+    public static IWXAPI api;
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -72,6 +86,18 @@ public class MyApp extends MyApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+//        api = WXAPIFactory.createWXAPI(this, Constanst.APP_ID, true);
+//        // 将该app注册到微信
+//        api.registerApp(Constanst.APP_ID);
+
+        RongIMClient.init(this);
+
         PgyCrashManager.register(this);
     }
+
+    public static IWXAPI getWxApi() {
+        return api;
+    }
+
+
 }

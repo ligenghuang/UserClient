@@ -14,6 +14,12 @@ public class Constanst {
 
     public static int pageSize = 10;
 
+    public static String APP_ID = "";
+    public static String APP_Secret = "";
+
+    public static final String appkey = "c9kqb3rdc4wxj";
+    public static final String appSecret = "03IqqAMBJZ";
+
 
 
     /**

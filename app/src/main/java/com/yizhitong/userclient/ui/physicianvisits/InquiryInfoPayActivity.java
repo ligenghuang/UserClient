@@ -2,6 +2,7 @@ package com.yizhitong.userclient.ui.physicianvisits;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -57,6 +58,8 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     TextView mTvPay;
     @BindView(R.id.ll_inquiry_money)
     LinearLayout mLlInquiryMoney;
+    @BindView(R.id.tv_inquiry_money)
+    TextView inquiryMoneyTv;
 
     @BindView(R.id.checkbox)
     CheckBox mCheckbox;
@@ -119,11 +122,18 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
         loadDiss();
         InquiryInfoPayDto.DataBean dataBean = inquiryInfoPayDto.getData();
         GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + dataBean.getThe_img(), mIvInquiry, R.drawable.icon_placeholder);
-        mTvInquiryDoctorName.setText(dataBean.getDoctorName());
-        mTvInquiryDoctorLevel.setText("(" + dataBean.getThe_level() + ")");
-        mTvInquiryDoctorHospital.setText(dataBean.getHospital());
+        if (!TextUtils.isEmpty(dataBean.getDoctorName())){
+            //todo 已分配医生
+            mTvInquiryDoctorName.setText(dataBean.getDoctorName());
+            mTvInquiryDoctorLevel.setText("(" + dataBean.getThe_level() + ")");
+            mTvInquiryDoctorHospital.setText(dataBean.getHospital());
+        }else {
+            //todo 未分配医生
+            mTvInquiryDoctorName.setText(ResUtil.getString(R.string.inquity_tip_24));
+        }
         mTvInquiryNote.setText(dataBean.getIll_note());
         mTvMoney.setText("￥" + dataBean.getDoctor_money());
+        inquiryMoneyTv.setText("￥" + dataBean.getDoctor_money());
     }
 
     @Override

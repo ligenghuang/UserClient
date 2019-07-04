@@ -29,6 +29,8 @@ import com.yizhitong.userclient.BuildConfig;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.RapidInterrogationAction;
 import com.yizhitong.userclient.adapters.ImageItemAdapter;
+import com.yizhitong.userclient.event.AddAskHesdDto;
+import com.yizhitong.userclient.event.AmountDto;
 import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.post.AddAskHeadPost;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationView;
@@ -93,7 +95,7 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
     private ArrayList<ImageItem> selImageList = new ArrayList<>(); //当前选择的所有图片
     ArrayList<ImageItem> images = null;
     List<String> imageList = new ArrayList<>();
-    int maxImgCount = 8;
+    int maxImgCount = 9;
 
     ImageItemAdapter imageItemAdapter;
     double amount = 0;
@@ -178,6 +180,7 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
         imageItemAdapter.setOnClickListener(new ImageItemAdapter.OnClickListener() {
             @Override
             public void OnClick(int position) {
+                //TODO 删除图片
                 imageList.remove(position);
                 imageItemAdapter.refresh(imageList);
                 maxImgCount++;
@@ -204,7 +207,9 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
                 break;
             case R.id.iv_add_img:
                 //todo 选择图片
-                showSelectDiaLog();
+               if (maxImgCount != 0){
+                   showSelectDiaLog();
+               }
                 break;
             case R.id.tv_pay:
                 //todo 提交问诊单
@@ -247,17 +252,17 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
 
     /**
      * 获取快速问诊费用 成功
-     * @param amiunt
+     * @param amount
      */
     @Override
-    public void getRegisteredAmountSuccessful(double amiunt) {
+    public void getRegisteredAmountSuccessful(AmountDto amount) {
         loadDiss();
-        amount = amiunt;
-        mTvMoney.setText("￥" + PriceUtils.formatPrice(amiunt));
+        this.amount = amount.getData();
+        mTvMoney.setText("￥" + PriceUtils.formatPrice(amount.getData()));
     }
 
     /**
-     * 上传图片
+     * 上传图片v
      * @param path
      */
     @Override
@@ -276,6 +281,7 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
     public void fileNameSuccessful(String path) {
         loadDiss();
         imageList.add(path);
+        maxImgCount--;
         imageItemAdapter.refresh(imageList);
     }
 
@@ -297,10 +303,10 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
      * @param generalDto
      */
     @Override
-    public void addAskHeadSuccessful(String generalDto) {
+    public void addAskHeadSuccessful(AddAskHesdDto generalDto) {
         loadDiss();
         Intent intent = new Intent(mContext,RapidInterrogationPayActivity.class);
-        intent.putExtra("id",generalDto);
+        intent.putExtra("id",generalDto.getData());
         startActivity(intent);
     }
 

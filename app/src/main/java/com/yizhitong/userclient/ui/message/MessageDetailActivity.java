@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
+import com.lgh.huanglib.util.cusview.ClassicsHeader;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -203,6 +204,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         isFirst = getIntent().getBooleanExtra("isFirst",false);
         userid = MySp.getToken(mContext);
 
+        refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
         messageDetailListAdapter = new MessageDetailListAdapter(mContext, touserId);
         linearLayoutManager = new CustomLinearLayoutManager(this);
         linearLayoutManager.setScrollEnabled(true);
@@ -525,10 +527,20 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
             List<MessageDetailListDto.DataBean.ListBean> list = messageDetailListDto.getData().getList();
 //            Collections.reverse(list);
             messageDetailListAdapter.refresh(list);
-            recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
-            recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
+                }
+            }, 100);
         } else {
-            recyclerView.scrollToPosition(messageDetailListDto.getData().getList().size()+1);
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.scrollToPosition(messageDetailListDto.getData().getList().size()+1);
+                }
+            }, 100);
+
             List<MessageDetailListDto.DataBean.ListBean> listBeans = messageDetailListDto.getData().getList();
 //            Collections.reverse(listBeans);
             listBeans.addAll(messageDetailListAdapter.getAllData());

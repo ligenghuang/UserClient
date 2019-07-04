@@ -9,6 +9,8 @@ import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.yizhitong.userclient.event.AddAskHesdDto;
+import com.yizhitong.userclient.event.AmountDto;
 import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.NewsDetailDto;
 import com.yizhitong.userclient.event.post.AddAskHeadPost;
@@ -47,7 +49,7 @@ public class RapidInterrogationAction extends BaseAction<RapidInterrogationView>
      */
     public void getRegisteredAmount(){
         post(WebUrlUtil.POST_DOCTOR_AMOUNT, false, service -> manager.runHttp(
-                service.PostData_double(CollectionsUtils.generateMap("docIuid", "undefined"), WebUrlUtil.POST_DOCTOR_AMOUNT)));
+                service.PostData_1(CollectionsUtils.generateMap("docIuid", "undefined"), WebUrlUtil.POST_DOCTOR_AMOUNT)));
     }
 
     /**
@@ -88,7 +90,7 @@ public class RapidInterrogationAction extends BaseAction<RapidInterrogationView>
                 .addFormDataPart("mycars",post.toString())
                 .build();
         post(WebUrlUtil.POST_ADD_ASKHEAD,false,service -> manager.runHttp(
-                service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApp.getContext()),requestBody,WebUrlUtil.POST_ADD_ASKHEAD)));
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApp.getContext()),requestBody,WebUrlUtil.POST_ADD_ASKHEAD)));
     }
 
     /**
@@ -120,7 +122,7 @@ public class RapidInterrogationAction extends BaseAction<RapidInterrogationView>
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             try {
-                                Double amount = gson.fromJson(action.getUserData().toString(), new TypeToken<Double>() {
+                                AmountDto amount = gson.fromJson(action.getUserData().toString(), new TypeToken<AmountDto>() {
                                 }.getType());
                                 view.getRegisteredAmountSuccessful(amount);
                                 return;
@@ -156,9 +158,13 @@ public class RapidInterrogationAction extends BaseAction<RapidInterrogationView>
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             try {
-                                String path = gson.fromJson(action.getUserData().toString(), new TypeToken<String>() {
+                                AddAskHesdDto path = gson.fromJson(action.getUserData().toString(), new TypeToken<AddAskHesdDto>() {
                                 }.getType());
-                                view.addAskHeadSuccessful(path);
+                                if (path.getCode() == 1){
+                                    view.addAskHeadSuccessful(path);
+                                }else {
+                                    view.onError(path.getMsg(),path.getCode());
+                                }
                                 return;
                             }catch (JsonSyntaxException e){
                                 GeneralDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {

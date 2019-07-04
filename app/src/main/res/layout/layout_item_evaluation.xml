@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="12333"
+            android:layout_marginRight="20dp"
             android:layout_marginLeft="@dimen/dp_10"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size17"/>

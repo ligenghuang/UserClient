@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lgh.huanglib" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
         <!--${applicationId} 不能用固定的包名  不然多渠道到打包会报错-->
         <provider

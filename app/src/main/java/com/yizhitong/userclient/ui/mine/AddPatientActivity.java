@@ -173,7 +173,7 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
         switch (v.getId()) {
             case R.id.rl_patient_name:
                 //todo 修改姓名
-                ModifyDialog modifyDialog = new ModifyDialog(mContext, R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_17));
+                ModifyDialog modifyDialog = new ModifyDialog(mContext, R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_17),tvPatientName.getText().toString());
                 modifyDialog.setOnClickListener(new ModifyDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {

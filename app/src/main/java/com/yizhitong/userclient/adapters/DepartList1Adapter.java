@@ -7,6 +7,7 @@ import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.DepartListDto;
 import com.yizhitong.userclient.event.DepartidDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,13 @@ public class DepartList1Adapter extends BaseRecyclerAdapter<DepartListDto.DataBe
                     getAllData().get(i).setClick(i == position);
                 }
                 notifyDataSetChanged();
-                onClickListener.onClick(model.getIUID(),model.getName(),position,model.getDepart2());
+                List<DepartListDto.DataBean> list = new ArrayList<>();
+                DepartListDto.DataBean dataBean = new DepartListDto.DataBean();
+                dataBean.setIUID(model.getIUID());
+                dataBean.setName(model.getName());
+                list.add(dataBean);
+                list.addAll(model.getDepart2());
+                onClickListener.onClick(model.getIUID(),model.getName(),position,list);
             }
         });
 

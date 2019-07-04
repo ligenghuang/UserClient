@@ -82,7 +82,7 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
 
     }
 
-    @OnClick({R.id.tv_login_btn_login,R.id.tv_login_registered,R.id.tv_login_find_pwd})
+    @OnClick({R.id.tv_login_btn_login, R.id.tv_login_registered, R.id.tv_login_find_pwd})
     void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login_btn_login:
@@ -91,7 +91,7 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
                 break;
             case R.id.tv_login_registered:
                 //todo 注册
-                jumpActivityNotFinish(mContext,RegisteredActivity.class);
+                jumpActivityNotFinish(mContext, RegisteredActivity.class);
                 break;
             case R.id.tv_login_find_pwd:
                 //todo 找回密码
@@ -142,11 +142,12 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
     @Override
     public void LoginSuccessful(LoginDto generalDto) {
         loadDiss();
-       if (generalDto.getCode() != 1){
-           showNormalToast(generalDto.getMsg());
-           return;
-       }
-        MySp.setToken(mContext,generalDto.getData());
+        if (generalDto.getCode() != 1) {
+            showNormalToast(generalDto.getMsg());
+            return;
+        }
+        MySp.setToken(mContext, generalDto.getData());
+        MySp.setRoogUserId(mContext, generalDto.getData());
         finish();
     }
 

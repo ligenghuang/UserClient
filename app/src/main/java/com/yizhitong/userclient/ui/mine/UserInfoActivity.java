@@ -123,7 +123,7 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
     }
 
 
-    @OnClick({R.id.rl_user_portrait,R.id.rl_user_name,R.id.rl_user_id_number,R.id.tv_logout})
+    @OnClick({R.id.rl_user_portrait,R.id.rl_user_name,R.id.rl_user_id_number,R.id.rl_user_phone,R.id.tv_logout})
     void OnClick(View view){
         switch (view.getId()){
             case R.id.rl_user_portrait:
@@ -132,7 +132,7 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
                 break;
             case R.id.rl_user_name:
                 //todo 修改昵称
-                ModifyDialog modifyDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog,ResUtil.getString(R.string.user_info_tip_6));
+                ModifyDialog modifyDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog,ResUtil.getString(R.string.user_info_tip_6),userNameTv.getText().toString());
                 modifyDialog.setOnClickListener(new ModifyDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
@@ -149,7 +149,7 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
                 break;
             case R.id.rl_user_id_number:
                 //todo 修改身份证号码
-                ModifyIdNumberDialog modifyDialog2 = new ModifyIdNumberDialog(mContext,R.style.MY_AlertDialog,ResUtil.getString(R.string.user_info_tip_7));
+                ModifyIdNumberDialog modifyDialog2 = new ModifyIdNumberDialog(mContext,R.style.MY_AlertDialog,ResUtil.getString(R.string.user_info_tip_7),userIdNumberTv.getText().toString());
                 modifyDialog2.setOnClickListener(new ModifyIdNumberDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
@@ -163,6 +163,23 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
                     }
                 });
                 modifyDialog2.show();
+                break;
+            case R.id.rl_user_phone:
+                //todo 修改手机号码
+                ModifyIdNumberDialog modifyDialog3 = new ModifyIdNumberDialog(mContext,R.style.MY_AlertDialog,ResUtil.getString(R.string.user_info_tip_8),userPhoneTv.getText().toString());
+                modifyDialog3.setOnClickListener(new ModifyIdNumberDialog.OnClickListener() {
+                    @Override
+                    public void confirm(String txet) {
+                        if (TextUtils.isEmpty(txet)){
+                            showNormalToast(ResUtil.getString(R.string.user_info_tip_8));
+                        }else {
+                            updataPhone(txet);
+                            hideInput();
+                            modifyDialog3.dismiss();
+                        }
+                    }
+                });
+                modifyDialog3.show();
                 break;
             case R.id.tv_logout:
                 //todo 退出登录
@@ -201,13 +218,8 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
         userNameTv.setText(dataBean.getNicename());
         userPhoneTv.setText(dataBean.getPhome());
         String portrait = dataBean.getNiceImg();
-        if (portrait.indexOf("H5/Uimg") != -1) {
-            GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + portrait, userPortaitIv, R.drawable.icon_placeholder);
-            L.e("lgh", WebUrlUtil.IMG_URL + portrait);
-        } else {
-            GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + "H5/Uimg" + portrait, userPortaitIv, R.drawable.icon_placeholder);
-            L.e("lgh", WebUrlUtil.IMG_URL + "H5/Uimg" + portrait);
-        }
+        GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + portrait, userPortaitIv, R.drawable.icon_placeholder);
+        L.e("lgh", WebUrlUtil.IMG_URL + portrait);
     }
 
     /**
@@ -253,6 +265,19 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
     }
 
     /**
+     * 修改手机号码
+     * @param phone
+     */
+    @Override
+    public void updataPhone(String phone) {
+        if (CheckNetwork.checkNetwork2(mContext)) {
+            loadDialog();
+            updata = 4;
+            baseAction.updataPhone(phone);
+        }
+    }
+
+    /**
      * 修改成功
      *
      * @param updataInfoDto
@@ -273,6 +298,10 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
                 case 3:
                     //TODO 身份证号码
                     userIdNumberTv.setText(updataInfoDto.getData().getIdnumber());
+                    break;
+                case 4:
+                    //todo 手机号
+                    userPhoneTv.setText(updataInfoDto.getData().getPhome());
                     break;
             }
         }

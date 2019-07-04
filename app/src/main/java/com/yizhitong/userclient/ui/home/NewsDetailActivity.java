@@ -2,6 +2,7 @@ package com.yizhitong.userclient.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +12,6 @@ import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.config.GlideUtil;
-import com.lgh.huanglib.util.cusview.richtxtview.XRichText;
 import com.lgh.huanglib.util.data.IsFastClick;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
@@ -24,9 +24,13 @@ import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
+import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.BitmapStream;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
+import com.zzhoujay.richtext.ig.ImageDownloader;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
@@ -69,6 +73,8 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
     TextView mTvConsult;
     @BindView(R.id.textview)
     TextView textview;
+    @BindView(R.id.cardview)
+    CardView cardview;
 
     String doctorId;
 
@@ -109,7 +115,7 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         mContext = this;
         mActicity = this;
         iuid = getIntent().getStringExtra("iuid");
-
+        textview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         getNewsDetail();
     }
 
@@ -141,25 +147,22 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         RichText.initCacheDir(this);
         RichText.debugMode = true;
         RichText.from(Util.toUtf8(dataBean.getThe_note()))
-                .urlClick(new OnUrlClickListener() {
-                    @Override
-                    public boolean urlClicked(String url) {
-                        if (url.startsWith("code://")) {
-//                            Toast.makeText(MainActivity.this, url.replaceFirst("code://", ""), Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                        return false;
-                    }
-                })
+                .autoPlay(true) // gif图片是否自动播放
+                .scaleType(ImageHolder.ScaleType.fit_center) // 图片缩放方式
                 .into(textview);
         NewsDetailDto.DataBean.DoctorMVBean doctorMVBean = dataBean.getDoctorMV();
-        doctorId = doctorMVBean.getIUID();
-        GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + doctorMVBean.getThe_img(), mIvCard, R.drawable.icon_placeholder);
-        mTvDoctorName.setText(doctorMVBean.getName());
-        mTvDoctorLevel.setText(doctorMVBean.getThe_level());
-        mTvDoctorHospital.setText(doctorMVBean.getHospital());
-        mTvDoctorNote.setText(ResUtil.getFormatString(R.string.news_detail_tip_2, doctorMVBean.getThe_spec()));
+       if (doctorMVBean != null){
+           cardview.setVisibility(View.VISIBLE);
+           doctorId = doctorMVBean.getIUID();
+           GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + doctorMVBean.getThe_img(), mIvCard, R.drawable.icon_placeholder);
+           mTvDoctorName.setText(doctorMVBean.getName());
+           mTvDoctorLevel.setText(doctorMVBean.getThe_level());
+           mTvDoctorHospital.setText(doctorMVBean.getHospital());
+           mTvDoctorNote.setText(ResUtil.getFormatString(R.string.news_detail_tip_2, doctorMVBean.getThe_spec()));
 //        GlideUtil.setImage(mContext,WebUrlUtil.IMG_URL+dataBean.getThe_img(),newsImgIv,0);
+       }else {
+           cardview.setVisibility(View.GONE);
+       }
     }
 
     @Override

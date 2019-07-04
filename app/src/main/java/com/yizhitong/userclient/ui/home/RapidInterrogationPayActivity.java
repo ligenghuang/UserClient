@@ -6,17 +6,20 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.base.ActivityStack;
+import com.lgh.huanglib.util.config.GlideUtil;
 import com.lgh.huanglib.util.data.PriceUtils;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.RapidInterrogationPayAction;
 import com.yizhitong.userclient.adapters.ImageItemAdapter;
 import com.yizhitong.userclient.event.InquiryInfoDto;
+import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationPayView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
@@ -54,9 +57,25 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
     @BindView(R.id.rv_img)
     RecyclerView mRvImg;
 
+    @BindView(R.id.iv_inquiry)
+    ImageView mIvInquiry;
+    @BindView(R.id.tv_inquiry_doctor_name)
+    TextView mTvInquiryDoctorName;
+    @BindView(R.id.tv_inquiry_doctor_level)
+    TextView mTvInquiryDoctorLevel;
+    @BindView(R.id.tv_inquiry_doctor_hospital)
+    TextView mTvInquiryDoctorHospital;
+    @BindView(R.id.ll_inquiry_doctor_info)
+    LinearLayout mLlInquiryDoctorInfo;
+    @BindView(R.id.tv_inquiry_doctor)
+    TextView mTvInquiryDoctor;
+
     String iuid;
     ImageItemAdapter imageItemAdapter;
     boolean isRead = false;
+
+
+
 
     @Override
     public int intiLayout() {
@@ -73,6 +92,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         super.onCreate(savedInstanceState);
         ActivityStack.getInstance().addActivity(new WeakReference<>(this));
         binding();
+        initView();
     }
 
     @Override
@@ -97,7 +117,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
 
         iuid = getIntent().getStringExtra("id");
 
-        imageItemAdapter = new ImageItemAdapter(mContext,false);
+        imageItemAdapter = new ImageItemAdapter(mContext, false);
         mRvImg.setLayoutManager(new GridLayoutManager(mContext, 4));
         mRvImg.setAdapter(imageItemAdapter);
 
@@ -115,9 +135,9 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
                 mTvPay.setSelected(isRead);
                 break;
             case R.id.tv_pay:
-               if (isRead){
+                if (isRead) {
 //                   jumpActivityNotFinish(mContext,OrderPaySuccessfulActivity.class);
-               }
+                }
                 break;
         }
     }
@@ -147,6 +167,19 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         mTvInquiryMoney.setText(money);
         mTvMoney.setText(money);
         imageItemAdapter.refresh(dataBean.getIll_img());
+        if (!dataBean.getDocUserId().isEmpty()) {
+            //todo 已分配医生
+            GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL+dataBean.getThe_img(),mIvInquiry,R.drawable.icon_placeholder);
+            mLlInquiryDoctorInfo.setVisibility(View.VISIBLE);
+            mTvInquiryDoctor.setVisibility(View.GONE);
+            mTvInquiryDoctorHospital.setText(dataBean.getHospital());
+            mTvInquiryDoctorName.setText(dataBean.getDoctorName());
+            mTvInquiryDoctorLevel.setText("("+dataBean.getThe_level()+")");
+        }else {
+            //todo 未分配医生
+            mLlInquiryDoctorInfo.setVisibility(View.GONE);
+            mTvInquiryDoctor.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -176,6 +209,5 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
             baseAction.toUnregister();
         }
     }
-
 
 }

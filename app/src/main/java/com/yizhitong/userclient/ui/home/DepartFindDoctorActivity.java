@@ -105,6 +105,7 @@ public class DepartFindDoctorActivity extends UserBaseActivity<DepartFindDoctorA
         departListAdapter.setOnClickListener(new DepartListAdapter.OnClickListener() {
             @Override
             public void onClick(String name, String id) {
+                //todo 跳转至搜索医生页
                 Intent intent = new Intent(mContext,FindDoctorActivity.class);
                 intent.putExtra("departName",name);
                 intent.putExtra("departId",id);

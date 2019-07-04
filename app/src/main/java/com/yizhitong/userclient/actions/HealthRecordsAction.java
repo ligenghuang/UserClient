@@ -26,11 +26,25 @@ public class HealthRecordsAction extends BaseAction<HealthRecordsView> {
         attachView(view);
     }
 
-
+    /**
+     * 获取问诊人信息列表
+     */
     public void getMyPatient(){
         post(WebUrlUtil.POST_MY_PATIENT, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
                         WebUrlUtil.POST_MY_PATIENT)
+        ));
+    }
+
+    /**
+     * 删除问诊人
+     * @param id
+     */
+    public void deletePatient(String id){
+        post(WebUrlUtil.POST_DELETE_PATIENT, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
+                        CollectionsUtils.generateMap("patientId",id),
+                        WebUrlUtil.POST_DELETE_PATIENT)
         ));
     }
 
@@ -59,6 +73,7 @@ public class HealthRecordsAction extends BaseAction<HealthRecordsView> {
 
                 switch (action.getIdentifying()) {
                     case WebUrlUtil.POST_MY_PATIENT:
+                        //todo 获取问诊人信息列表
                         if (aBoolean){
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
@@ -69,6 +84,18 @@ public class HealthRecordsAction extends BaseAction<HealthRecordsView> {
                             } else {
                                 view.onError(patientListDto.getMsg(), patientListDto.getCode());
                             }
+                            return;
+                        }
+                        view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_DELETE_PATIENT:
+                        //todo 删除问诊人
+                        if (aBoolean){
+                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            Gson gson = new Gson();
+                            GeneralDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                            }.getType());
+                           view.deletePatientSuccessful(generalDto);
                             return;
                         }
                         view.onError(msg, action.getErrorType());

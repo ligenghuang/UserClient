@@ -45,7 +45,11 @@ public class AddressManagementAdapter extends BaseRecyclerAdapter<AddressListDto
             model.setClick(false);
         }
         ImageView imageView = holder.itemView.findViewById(R.id.iv_item);
-        imageView.setImageResource(isEditor?R.drawable.selector_radio_bg:R.drawable.prescription_template1);
+        int resId = 0;
+        if (type == 0){
+            resId = R.drawable.prescription_template1;
+        }
+        imageView.setImageResource(isEditor?R.drawable.selector_radio_bg:resId);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +31,9 @@ import com.yizhitong.userclient.ui.impl.DoctorDetailView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.cusview.CollapsibleTextView;
+import com.yizhitong.userclient.utils.cusview.CustomLinearLayoutManager;
 import com.yizhitong.userclient.utils.cusview.ScoreCircle;
+import com.yizhitong.userclient.utils.data.MySp;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -89,6 +92,7 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
     ScoreCircle scoreCircle;
 
     EvaluationAdapter evaluationAdapter;
+    CustomLinearLayoutManager linearLayoutManager;
 
     String iuid;
     boolean isAttention;
@@ -132,7 +136,10 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
 
         evaluationAdapter = new EvaluationAdapter(this);
         evaluationRv.setAdapter(evaluationAdapter);
-        evaluationRv.setLayoutManager(new LinearLayoutManager(mContext));
+        linearLayoutManager = new CustomLinearLayoutManager(this);
+        linearLayoutManager.setScrollEnabled(true);
+        linearLayoutManager.setStackFromEnd(true);
+        evaluationRv.setLayoutManager(linearLayoutManager);
 
         iuid = getIntent().getStringExtra("iuid");
 
@@ -146,6 +153,10 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
             default:
                 break;
             case R.id.tv_doctor_attention:
+                if (!MySp.iSLoginLive(mContext)) {
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return ;
+                }
                 if (isAttention) {
                     removeDoctor();
                 } else {
@@ -153,8 +164,13 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
                 }
                 break;
             case R.id.tv_pay:
-                Intent intent = new Intent(mContext, RapidInterrogationActivity.class);
+                if (!MySp.iSLoginLive(mContext)) {
+                    jumpActivityNotFinish(mContext, LoginActivity.class);
+                    return ;
+                }
+                Intent intent = new Intent(mContext, DoctorVisitsActivity.class);
                 intent.putExtra("isShow", true);
+                intent.putExtra("doctorid",iuid);
                 startActivity(intent);
                 break;
         }
@@ -178,12 +194,12 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
         titleTv.setText(dataBean.getName() + "  医生");
         mTvDoctorHospital.setText(dataBean.getHospital());
         mTvDoctorLevel.setText(dataBean.getThe_level());
-        mTvDoctorNote.setDesc(dataBean.getThe_note());
-        mTvDoctorSpec.setDesc(dataBean.getThe_spec());
+        mTvDoctorNote.setDesc(TextUtils.isEmpty(dataBean.getThe_note())?"暂无":dataBean.getThe_note());
+        mTvDoctorSpec.setDesc(TextUtils.isEmpty(dataBean.getThe_spec())?"暂无":dataBean.getThe_spec());
         mTvDoctorConsulting.setText(dataBean.getAsk_num() + "人");
         mTvDoctorGoodReputation.setText(dataBean.getGood_num() + "人");
         mTvDoctorBuy.setText(dataBean.getBuy_num() + "人");
-        mTvTime.setText(ResUtil.getFormatString(R.string.doctor_detail_tip_13, dataBean.getAnswer_len()));
+        mTvTime.setText(ResUtil.getFormatString(R.string.doctor_detail_tip_13, TextUtils.isEmpty(dataBean.getAnswer_len())?"0":dataBean.getAnswer_len()));
         int num = (int) (dataBean.getThe_per() * 100);
         L.e("lgh_num", "num = " + num);
         mTvDoctorNum.setText(Html.fromHtml(ResUtil.getFormatString(R.string.doctor_detail_tip_8, num + "%")));

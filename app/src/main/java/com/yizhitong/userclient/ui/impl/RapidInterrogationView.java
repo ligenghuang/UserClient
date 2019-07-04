@@ -1,6 +1,8 @@
 package com.yizhitong.userclient.ui.impl;
 
 import com.lgh.huanglib.util.base.BaseView;
+import com.yizhitong.userclient.event.AddAskHesdDto;
+import com.yizhitong.userclient.event.AmountDto;
 import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.post.AddAskHeadPost;
 
@@ -16,7 +18,7 @@ public interface RapidInterrogationView extends BaseView {
 
     void getRegisteredAmount();
 
-    void getRegisteredAmountSuccessful(double amiunt);
+    void getRegisteredAmountSuccessful(AmountDto amount);
 
     void fileName(String path);
 
@@ -24,5 +26,5 @@ public interface RapidInterrogationView extends BaseView {
 
     void addAskHead(List<String> imgs, AddAskHeadPost post);
 
-    void addAskHeadSuccessful(String generalDto);
+    void addAskHeadSuccessful(AddAskHesdDto generalDto);
 }

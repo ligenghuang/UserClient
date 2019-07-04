@@ -70,7 +70,6 @@ public class DoctorCertifiedAction extends BaseAction<DoctorCertifiedView> {
                 .addFormDataPart("sex", post.getSex())//todo 性别
                 .addFormDataPart("practicing_time",post.getPracticing_time())//todo 从业时间
                 .addFormDataPart("the_level",post.getThe_level())//todo 职称
-                .addFormDataPart("the_spec",post.getThe_spec())//todo 特长
                 .addFormDataPart("departName",post.getDepartName())//todo 科室
                 .addFormDataPart("hospital",post.getHospital())//todo 在职医院
                 .addFormDataPart("isPrescribe",post.getIsPrescribe()+"") //todo 是否开处方

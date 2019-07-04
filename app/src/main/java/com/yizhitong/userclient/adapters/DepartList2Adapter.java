@@ -25,12 +25,12 @@ public class DepartList2Adapter extends BaseRecyclerAdapter<DepartListDto.DataBe
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onClick(model.getIUID(),model.getName());
+                onClickListener.onClick(model.getIUID(),model.getName(),model.getParentid());
             }
         });
     }
 
     public interface OnClickListener{
-        void onClick(String IUID, String name);
+        void onClick(String IUID, String name,String departId);
     }
 }

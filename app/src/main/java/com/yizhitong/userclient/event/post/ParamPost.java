@@ -4,6 +4,15 @@ public class ParamPost {
 
     private String nicename;
     private String idnumber;
+    private String phome;
+
+    public String getPhome() {
+        return phome == null ? "" : phome;
+    }
+
+    public void setPhome(String phome) {
+        this.phome = phome;
+    }
 
     public String getNicename() {
         return nicename == null ? "" : nicename;
@@ -32,4 +41,10 @@ public class ParamPost {
                 "\"idnumber\":\'" + idnumber + "\'" +
                 '}';
     }
+    public String toPhone() {
+        return "{" +
+                "\"phome\":\'" + phome + "\'" +
+                '}';
+    }
+
 }

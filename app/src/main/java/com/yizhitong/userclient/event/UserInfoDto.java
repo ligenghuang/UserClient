@@ -6,7 +6,7 @@ public class UserInfoDto {
     /**
      * code : 1
      * msg : success
-     * data : {"iuid":"b4aece8e-0014-494c-bed1-ac900dac1f25","userid":"539950","phome":"18566144389","e_mail":null,"password":"E1ADC3949BA59ABBE56E057F2F88","transactionpwd":null,"actualname":null,"idnumber":"2892827839291773","isverified":0,"isphome":true,"ise_mail":false,"isgoogle":false,"invitationcode":"90623968","superiorID":null,"registrationTime":"/Date(1551666262763)/","inputfile":null,"inputfile1":null,"inputfile2":null,"verifiedRemarks":null,"the_class":null,"the_point":null,"sys_flag":1,"nicename":"144389","coin_address":null,"capitalPassword":null,"niceImg":"/H5/Uimg/18566144389/201963192055855j.jpg","isMineOwner":null,"proportion":null,"frzzez":null,"the_date":null,"assets":null,"url":null,"XXcount":null,"vip_star":null,"Accessid":0,"healthCoin":null,"openId":null}
+     * data : {"iuid":"b4aece8e-0014-494c-bed1-ac900dac1f25","userid":"539950","phome":"13800138000","e_mail":null,"password":"E1ADC3949BA59ABBE56E057F2F88","transactionpwd":null,"actualname":null,"idnumber":"1234567890123","isverified":0,"isphome":true,"ise_mail":false,"isgoogle":false,"invitationcode":"90623968","superiorID":null,"registrationTime":"/Date(1551666262763)/","inputfile":null,"inputfile1":null,"inputfile2":null,"verifiedRemarks":null,"the_class":null,"the_point":null,"sys_flag":1,"nicename":"积极","coin_address":null,"capitalPassword":null,"niceImg":"/H5/13800138000/2019626122241147j.jpg","isMineOwner":null,"proportion":null,"frzzez":null,"the_date":null,"assets":null,"url":null,"XXcount":null,"vip_star":null,"Accessid":0,"healthCoin":null,"openId":null}
      */
 
     private int code;
@@ -41,12 +41,12 @@ public class UserInfoDto {
         /**
          * iuid : b4aece8e-0014-494c-bed1-ac900dac1f25
          * userid : 539950
-         * phome : 18566144389
+         * phome : 13800138000
          * e_mail : null
          * password : E1ADC3949BA59ABBE56E057F2F88
          * transactionpwd : null
          * actualname : null
-         * idnumber : 2892827839291773
+         * idnumber : 1234567890123
          * isverified : 0
          * isphome : true
          * ise_mail : false
@@ -61,10 +61,10 @@ public class UserInfoDto {
          * the_class : null
          * the_point : null
          * sys_flag : 1
-         * nicename : 144389
+         * nicename : 积极
          * coin_address : null
          * capitalPassword : null
-         * niceImg : /H5/Uimg/18566144389/201963192055855j.jpg
+         * niceImg : /H5/13800138000/2019626122241147j.jpg
          * isMineOwner : null
          * proportion : null
          * frzzez : null
@@ -113,7 +113,7 @@ public class UserInfoDto {
         private Object XXcount;
         private Object vip_star;
         private int Accessid;
-        private String healthCoin;
+        private int healthCoin;
         private Object openId;
 
         public String getIuid() {
@@ -396,11 +396,11 @@ public class UserInfoDto {
             Accessid = accessid;
         }
 
-        public String getHealthCoin() {
-            return healthCoin == null ? "0" : healthCoin;
+        public int getHealthCoin() {
+            return healthCoin;
         }
 
-        public void setHealthCoin(String healthCoin) {
+        public void setHealthCoin(int healthCoin) {
             this.healthCoin = healthCoin;
         }
 

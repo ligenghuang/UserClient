@@ -206,7 +206,7 @@ public class DoctorCertifiedActivity extends UserBaseActivity<DoctorCertifiedAct
                 break;
             case R.id.rl_user_name:
                 //todo 姓名
-                ModifyDialog modifyDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_17));
+                ModifyDialog modifyDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_17),userNameTv.getText().toString());
                 modifyDialog.setOnClickListener(new ModifyDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {
@@ -245,7 +245,7 @@ public class DoctorCertifiedActivity extends UserBaseActivity<DoctorCertifiedAct
                 break;
             case R.id.rl_user_jobs:
                 //todo 职位
-                ModifyDialog modifyJobDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_18));
+                ModifyDialog modifyJobDialog = new ModifyDialog(mContext,R.style.MY_AlertDialog, ResUtil.getString(R.string.doctor_certified_tip_18),userJobsTv.getText().toString());
                 modifyJobDialog.setOnClickListener(new ModifyDialog.OnClickListener() {
                     @Override
                     public void confirm(String txet) {

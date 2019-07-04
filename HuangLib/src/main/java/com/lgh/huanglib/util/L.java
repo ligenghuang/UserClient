@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class L {
 
     public static boolean isDebug = BuildConfig.DEBUG;
-    private static final String TAG = "lgc";
+    private static final String TAG = "lgh";
     /**
      * logcat在实现上对于message的内存分配大概,2k左右, 所以超过的内容都直接被丢弃,设置文本长度超过LOG_MAXLENGTH分多条打印
      */

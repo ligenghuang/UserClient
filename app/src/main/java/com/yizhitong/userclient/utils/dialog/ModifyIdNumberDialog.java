@@ -33,15 +33,17 @@ public class ModifyIdNumberDialog extends Dialog {
     TextView titleTv;
 
     OnClickListener onClickListener;
+    String str;
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
-    public ModifyIdNumberDialog(@NonNull Context context, int themeResId, String title) {
+    public ModifyIdNumberDialog(@NonNull Context context, int themeResId, String title,String str) {
         super(context, themeResId);
         this.context = context;
         this.title = title;
+        this.str = str;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class ModifyIdNumberDialog extends Dialog {
 
     private void initView() {
         titleTv.setText(title);
-
+        contentEt.setText(str);
     }
 
     @Override

@@ -11,10 +11,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.event.StoreEvent;
+import com.lgh.huanglib.net.CollectionsUtils;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.base.MyFragmentPagerAdapter;
@@ -22,7 +24,9 @@ import com.lgh.huanglib.util.cusview.CustomViewPager;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.BaseAction;
 import com.yizhitong.userclient.event.MessageDto;
+import com.yizhitong.userclient.event.RoogIMDto;
 import com.yizhitong.userclient.event.SendMessageDto;
+import com.yizhitong.userclient.event.WXAccessTokenEntity;
 import com.yizhitong.userclient.event.post.SendMessagePost;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.home.HomeFragment;
@@ -31,9 +35,14 @@ import com.yizhitong.userclient.ui.message.MessageFragment;
 import com.yizhitong.userclient.ui.mine.MineFragment;
 import com.yizhitong.userclient.ui.mine.MyPrescriptionFragment;
 import com.yizhitong.userclient.ui.physicianvisits.PhysicianvisitsFragment;
+import com.yizhitong.userclient.utils.Constanst;
+import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.cusview.NotificationHelper;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
@@ -57,8 +66,10 @@ import javax.net.ssl.X509TrustManager;
 
 import butterknife.BindView;
 import butterknife.OnTouch;
+import io.rong.imlib.RongIMClient;
 
 import static com.lgh.huanglib.event.EventBusUtils.post;
+import static com.yizhitong.userclient.utils.Constanst.appSecret;
 
 public class MainActivity extends UserBaseActivity {
 
@@ -327,7 +338,7 @@ public class MainActivity extends UserBaseActivity {
                         sendEvent(StoreEvent.ACTION_KEY_SUCCESS, 200, WebUrlUtil.GET_MESSAGE_1,
                                 Action.KEY_OBJ, message);
                         if (MySp.getMessage(mContext)) {
-                            NotificationHelper.show(mContext, messageDto);
+//                            NotificationHelper.show(mContext, messageDto);
                         }
                     } else if (messageDto.getEvent().equals("return")) {
                         sendEvent(StoreEvent.ACTION_KEY_SUCCESS, 200, WebUrlUtil.GET_MESSAGE,
@@ -524,6 +535,7 @@ public class MainActivity extends UserBaseActivity {
         super.onResume();
         if (isFirst && MySp.iSLoginLive(mContext)) {
             loginSocket();
+            loginRoogIM(MySp.getRoogUserId(mContext),MySp.getRoogUserName(mContext),WebUrlUtil.IMG_URL+MySp.getRoogUserImg(mContext));
         }
         if (!MySp.iSLoginLive(mContext)) {
             if (client != null) {
@@ -549,5 +561,81 @@ public class MainActivity extends UserBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(runnable);
+    }
+
+    private void loginRoogIM(String userId,String name,String portraitUri){
+        int rand = Util.getRandom();
+        String timestamp = DynamicTimeFormat.getTimestamp();
+        String signature = Util.shaEncrypt(appSecret+rand+timestamp);
+        OkHttpUtils.post().url("http://api-cn.ronghub.com/user/getToken.json")
+                .addHeader("App-Key",Constanst.appkey)
+                .addHeader("Nonce",rand+"")
+                .addHeader("Timestamp",timestamp)
+                .addHeader("Signature",signature)
+                .addParams("userId", userId)
+                .addParams("name", "123")
+                .addParams("portraitUri", "http://www.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(okhttp3.Call call, Exception e, int id) {
+                        L.d("lgh_userId","请求错误.."+e.toString());
+                        L.d("lgh_userId","请求错误.."+call.toString());
+                        L.d("lgh_userId","请求错误.."+call.request().url().toString());
+                        L.d("lgh_userId","请求错误.."+call.request().toString());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.d("response:" + response);
+                        RoogIMDto roogIMDto = JSON.parseObject(response, RoogIMDto.class);
+                        if (roogIMDto.getCode() == 200) {
+                            L.d("lgh_userId","成功....."+roogIMDto.toString());
+//                            loginlistener.onSuccess(accessTokenEntity);
+                            connect(roogIMDto.getToken());
+                            MySp.setRoogToken(mContext,roogIMDto.getToken());
+                        } else {
+                            L.d("lgh_userId","获取失败");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 连接融云服务器
+     * @param token
+     */
+    private void connect(String token) {
+        RongIMClient.connect(token, new RongIMClient.ConnectCallback() {
+
+            /**
+             * Token 错误。可以从下面两点检查 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
+             *                            2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
+             */
+            @Override
+            public void onTokenIncorrect() {
+
+            }
+
+            /**
+             * 连接融云成功
+             * @param userid 当前 token 对应的用户 id
+             */
+            @Override
+            public void onSuccess(String userid) {
+                L.e("lgh_userId","onSuccess  userId  = "+userid);
+                MySp.setRoogLoginUserId(mContext,userid);
+//                finish();
+            }
+
+            /**
+             * 连接融云失败
+             * @param errorCode 错误码，可到官网 查看错误码对应的注释
+             */
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                L.e("lgh_userId","onError  errorCode  = "+errorCode);
+            }
+        });
     }
 }

@@ -35,7 +35,7 @@
                 android:layout_marginBottom="10dp"
                 />
 
-            <com.lgh.huanglib.util.cusview.richtxtview.XRichText
+            <TextView
                 android:id="@+id/tv_item_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

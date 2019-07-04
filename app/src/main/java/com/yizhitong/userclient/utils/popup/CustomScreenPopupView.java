@@ -91,6 +91,13 @@ public class CustomScreenPopupView extends PartShadowPopupView {
                 the_level = name;
                 typeListAdapter1.notifyDataSetChanged();
             }
+
+            @Override
+            public void onNoClick(int position) {
+                typeListAdapter1.getAllData().get(position).setClick(false);
+                the_level = "";
+                typeListAdapter1.notifyDataSetChanged();
+            }
         });
 
         typeListAdapter2.setOnClickListener(new TypeListAdapter.OnClickListener() {
@@ -100,6 +107,13 @@ public class CustomScreenPopupView extends PartShadowPopupView {
                     typeListAdapter2.getAllData().get(i).setClick(i == position);
                 }
                 money = name;
+                typeListAdapter2.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNoClick(int position) {
+                typeListAdapter2.getAllData().get(position).setClick(false);
+                money = "";
                 typeListAdapter2.notifyDataSetChanged();
             }
         });

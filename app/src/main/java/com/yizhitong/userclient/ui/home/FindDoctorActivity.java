@@ -85,6 +85,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
     String condition = "";
     int type = 0;
     String departId = "0";
+    int Index=0;
 
     @Override
     public int intiLayout() {
@@ -234,14 +235,15 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
     private void showCustomCityPopupView() {
         customCitytPopupView = (CustomCitytPopupView) new XPopup.Builder(mContext)
                 .atView(mLlTab1)
-                .asCustom(new CustomCitytPopupView(mContext, mTvTab2.getText().toString()));
+                .asCustom(new CustomCitytPopupView(mContext, mTvTab2.getText().toString(),Index));
         customCitytPopupView.setOnClickListener(new CustomCitytPopupView.OnClickListener() {
             @Override
-            public void onDepartPopupClick(String city, String name) {
+            public void onDepartPopupClick(String city, String name,int index) {
                 mTvTab2.setText(name);
                 post.setRegion(city);
                 findDoctor(post);
                 customCitytPopupView.dismiss();
+                Index = index;
             }
         });
         customCitytPopupView.show();
@@ -271,8 +273,9 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
                 .asCustom(new CustomDepartPopupView(mContext, departListDto, mTvTab1.getText().toString(),departId));
         customDepartPopupView.setOnClickListener(new CustomDepartPopupView.OnClickListener() {
             @Override
-            public void onDepartPopupClick(String id, String name) {
+            public void onDepartPopupClick(String id, String name,String depart) {
                 mTvTab1.setText(name);
+                departId = depart;
                 post.setDepartid(id.equals("0") ? "" : id);
                 findDoctor(post);
                 customDepartPopupView.dismiss();
@@ -289,10 +292,18 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
         }
     }
 
+    /**
+     * 搜索医生 成功
+     * @param findDoctorDto
+     */
     @Override
     public void findDoctorSuccessful(FindDoctorDto findDoctorDto) {
         loadDiss();
+        mRvDoctor.setVisibility(View.VISIBLE);
         findDoctorAdapter.refresh(findDoctorDto.getData());
+        if (findDoctorAdapter.getAllData().size() == 0){
+
+        }
     }
 
     @Override

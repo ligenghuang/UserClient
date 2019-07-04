@@ -13,8 +13,8 @@ android {
         android.applicationVariants.all { variant ->
             variant.outputs.all {
                 if ("release".equals(variant.buildType.name)) {
-                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_test_release.apk"
-//                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_formal_release.apk"
+//                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_test_release.apk"
+                    def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_formal_release.apk"
                     outputFileName = fileName
                 } else if ("debug".equals(variant.buildType.name)) {
                     def fileName = "yizhitong_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${packageTime()}_debug.apk"
@@ -23,6 +23,7 @@ android {
 //                outputFileName = "${variant.name}-${variant.versionName}.apk"
             }
         }
+
     }
     buildTypes {
         release {
@@ -36,6 +37,8 @@ android {
         jcenter()
         maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
     }
+
+
 
     //去除检查 错误提示
     lintOptions {
@@ -80,4 +83,12 @@ dependencies {
     compile 'com.pgyersdk:sdk:2.8.1'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.zzhoujay.richtext:richtext:3.0.7'
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.2.0'
+    compile 'com.alibaba:fastjson:1.1.56.android'
+    compile ('com.zhy:okhttputils:2.6.2', {
+        exclude group: 'com.squareup.okhttp3'
+    })
+    implementation project(':CallLib')
+    implementation project(':IMLib')
+
 }
