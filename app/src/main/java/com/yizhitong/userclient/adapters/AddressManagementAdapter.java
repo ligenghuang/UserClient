@@ -7,10 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yizhitong.userclient.R;
-import com.yizhitong.userclient.event.AddressInfoDto;
 import com.yizhitong.userclient.event.AddressListDto;
 import com.yizhitong.userclient.ui.mine.AddAddressActivity;
-import com.yizhitong.userclient.utils.Util;
 
 public class AddressManagementAdapter extends BaseRecyclerAdapter<AddressListDto.DataBean> {
     boolean isEditor = false;

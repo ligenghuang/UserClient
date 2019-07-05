@@ -12,11 +12,9 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.yizhitong.userclient.event.AddAskHesdDto;
 import com.yizhitong.userclient.event.AmountDto;
 import com.yizhitong.userclient.event.GeneralDto;
-import com.yizhitong.userclient.event.NewsDetailDto;
 import com.yizhitong.userclient.event.post.AddAskHeadPost;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationView;
-import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.config.MyApp;
 
 import org.greenrobot.eventbus.Subscribe;

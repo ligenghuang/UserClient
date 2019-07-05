@@ -124,7 +124,7 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     @Override
     public void isLoginError() {
         loadDiss();
-        jumpActivityNotFinish(mContext, LoginActivity.class);
+//        jumpActivityNotFinish(mContext, LoginActivity.class);
     }
 
     /**

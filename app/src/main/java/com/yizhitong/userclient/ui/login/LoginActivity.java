@@ -146,8 +146,10 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
             showNormalToast(generalDto.getMsg());
             return;
         }
-        MySp.setToken(mContext, generalDto.getData());
-        MySp.setRoogUserId(mContext, generalDto.getData());
+        MySp.setToken(mContext, generalDto.getData().getIuid());
+        MySp.setRoogUserId(mContext, generalDto.getData().getIuid());
+        MySp.setRoogUserImg(mContext,generalDto.getData().getNiceImg());
+        MySp.setRoogUserName(mContext,generalDto.getData().getNicename());
         finish();
     }
 

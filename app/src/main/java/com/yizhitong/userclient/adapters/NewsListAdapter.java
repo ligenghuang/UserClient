@@ -4,21 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.config.GlideUtil;
-import com.lgh.huanglib.util.cusview.richtxtview.XRichText;
-import com.lgh.huanglib.util.data.IsFastClick;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.NewsBytheClassDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
-import com.yizhitong.userclient.ui.MainActivity;
 import com.yizhitong.userclient.ui.home.HomeFragment;
 import com.yizhitong.userclient.ui.home.NewsDetailActivity;
-import com.yizhitong.userclient.utils.Util;
-import com.zzhoujay.richtext.RichText;
-import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
 /**
  * description ： 首页新闻列表 适配器
@@ -39,8 +31,8 @@ public class NewsListAdapter extends BaseRecyclerAdapter<NewsBytheClassDto.DataB
         holder.setIsRecyclable(false);
         holder.text(R.id.tv_item_title, model.getThe_title());
 //        XRichText xRichText = holder.itemView.findViewById(R.id.tv_item_content);
-//        xRichText.text(Util.replaceAll(Util.toUtf8(model.getThe_note())));
-//        L.e("lgh_note1",Util.replaceAll(Util.toUtf8(model.getThe_note())));
+//        xRichText.text(AppUtil.replaceAll(AppUtil.toUtf8(model.getThe_note())));
+//        L.e("lgh_note1",AppUtil.replaceAll(AppUtil.toUtf8(model.getThe_note())));
 
         holder.text(R.id.tv_item_content, model.getShow_text());
         ImageView imageView = holder.itemView.findViewById(R.id.iv_item_news);

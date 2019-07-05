@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yizhitong.userclient">
-    <!-- 8867c8490cf0765131891d361b65e8b1-->
-
+    <!-- 8867c8490cf0765131891d361b65e8b1 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-
-
-    <!-- 可选-->
+    <uses-permission android:name="android.permission.GET_TASKS" /> <!-- 可选 -->
     <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".utils.config.MyApp"
@@ -28,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/activity_theme">
-        <activity android:name=".ui.home.OrderPaySuccessfulActivity"></activity>
+        <activity android:name=".ui.message.RongRTCVideoActivity"></activity>
+        <activity android:name=".ui.home.OrderPaySuccessfulActivity" />
         <activity android:name=".ui.home.DoctorDetailActivity" />
         <activity android:name=".ui.home.FindDoctorActivity" />
         <activity android:name=".ui.home.RapidInterrogationPayActivity" />
@@ -69,12 +68,13 @@
         <activity android:name=".ui.mine.DoctorCertifiedActivity" />
         <activity android:name=".ui.mine.SpecialtyActivity" />
         <activity android:name=".ui.message.MessageDetailActivity" />
-        <activity android:name=".ui.mine.SettingActivity"/>
-        <activity android:name=".ui.home.DoctorVisitsActivity"/>
+        <activity android:name=".ui.mine.SettingActivity" />
+        <activity android:name=".ui.home.DoctorVisitsActivity" />
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="c9kqb3rdc4wxj" />
+
 
     </application>
 

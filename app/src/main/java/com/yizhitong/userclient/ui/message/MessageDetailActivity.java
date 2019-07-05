@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
@@ -35,6 +37,7 @@ import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.MessageDetailAction;
 import com.yizhitong.userclient.adapters.CommonLanguageAdpater;
 import com.yizhitong.userclient.adapters.MessageDetailListAdapter;
+import com.yizhitong.userclient.event.CheckOnlineDto;
 import com.yizhitong.userclient.event.CommonLanguageListDto;
 import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.MessageDetailInquiryDto;
@@ -53,16 +56,33 @@ import com.yizhitong.userclient.utils.data.MySp;
 import com.yizhitong.userclient.utils.dialog.PicturesDialog;
 import com.yizhitong.userclient.utils.imageloader.GlideImageLoader;
 import com.yizhitong.userclient.utils.photo.PicUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.java_websocket.client.WebSocketClient;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.callkit.MultiVideoCallActivity;
+import io.rong.callkit.RongCallAction;
+import io.rong.callkit.RongCallKit;
+import io.rong.callkit.RongVoIPIntent;
+import io.rong.callkit.SingleCallActivity;
+import io.rong.callkit.util.AppUtil;
+import io.rong.callkit.util.Constanst;
+import io.rong.callkit.util.DynamicTimeFormat;
+import io.rong.callkit.util.UserInfoDto;
+import io.rong.calllib.RongCallClient;
+import io.rong.calllib.RongCallCommon;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 
 import static com.lgh.huanglib.util.cusview.magicIndicator.ScrollState.SCROLL_STATE_IDLE;
 
@@ -201,7 +221,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         mActicity = this;
         touserId = getIntent().getStringExtra("touserId");
         askId = getIntent().getStringExtra("askId");
-        isFirst = getIntent().getBooleanExtra("isFirst",false);
+        isFirst = getIntent().getBooleanExtra("isFirst", false);
         userid = MySp.getToken(mContext);
 
         refreshLayout.setRefreshHeader(new ClassicsHeader(mContext));
@@ -240,13 +260,14 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     private SoftKeyBoardListener.OnSoftKeyBoardChangeListener onSoftKeyBoardChangeListener = new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
         @Override
         public void keyBoardShow(int height) {
-            L.e("lgh_key","键盘显示 高度 : " + height);
+            L.e("lgh_key", "键盘显示 高度 : " + height);
             infoLl.setVisibility(View.GONE);
             recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
         }
+
         @Override
         public void keyBoardHide(int height) {
-            L.e("lgh_key","键盘隐藏 高度 : " + height);
+            L.e("lgh_key", "键盘隐藏 高度 : " + height);
             infoLl.setVisibility(View.VISIBLE);
             recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
         }
@@ -351,8 +372,8 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
 
 
     @OnClick({R.id.tv_send, R.id.tv_add, R.id.tv_photo, R.id.edit_direct, R.id.ll_info,
-           R.id.tv_common_expression, R.id.tv_add_common_language,
-            R.id.tv_send_common_language, R.id.tv_edit_common_language, R.id.tv_complete})
+            R.id.tv_common_expression, R.id.tv_add_common_language,
+            R.id.tv_send_common_language, R.id.tv_edit_common_language, R.id.tv_complete, R.id.tv_video})
     void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_send:
@@ -410,7 +431,76 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                 completeTv.setVisibility(View.GONE);
                 addCommonLanguageLl.setVisibility(View.VISIBLE);
                 break;
+            case R.id.tv_video:
+                //todo 视频聊天
+                checkOnline(1);
+                break;
         }
+    }
+
+    private void checkOnline(int type){
+        int rand = AppUtil.getRandom();
+        String timestamp = DynamicTimeFormat.getTimestamp();
+        String signature = AppUtil.shaEncrypt(Constanst.appSecret + rand + timestamp);
+        OkHttpUtils.post().url("http://api-cn.ronghub.com/user/checkOnline.json")
+                .addHeader("App-Key", Constanst.appkey)
+                .addHeader("Nonce", rand + "")
+                .addHeader("Timestamp", timestamp)
+                .addHeader("Signature", signature)
+                .addParams("userId", touserId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(okhttp3.Call call, Exception e, int id) {
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + e.toString());
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.toString());
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().url().toString());
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().toString());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.d("response:" + response);
+                        CheckOnlineDto checkOnlineDto = new Gson().fromJson(response, new TypeToken<CheckOnlineDto>() {
+                        }.getType());
+                       if (checkOnlineDto.getCode() == 200){
+                           if (checkOnlineDto.getStatus().equals("1")){
+                               Intent intent = new Intent(mContext, SingleCallActivity.class);
+                               switch (type){
+                                   case 1:
+                                       //todo 视频
+                                       intent.setAction(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEVIDEO);
+                                       break;
+                                   case 2:
+                                       //TODO 语音
+                                       intent.setAction(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO);
+                                       break;
+                               }
+                               intent.putExtra("checkPermissions",true);
+                               intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName());
+                               intent.putExtra("conversationType",Conversation.ConversationType.PRIVATE.getName());
+                               intent.putExtra("targetId",touserId);
+                               startActivity(intent);
+                           }else {
+                               showNormalToast("用户不在线！");
+                           }
+                       }
+                    }
+                });
+    }
+
+    private void setCallVideo() {
+        List<String> toUserIds = new ArrayList<>();
+        toUserIds.add("37cbf3a4-d6fd-4196-8db9-e2ab00b7aa46");
+//        String roomId = RongCallClient.getInstance().startCall(Conversation.ConversationType.PRIVATE,"37cbf3a4-d6fd-4196-8db9-e2ab00b7aa46",toUserIds,null,
+//                RongCallCommon.CallMediaType.VIDEO,null);
+//        L.e("RongRTCVideoActivity","roomId  = "+roomId);
+////        RongCallKit.startSingleCall(mContext,roomId,RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO);
+//        Intent intent = new Intent(mContext,RongRTCVideoActivity.class);
+//        intent.putExtra("mRoomId",roomId);
+//        startActivity(intent);
+//        RongCallKit.startSingleCall(mContext, "37cbf3a4-d6fd-4196-8db9-e2ab00b7aa46", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO);
+
     }
 
     /**
@@ -468,18 +558,18 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     public void getAskHeadByUserIdSuccessful(MessageDetailInquiryDto inquiryDetailDto) {
         loadDiss();
         MessageDetailInquiryDto.DataBean dataBean = inquiryDetailDto.getData();
-        MySp.setAskId(MyApp.getContext(),dataBean.getAskID());
+        MySp.setAskId(MyApp.getContext(), dataBean.getAskID());
         endSessionTimeTv.setText(ResUtil.getFormatString(R.string.message_tip_3, dataBean.getLastTime()));
         nameInfoTv.setText(dataBean.getName());
         ageInfoTv.setText(dataBean.getSex() + "   " + dataBean.getAge() + "岁");
         illnessTv.setText(dataBean.getNote());
         int flag = inquiryDetailDto.getData().getAskFlag();
-        if (flag == 2 || flag == 3){
+        if (flag == 2 || flag == 3) {
             endSessionLl.setVisibility(View.GONE);
             infoLl.setVisibility(View.GONE);
             endSessionLl2.setVisibility(View.VISIBLE);
             sendLl.setVisibility(View.GONE);
-        }else {
+        } else {
             endSessionLl.setVisibility(View.VISIBLE);
             infoLl.setVisibility(View.VISIBLE);
             endSessionLl2.setVisibility(View.GONE);
@@ -521,7 +611,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         loadDiss();
         refreshLayout.finishRefresh();
         L.e("lgh_size", "size  = " + (messageDetailListDto.getData().getList().size() == 10));
-        L.e("lgh_size", "size  = " + messageDetailListDto.getData().getList().size() );
+        L.e("lgh_size", "size  = " + messageDetailListDto.getData().getList().size());
         isSlect = messageDetailListDto.getData().getList().size() == 10;
         if (isRefresh) {
             List<MessageDetailListDto.DataBean.ListBean> list = messageDetailListDto.getData().getList();
@@ -537,7 +627,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
             recyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    recyclerView.scrollToPosition(messageDetailListDto.getData().getList().size()+1);
+                    recyclerView.scrollToPosition(messageDetailListDto.getData().getList().size() + 1);
                 }
             }, 100);
 
@@ -548,7 +638,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         }
 
         refreshLayout.setEnableRefresh(isSlect);
-        if (isFirst){
+        if (isFirst) {
             //todo 第一次发送问候语
             sendMessage("您好，请问有什么可以帮您？");
             isFirst = false;
@@ -592,7 +682,6 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         loadDiss();
         MainActivity.sendMessage("image", sendMessageDto, mContext);
     }
-
 
 
     /**

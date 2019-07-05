@@ -21,7 +21,7 @@ import com.yizhitong.userclient.actions.BaseAction;
 import com.yizhitong.userclient.adapters.StringAdapter;
 import com.yizhitong.userclient.adapters.StringAdapter2;
 import com.yizhitong.userclient.event.NoteListDto;
-import com.yizhitong.userclient.utils.Util;
+import com.yizhitong.userclient.utils.AppUtil;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 
 import java.lang.ref.WeakReference;
@@ -219,7 +219,7 @@ public class MedicalRecordsActivity extends UserBaseActivity {
      * @return
      */
     private List<NoteListDto> getData() {
-        List<String> stringList = Util.getStringList(note);
+        List<String> stringList = AppUtil.getStringList(note);
         List<String> stringList1 = new ArrayList<>();
         noteList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {

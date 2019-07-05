@@ -20,17 +20,13 @@ import com.yizhitong.userclient.event.NewsDetailDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.NewsDetailView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
-import com.yizhitong.userclient.utils.Util;
+import com.yizhitong.userclient.utils.AppUtil;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
-import com.zzhoujay.richtext.callback.BitmapStream;
-import com.zzhoujay.richtext.callback.OnUrlClickListener;
-import com.zzhoujay.richtext.ig.ImageDownloader;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
@@ -142,11 +138,11 @@ public class NewsDetailActivity extends UserBaseActivity<NewsDetailAction> imple
         mTvNewsTitle.setText(dataBean.getThe_title());
         mTvNewsMan.setText(dataBean.getThe_man());
         mTvNewsTime.setText(DynamicTimeFormat.LongToString(dataBean.getCreate_time_stamp()));
-//        mXrichtext.text(Util.toUtf8(dataBean.getThe_note()));
-        L.e("lgh_note", Util.toUtf8(dataBean.getThe_note()));
+//        mXrichtext.text(AppUtil.toUtf8(dataBean.getThe_note()));
+        L.e("lgh_note", AppUtil.toUtf8(dataBean.getThe_note()));
         RichText.initCacheDir(this);
         RichText.debugMode = true;
-        RichText.from(Util.toUtf8(dataBean.getThe_note()))
+        RichText.from(AppUtil.toUtf8(dataBean.getThe_note()))
                 .autoPlay(true) // gif图片是否自动播放
                 .scaleType(ImageHolder.ScaleType.fit_center) // 图片缩放方式
                 .into(textview);

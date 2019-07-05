@@ -1,10 +1,12 @@
 package com.yizhitong.userclient.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.os.Process;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,7 +18,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.event.StoreEvent;
-import com.lgh.huanglib.net.CollectionsUtils;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.base.MyFragmentPagerAdapter;
@@ -26,19 +27,16 @@ import com.yizhitong.userclient.actions.BaseAction;
 import com.yizhitong.userclient.event.MessageDto;
 import com.yizhitong.userclient.event.RoogIMDto;
 import com.yizhitong.userclient.event.SendMessageDto;
-import com.yizhitong.userclient.event.WXAccessTokenEntity;
 import com.yizhitong.userclient.event.post.SendMessagePost;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.home.HomeFragment;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.ui.message.MessageFragment;
 import com.yizhitong.userclient.ui.mine.MineFragment;
-import com.yizhitong.userclient.ui.mine.MyPrescriptionFragment;
 import com.yizhitong.userclient.ui.physicianvisits.PhysicianvisitsFragment;
+import com.yizhitong.userclient.utils.AppUtil;
 import com.yizhitong.userclient.utils.Constanst;
-import com.yizhitong.userclient.utils.Util;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
-import com.yizhitong.userclient.utils.cusview.NotificationHelper;
 import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -66,7 +64,14 @@ import javax.net.ssl.X509TrustManager;
 
 import butterknife.BindView;
 import butterknife.OnTouch;
+import io.rong.callkit.RongCallAction;
+import io.rong.callkit.SingleCallActivity;
+import io.rong.calllib.IRongReceivedCallListener;
+import io.rong.calllib.RongCallClient;
+import io.rong.calllib.RongCallSession;
+import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
 
 import static com.lgh.huanglib.event.EventBusUtils.post;
 import static com.yizhitong.userclient.utils.Constanst.appSecret;
@@ -161,7 +166,7 @@ public class MainActivity extends UserBaseActivity {
                     fragments.add(homeFragment);
                     break;
                 case POIONTTWO://
-                  messageFragment = new MessageFragment();
+                    messageFragment = new MessageFragment();
                     if (Position != POIONTTWO) {
                         messageFragment.setUserVisibleHint(false);//
                     }
@@ -241,9 +246,10 @@ public class MainActivity extends UserBaseActivity {
 
     /**
      * 跳转fragment
+     *
      * @param position
      */
-    public void setPosition(int position){
+    public void setPosition(int position) {
         Position = position;
         setSelectedLin(Position);
         myPager.setCurrentItem(Position, false);
@@ -535,14 +541,14 @@ public class MainActivity extends UserBaseActivity {
         super.onResume();
         if (isFirst && MySp.iSLoginLive(mContext)) {
             loginSocket();
-            loginRoogIM(MySp.getRoogUserId(mContext),MySp.getRoogUserName(mContext),WebUrlUtil.IMG_URL+MySp.getRoogUserImg(mContext));
+            loginRoogIM(MySp.getRoogUserId(mContext), MySp.getRoogUserName(mContext), "http://www.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg");
         }
         if (!MySp.iSLoginLive(mContext)) {
             if (client != null) {
                 client.close();
             }
         }
-       setPosition(Position);
+        setPosition(Position);
 
     }
 
@@ -563,26 +569,26 @@ public class MainActivity extends UserBaseActivity {
         handler.removeCallbacks(runnable);
     }
 
-    private void loginRoogIM(String userId,String name,String portraitUri){
-        int rand = Util.getRandom();
+    private void loginRoogIM(String userId, String name, String portraitUri) {
+        int rand = AppUtil.getRandom();
         String timestamp = DynamicTimeFormat.getTimestamp();
-        String signature = Util.shaEncrypt(appSecret+rand+timestamp);
+        String signature = AppUtil.shaEncrypt(appSecret + rand + timestamp);
         OkHttpUtils.post().url("http://api-cn.ronghub.com/user/getToken.json")
-                .addHeader("App-Key",Constanst.appkey)
-                .addHeader("Nonce",rand+"")
-                .addHeader("Timestamp",timestamp)
-                .addHeader("Signature",signature)
+                .addHeader("App-Key", Constanst.appkey)
+                .addHeader("Nonce", rand + "")
+                .addHeader("Timestamp", timestamp)
+                .addHeader("Signature", signature)
                 .addParams("userId", userId)
-                .addParams("name", "123")
-                .addParams("portraitUri", "http://www.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg")
+                .addParams("name", name)
+                .addParams("portraitUri", portraitUri)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
-                        L.d("lgh_userId","请求错误.."+e.toString());
-                        L.d("lgh_userId","请求错误.."+call.toString());
-                        L.d("lgh_userId","请求错误.."+call.request().url().toString());
-                        L.d("lgh_userId","请求错误.."+call.request().toString());
+                        L.d("lgh_userId", "请求错误.." + e.toString());
+                        L.d("lgh_userId", "请求错误.." + call.toString());
+                        L.d("lgh_userId", "请求错误.." + call.request().url().toString());
+                        L.d("lgh_userId", "请求错误.." + call.request().toString());
                     }
 
                     @Override
@@ -590,12 +596,22 @@ public class MainActivity extends UserBaseActivity {
                         L.d("response:" + response);
                         RoogIMDto roogIMDto = JSON.parseObject(response, RoogIMDto.class);
                         if (roogIMDto.getCode() == 200) {
-                            L.d("lgh_userId","成功....."+roogIMDto.toString());
+                            L.d("lgh_userId", "成功....." + roogIMDto.toString());
 //                            loginlistener.onSuccess(accessTokenEntity);
                             connect(roogIMDto.getToken());
-                            MySp.setRoogToken(mContext,roogIMDto.getToken());
+                            Uri uri = Uri.parse("http://www.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg");
+
+                            RongIM.UserInfoProvider userInfoProvider = new RongIM.UserInfoProvider() {
+                                @Override
+                                public UserInfo getUserInfo(String s) {
+                                    UserInfo userInfo = new UserInfo(s,"123",uri);
+                                    return userInfo;
+                                }
+                            };
+                            RongIM.setUserInfoProvider(userInfoProvider,true);
+                            MySp.setRoogToken(mContext, roogIMDto.getToken());
                         } else {
-                            L.d("lgh_userId","获取失败");
+                            L.d("lgh_userId", "获取失败");
                         }
                     }
                 });
@@ -603,6 +619,7 @@ public class MainActivity extends UserBaseActivity {
 
     /**
      * 连接融云服务器
+     *
      * @param token
      */
     private void connect(String token) {
@@ -623,8 +640,9 @@ public class MainActivity extends UserBaseActivity {
              */
             @Override
             public void onSuccess(String userid) {
-                L.e("lgh_userId","onSuccess  userId  = "+userid);
-                MySp.setRoogLoginUserId(mContext,userid);
+                L.e("lgh_userId", "onSuccess  userId  = " + userid);
+                MySp.setRoogLoginUserId(mContext, userid);
+                setListener();
 //                finish();
             }
 
@@ -634,7 +652,53 @@ public class MainActivity extends UserBaseActivity {
              */
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-                L.e("lgh_userId","onError  errorCode  = "+errorCode);
+                L.e("lgh_userId", "onError  errorCode  = " + errorCode);
+            }
+        });
+    }
+
+    private void setListener() {
+        RongCallClient.setReceivedCallListener(new IRongReceivedCallListener() {
+            /**
+             * 来电回调
+             * @param callSession 通话实体
+             */
+            @Override
+            public void onReceivedCall(RongCallSession callSession) {
+                //accept or hangup the call
+                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getCallId());
+                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getCallerUserId());
+                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getMediaType().name());
+                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getInviterUserId());
+                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getSelfUserId());
+               Intent intent = new Intent(mContext, SingleCallActivity.class);
+               intent.putExtra("checkPermissions",true);
+               intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());
+               intent.putExtra("callSession",(Parcelable) callSession);
+               startActivity(intent);
+//                try{
+//                    UserInfo InviterUserIdInfo = RongContext.getInstance().getUserInfoFromCache(callSession.getCallerUserId());
+//                    L.e("RongRTCVideoActivity", "InviterUserIdInfo  = " + InviterUserIdInfo.getName());
+//                    L.e("RongRTCVideoActivity", "InviterUserIdInfo  = " + InviterUserIdInfo.getUserId());
+//                    L.e("RongRTCVideoActivity", "InviterUserIdInfo  = " + InviterUserIdInfo.getPortraitUri());
+//                }catch (NullPointerException e){
+//                    L.e("RongRTCVideoActivity", "E  = " + e.toString());
+//                }
+            }
+
+            /**
+             * targetSDKVersion>＝23时检查权限的回调。当targetSDKVersion<23的时候不需要实现。
+             * 在这个回调里用户需要使用Android6.0新增的动态权限分配接口requestCallPermissions通知用户授权，
+             * 然后在onRequestPermissionResult回调里根据用户授权或者不授权分别回调
+             * RongCallClient.getInstance().onPermissionGranted()和
+             * RongCallClient.getInstance().onPermissionDenied()来通知CallLib。
+             * 其中audio call需要获取Manifest.permission.RECORD_AUDIO权限；
+             * video call需要获取Manifest.permission.RECORD_AUDIO和Manifest.permission.CAMERA两项权限。
+             * @param callSession 通话实体
+             */
+            @Override
+            public void onCheckPermission(RongCallSession callSession) {
+
             }
         });
     }
