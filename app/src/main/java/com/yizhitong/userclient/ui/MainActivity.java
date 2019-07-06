@@ -65,12 +65,16 @@ import javax.net.ssl.X509TrustManager;
 import butterknife.BindView;
 import butterknife.OnTouch;
 import io.rong.callkit.RongCallAction;
+import io.rong.callkit.RongVoIPIntent;
 import io.rong.callkit.SingleCallActivity;
+import io.rong.callkit.util.UserInfoDto;
 import io.rong.calllib.IRongReceivedCallListener;
 import io.rong.calllib.RongCallClient;
+import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 import static com.lgh.huanglib.event.EventBusUtils.post;
@@ -599,16 +603,6 @@ public class MainActivity extends UserBaseActivity {
                             L.d("lgh_userId", "成功....." + roogIMDto.toString());
 //                            loginlistener.onSuccess(accessTokenEntity);
                             connect(roogIMDto.getToken());
-                            Uri uri = Uri.parse("http://www.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg");
-
-                            RongIM.UserInfoProvider userInfoProvider = new RongIM.UserInfoProvider() {
-                                @Override
-                                public UserInfo getUserInfo(String s) {
-                                    UserInfo userInfo = new UserInfo(s,"123",uri);
-                                    return userInfo;
-                                }
-                            };
-                            RongIM.setUserInfoProvider(userInfoProvider,true);
                             MySp.setRoogToken(mContext, roogIMDto.getToken());
                         } else {
                             L.d("lgh_userId", "获取失败");
@@ -643,6 +637,8 @@ public class MainActivity extends UserBaseActivity {
                 L.e("lgh_userId", "onSuccess  userId  = " + userid);
                 MySp.setRoogLoginUserId(mContext, userid);
                 setListener();
+                RongCallClient.getInstance().setVideoProfile(RongCallCommon.CallVideoProfile.VIDEO_PROFILE_720P);
+                RongCallClient.getInstance().setEnableBeauty(false);
 //                finish();
             }
 
@@ -671,19 +667,11 @@ public class MainActivity extends UserBaseActivity {
                 L.e("RongRTCVideoActivity", "callSession  = " + callSession.getMediaType().name());
                 L.e("RongRTCVideoActivity", "callSession  = " + callSession.getInviterUserId());
                 L.e("RongRTCVideoActivity", "callSession  = " + callSession.getSelfUserId());
-               Intent intent = new Intent(mContext, SingleCallActivity.class);
-               intent.putExtra("checkPermissions",true);
-               intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());
-               intent.putExtra("callSession",(Parcelable) callSession);
-               startActivity(intent);
-//                try{
-//                    UserInfo InviterUserIdInfo = RongContext.getInstance().getUserInfoFromCache(callSession.getCallerUserId());
-//                    L.e("RongRTCVideoActivity", "InviterUserIdInfo  = " + InviterUserIdInfo.getName());
-//                    L.e("RongRTCVideoActivity", "InviterUserIdInfo  = " + InviterUserIdInfo.getUserId());
-//                    L.e("RongRTCVideoActivity", "InviterUserIdInfo  = " + InviterUserIdInfo.getPortraitUri());
-//                }catch (NullPointerException e){
-//                    L.e("RongRTCVideoActivity", "E  = " + e.toString());
-//                }
+//               Intent intent = new Intent(mContext, SingleCallActivity.class);
+//               intent.putExtra("checkPermissions",true);
+//               intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());
+//               intent.putExtra("callSession",(Parcelable) callSession);
+                setCallVideo(callSession);
             }
 
             /**
@@ -701,5 +689,42 @@ public class MainActivity extends UserBaseActivity {
 
             }
         });
+    }
+
+    private void setCallVideo(RongCallSession callSession) {
+        int rand = io.rong.callkit.util.AppUtil.getRandom();
+        String timestamp = io.rong.callkit.util.DynamicTimeFormat.getTimestamp();
+        String signature = io.rong.callkit.util.AppUtil.shaEncrypt(io.rong.callkit.util.Constanst.appSecret + rand + timestamp);
+        OkHttpUtils.post().url("http://api-cn.ronghub.com/user/info.json")
+                .addHeader("App-Key", io.rong.callkit.util.Constanst.appkey)
+                .addHeader("Nonce", rand + "")
+                .addHeader("Timestamp", timestamp)
+                .addHeader("Signature", signature)
+                .addParams("userId", callSession.getCallerUserId())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(okhttp3.Call call, Exception e, int id) {
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + e.toString());
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.toString());
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().url().toString());
+                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().toString());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.d("RongRTCVideoActivity:" + response);
+                        UserInfoDto userInfoDto = new Gson().fromJson(response, new TypeToken<UserInfoDto>() {
+                        }.getType());
+                        Uri uri = Uri.parse(userInfoDto.getUserPortrait());
+                        UserInfo userInfo= new UserInfo(callSession.getCallerUserId(),userInfoDto.getUserName(),uri);
+                        Intent intent = new Intent(mContext, SingleCallActivity.class);
+                        intent.putExtra("checkPermissions",true);
+                        intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());
+                        intent.putExtra("callSession",(Parcelable) callSession);
+                        intent.putExtra("userInfoDto",userInfo);
+                        startActivity(intent);
+                    }
+                });
     }
 }

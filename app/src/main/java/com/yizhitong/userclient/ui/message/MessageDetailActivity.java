@@ -3,6 +3,7 @@ package com.yizhitong.userclient.ui.message;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
@@ -373,7 +374,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
 
     @OnClick({R.id.tv_send, R.id.tv_add, R.id.tv_photo, R.id.edit_direct, R.id.ll_info,
             R.id.tv_common_expression, R.id.tv_add_common_language,
-            R.id.tv_send_common_language, R.id.tv_edit_common_language, R.id.tv_complete, R.id.tv_video})
+            R.id.tv_send_common_language, R.id.tv_edit_common_language, R.id.tv_complete, R.id.tv_video, R.id.tv_audio})
     void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_send:
@@ -434,11 +435,36 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
             case R.id.tv_video:
                 //todo 视频聊天
                 checkOnline(1);
+                addllGone();
+                break;
+            case R.id.tv_audio:
+                //todo 语音聊天
+                checkOnline(2);
+                addllGone();
                 break;
         }
     }
 
-    private void checkOnline(int type){
+    /**
+     * 隐藏布局
+     */
+    private void addllGone() {
+        isAdd = false;
+        addLl.setVisibility(View.GONE);
+        recyclerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollToPosition(messageDetailListAdapter.getAllData().size() - 1);
+            }
+        }, 100);
+    }
+
+    /**
+     * 判断对方是否在线
+     *
+     * @param type
+     */
+    private void checkOnline(int type) {
         int rand = AppUtil.getRandom();
         String timestamp = DynamicTimeFormat.getTimestamp();
         String signature = AppUtil.shaEncrypt(Constanst.appSecret + rand + timestamp);
@@ -452,10 +478,10 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                 .execute(new StringCallback() {
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + e.toString());
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.toString());
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().url().toString());
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().toString());
+                        L.d("lgh_userId", "请求错误.." + e.toString());
+                        L.d("lgh_userId", "请求错误.." + call.toString());
+                        L.d("lgh_userId", "请求错误.." + call.request().url().toString());
+                        L.d("lgh_userId", "请求错误.." + call.request().toString());
                     }
 
                     @Override
@@ -463,44 +489,68 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                         L.d("response:" + response);
                         CheckOnlineDto checkOnlineDto = new Gson().fromJson(response, new TypeToken<CheckOnlineDto>() {
                         }.getType());
-                       if (checkOnlineDto.getCode() == 200){
-                           if (checkOnlineDto.getStatus().equals("1")){
-                               Intent intent = new Intent(mContext, SingleCallActivity.class);
-                               switch (type){
-                                   case 1:
-                                       //todo 视频
-                                       intent.setAction(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEVIDEO);
-                                       break;
-                                   case 2:
-                                       //TODO 语音
-                                       intent.setAction(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO);
-                                       break;
-                               }
-                               intent.putExtra("checkPermissions",true);
-                               intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName());
-                               intent.putExtra("conversationType",Conversation.ConversationType.PRIVATE.getName());
-                               intent.putExtra("targetId",touserId);
-                               startActivity(intent);
-                           }else {
-                               showNormalToast("用户不在线！");
-                           }
-                       }
+                        if (checkOnlineDto.getCode() == 200) {
+                            if (checkOnlineDto.getStatus().equals("1")) {
+                                setCallVideo(type);
+                            } else {
+                                showNormalToast("用户不在线！");
+                            }
+                        }
                     }
                 });
     }
 
-    private void setCallVideo() {
-        List<String> toUserIds = new ArrayList<>();
-        toUserIds.add("37cbf3a4-d6fd-4196-8db9-e2ab00b7aa46");
-//        String roomId = RongCallClient.getInstance().startCall(Conversation.ConversationType.PRIVATE,"37cbf3a4-d6fd-4196-8db9-e2ab00b7aa46",toUserIds,null,
-//                RongCallCommon.CallMediaType.VIDEO,null);
-//        L.e("RongRTCVideoActivity","roomId  = "+roomId);
-////        RongCallKit.startSingleCall(mContext,roomId,RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO);
-//        Intent intent = new Intent(mContext,RongRTCVideoActivity.class);
-//        intent.putExtra("mRoomId",roomId);
-//        startActivity(intent);
-//        RongCallKit.startSingleCall(mContext, "37cbf3a4-d6fd-4196-8db9-e2ab00b7aa46", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_VIDEO);
+    /**
+     * 获取对方信息并发起通话
+     * @param type
+     */
+    private void setCallVideo(int type) {
+        int rand = AppUtil.getRandom();
+        String timestamp = DynamicTimeFormat.getTimestamp();
+        String signature = AppUtil.shaEncrypt(Constanst.appSecret + rand + timestamp);
+        OkHttpUtils.post().url("http://api-cn.ronghub.com/user/info.json")
+                .addHeader("App-Key", Constanst.appkey)
+                .addHeader("Nonce", rand + "")
+                .addHeader("Timestamp", timestamp)
+                .addHeader("Signature", signature)
+                .addParams("userId", touserId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(okhttp3.Call call, Exception e, int id) {
+                        L.d("lgh_userId", "请求错误.." + e.toString());
+                        L.d("lgh_userId", "请求错误.." + call.toString());
+                        L.d("lgh_userId", "请求错误.." + call.request().url().toString());
+                        L.d("lgh_userId", "请求错误.." + call.request().toString());
+                    }
 
+                    @Override
+                    public void onResponse(String response, int id) {
+                        L.d("RongRTCVideoActivity:" + response);
+                        UserInfoDto userInfoDto = new Gson().fromJson(response, new TypeToken<UserInfoDto>() {
+                        }.getType());
+                        Uri uri = Uri.parse(userInfoDto.getUserPortrait());
+                        UserInfo userInfo = new UserInfo(touserId, userInfoDto.getUserName(), uri);
+
+                        Intent intent = new Intent(mContext, SingleCallActivity.class);
+                        switch (type) {
+                            case 1:
+                                //todo 视频
+                                intent.setAction(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEVIDEO);
+                                break;
+                            case 2:
+                                //TODO 语音
+                                intent.setAction(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO);
+                                break;
+                        }
+                        intent.putExtra("checkPermissions", true);
+                        intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName());
+                        intent.putExtra("conversationType", Conversation.ConversationType.PRIVATE.getName());
+                        intent.putExtra("targetId", touserId);
+                        intent.putExtra("userInfoDto", (Parcelable) userInfo);
+                        startActivity(intent);
+                    }
+                });
     }
 
     /**
