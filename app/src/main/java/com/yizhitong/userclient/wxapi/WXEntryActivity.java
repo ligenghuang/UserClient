@@ -38,7 +38,7 @@ public class WXEntryActivity extends UserBaseActivity implements IWXAPIEventHand
         api = WXAPIFactory.createWXAPI(this, Constanst.APP_ID, true);
         //将应用的appid注册到微信
         api.registerApp(Constanst.APP_ID);
-        L.e("lshs", "onCreate");
+        L.e("ShareUtil",  "onCreate");
 
         //注意：
         //第三方开发者如果使用透明界面来实现WXEntryActivity，需要判断handleIntent的返回值，如果返回值为false，则说明入参不合法未被SDK处理，应finish当前透明界面，避免外部通过传递非法参数的Intent导致停留在透明界面，引起用户的疑惑
@@ -57,7 +57,7 @@ public class WXEntryActivity extends UserBaseActivity implements IWXAPIEventHand
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        L.e("lshs", "onActivityResult");
+        L.e("ShareUtil",  "onActivityResult");
         api.handleIntent(data, this);
     }
 
@@ -77,9 +77,9 @@ public class WXEntryActivity extends UserBaseActivity implements IWXAPIEventHand
 
     @Override
     public void onResp(BaseResp baseResp) {
-        L.e("lgh", "onResp");
-        L.d("baseResp:--A" + JSON.toJSONString(baseResp));
-        L.e("baseResp--B:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode + " getType " + baseResp.getType());
+        L.e("ShareUtil",  "onResp");
+        L.d("ShareUtil", "baseResp:--A" + JSON.toJSONString(baseResp));
+        L.e("ShareUtil", "baseResp--B:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode + " getType " + baseResp.getType());
         WXBaseRespEntity entity = JSON.parseObject(JSON.toJSONString(baseResp), WXBaseRespEntity.class);
         String result = "";
         Intent intent = null;
@@ -87,7 +87,7 @@ public class WXEntryActivity extends UserBaseActivity implements IWXAPIEventHand
 
         switch (baseResp.getType()) {
             case ConstantsAPI.COMMAND_SENDAUTH://登录
-                L.e("lgh", "登录.......");
+                L.e("ShareUtil",  "登录.......");
                 intent = new Intent(ShareUtil.ACTION_SHARE_RESPONSE);
                 intent.putExtra(ShareUtil.EXTRA_RESULT, new ShareUtil.Response(baseResp, entity.getCode()));
                 intent.putExtra("sendType",1);

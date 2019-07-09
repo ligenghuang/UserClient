@@ -36,7 +36,6 @@ import cn.rongcloud.rtc.utils.FinLog;
 import io.rong.callkit.util.AppUtil;
 import io.rong.callkit.util.BluetoothUtil;
 import io.rong.callkit.util.CallKitUtils;
-import io.rong.callkit.util.Constanst;
 import io.rong.callkit.util.DynamicTimeFormat;
 import io.rong.callkit.util.GlideUtils;
 import io.rong.callkit.util.HeadsetInfo;

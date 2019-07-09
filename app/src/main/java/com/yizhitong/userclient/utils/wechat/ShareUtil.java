@@ -32,7 +32,7 @@ public class ShareUtil {
 
     public ShareUtil register() {
         // 微信分享
-        L.e("lgh", "register");
+        L.e("ShareUtil", "register");
         receiver = new ResponseReceiver();
         IntentFilter filter = new IntentFilter(ACTION_SHARE_RESPONSE);
         context.registerReceiver(receiver, filter);
@@ -42,7 +42,7 @@ public class ShareUtil {
     public void unregister() {
         try {
             if (receiver != null) {
-                L.e("lgh", "unregister");
+                L.e("ShareUtil", "unregister");
                 context.unregisterReceiver(receiver);
             }
         } catch (Exception e) {
@@ -71,18 +71,19 @@ public class ShareUtil {
 
             int sendType = intent.getIntExtra("sendType", 0);
 
-            L.e("lshs", "分享  到這裏了  " + sendType);
+            L.e("ShareUtil", "分享  到這裏了  " + sendType);
             Response response = intent.getParcelableExtra(EXTRA_RESULT);
-            L.e("type: " + response.getType());
-            L.e("errCode: " + response.errCode);
-            L.e("errCode: " + response.type);
-            L.e("errCode: " + response.respType);
+            L.e("ShareUtil", "type: " + response.getType());
+            L.e("ShareUtil", "errCode: " + response.errCode);
+            L.e("ShareUtil", "errCode: " + response.type);
+            L.e("ShareUtil", "errCode: " + response.respType);
             String result;
             if (listener != null || loginlistener != null) {
                 if (response.errCode == BaseResp.ErrCode.ERR_OK) {
 
                     if (response.getType() == ConstantsAPI.COMMAND_SENDAUTH) {
-                        login(response.code);
+//                        login(response.code);
+                        loginlistener.onSuccess(response);
                     } else {
                         listener.onSuccess();
                     }
@@ -174,7 +175,7 @@ public class ShareUtil {
 
                         if (loginlistener != null) {
 
-                            loginlistener.onSuccess(wxResponse);
+//                            loginlistener.onSuccess(wxResponse);
                         }
                     }
                 });
@@ -276,7 +277,7 @@ public class ShareUtil {
     }
 
     public interface OnLoginResponseListener {
-        void onSuccess(WXUserInfo wxResponse);
+        void onSuccess(Response response);
 
         void onCancel();
 

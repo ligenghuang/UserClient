@@ -11,12 +11,14 @@ import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.data.ResUtil;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.LoginAction;
 import com.yizhitong.userclient.event.LoginDto;
 import com.yizhitong.userclient.event.WXUserInfo;
 import com.yizhitong.userclient.ui.impl.LoginView;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.config.MyApp;
 import com.yizhitong.userclient.utils.data.MySp;
 import com.yizhitong.userclient.utils.wechat.ShareUtil;
 
@@ -94,15 +96,13 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
         shareUtil.setLoginListener(new ShareUtil.OnLoginResponseListener() {
 
             @Override
-            public void onSuccess(WXUserInfo wxResponse) {
+            public void onSuccess(ShareUtil.Response response) {
                 //todo 微信登录
-                L.e("ShareUtil",  "打印 ..onSuccess.."+wxResponse.toString());
+                L.e("ShareUtil",  "打印 ..onSuccess.."+response.toString());
 //                wxResponse = dto.getUsername();
-//                if (CheckNetwork.checkNetwork2(getApplicationContext())){
-//
-//                    baseAction.authorizationLogin(wechat);
-//                }
-                loadDiss();
+                if (CheckNetwork.checkNetwork2(mContext)){
+                    baseAction.authorizationLogin(response.code);
+                }
             }
 
             @Override
@@ -123,7 +123,7 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
 
     }
 
-    @OnClick({R.id.tv_login_btn_login, R.id.tv_login_registered, R.id.tv_login_find_pwd})
+    @OnClick({R.id.tv_login_btn_login, R.id.tv_login_registered, R.id.tv_login_find_pwd,R.id.iv_login_WeChat})
     void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login_btn_login:
@@ -137,6 +137,19 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
             case R.id.tv_login_find_pwd:
                 //todo 找回密码
                 jumpActivityNotFinish(mContext, FindPwdCheckActivity.class);
+                break;
+            case R.id.iv_login_WeChat:
+                //todo 微信登录
+                if (!MyApp.getWxApi().isWXAppInstalled()) {
+                    showToast( ResUtil.getString(R.string.wechat_login));
+                    return;
+                }
+                loadDialog(ResUtil.getString(R.string.main_process));
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+//                req.scope = "snsapi_login";//提示 scope参数错误，或者没有scope权
+//                req.state = "yizhitong_userclient_login";
+                MyApp.getWxApi().sendReq(req);
                 break;
         }
     }
@@ -225,4 +238,12 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
             baseAction.toUnregister();
         }
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        shareUtil.unregister();
+        hideInput();
+    }
+
 }

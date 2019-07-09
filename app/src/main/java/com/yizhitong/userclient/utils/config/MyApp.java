@@ -126,9 +126,9 @@ public class MyApp extends MyApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-//        api = WXAPIFactory.createWXAPI(this, Constanst.APP_ID, true);
-//        // 将该app注册到微信
-//        api.registerApp(Constanst.APP_ID);
+        api = WXAPIFactory.createWXAPI(this, Constanst.APP_ID, true);
+        // 将该app注册到微信
+        api.registerApp(Constanst.APP_ID);
 
         RongIMClient.init(this);
         RongContext.init(this);

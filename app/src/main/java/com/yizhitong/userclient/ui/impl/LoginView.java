@@ -20,13 +20,4 @@ public interface LoginView extends BaseView {
      */
     void LoginSuccessful(LoginDto generalDto);
 
-//    /**
-//     * 授权登录 成功
-//     */
-//    void authorizationSuccessful();
-//
-//    /**
-//     * 授权登录 失败
-//     */
-//    void authorizationError(String m, int type);
 }

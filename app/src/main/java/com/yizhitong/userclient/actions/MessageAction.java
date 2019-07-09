@@ -35,10 +35,10 @@ public class MessageAction extends BaseAction<MessageView> {
         attachView(view);
     }
 
-    public void isLogin() {
-        post(WebUrlUtil.POST_ISLOGIN, false, service -> manager.runHttp(
-                service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("userId", MySp.getToken(MyApplication.getContext())), WebUrlUtil.POST_ISLOGIN)));
-    }
+//    public void isLogin() {
+//        post(WebUrlUtil.POST_ISLOGIN, false, service -> manager.runHttp(
+//                service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("userId", MySp.getToken(MyApplication.getContext())), WebUrlUtil.POST_ISLOGIN)));
+//    }
 
     /**
      * 获取消息列表

@@ -7,15 +7,16 @@ public class WebUrlUtil {
     static {
         //配合retrofit，需要以/结尾
         if (BuildConfig.DEBUG) {
-            BASE_URL = "http://192.168.3.2:8014/";
-            IMG_URL = "http://192.168.3.2:8014";
-//            BASE_URL = "http://www.yizhitong100.com/";
-//            IMG_URL = "http://www.yizhitong100.com";
+//            BASE_URL = "http://192.168.3.2:8014/";
+//            IMG_URL = "http://192.168.3.2:8014";
+            BASE_URL = "http://www.yizhitong100.com/";
+            IMG_URL = "http://www.yizhitong100.com";
+
         } else {
-            BASE_URL = "http://192.168.3.2:8014/";
-            IMG_URL = "http://192.168.3.2:8014";
-//            BASE_URL = "http://www.yizhitong100.com/";
-//            IMG_URL = "http://www.yizhitong100.com";
+//            BASE_URL = "http://192.168.3.2:8014/";
+//            IMG_URL = "http://192.168.3.2:8014";
+            BASE_URL = "http://www.yizhitong100.com/";
+            IMG_URL = "http://www.yizhitong100.com";
         }
     }
 
@@ -296,6 +297,10 @@ public class WebUrlUtil {
      */
     public static final String POST_CONCERNS_DOCOTR = "Doctors/concernsDoctor";
 
+    /**
+     * 微信登录WeiXin/WeiXinLogin
+     */
+    public static final String POST_WEIXIN_LOGIN = "WeiXin/WeiXinLogin";
 
 
     /**

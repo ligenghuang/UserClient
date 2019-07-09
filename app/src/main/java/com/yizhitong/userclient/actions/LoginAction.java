@@ -39,6 +39,14 @@ public class LoginAction extends BaseAction<LoginView> {
         post(WebUrlUtil.POST_LOGIN, false, service -> manager.runHttp(service.PostData_1(CollectionsUtils.generateMap("userName",username,"password",pwd,"type","0"),WebUrlUtil.POST_LOGIN)));
     }
 
+    /**
+     * 微信授权登录
+     * @param code
+     */
+    public void authorizationLogin(String code){
+        post(WebUrlUtil.POST_WEIXIN_LOGIN,false,service -> manager.runHttp(
+                service.PostData_1(CollectionsUtils.generateMap("code",code,"H5ORDOC",0),WebUrlUtil.POST_WEIXIN_LOGIN)));
+    }
 
     /**
      * sticky:表明优先接收最高级  threadMode = ThreadMode.MAIN：表明在主线程
@@ -64,6 +72,7 @@ public class LoginAction extends BaseAction<LoginView> {
 
                 switch (action.getIdentifying()) {
                     case WebUrlUtil.POST_LOGIN:
+                    case WebUrlUtil.POST_WEIXIN_LOGIN:
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();

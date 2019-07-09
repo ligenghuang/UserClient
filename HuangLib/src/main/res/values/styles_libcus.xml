@@ -61,7 +61,9 @@
         <!-- 通过windowBackground可以设置背景色、背景图片、能解析出图片的XML文件等-->
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+
         <!--<item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>-->
+
     </style>
     <style name="activity_theme" parent="QUI_AppTheme">
         <item name="android:windowBackground">@color/white</item>

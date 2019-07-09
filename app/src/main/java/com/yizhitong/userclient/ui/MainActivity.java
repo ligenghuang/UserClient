@@ -22,6 +22,7 @@ import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.base.MyFragmentPagerAdapter;
 import com.lgh.huanglib.util.cusview.CustomViewPager;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.BaseAction;
 import com.yizhitong.userclient.event.MessageDto;
@@ -142,13 +143,14 @@ public class MainActivity extends UserBaseActivity {
         super.init();
         mActicity = this;
         mContext = this;
-        mImmersionBar
-//                .statusBarView(R.id.top_view)
-                .fullScreen(true)
-                .navigationBarWithKitkatEnable(false)
-                .statusBarDarkFont(true)
-                .addTag("main")  //给上面参数打标记，以后可以通过标记恢复
-                .init();
+//        mImmersionBar
+////                .statusBarView(R.id.top_view)
+//                .fullScreen(true)
+//                .navigationBarWithKitkatEnable(false)
+//                .statusBarDarkFont(true)
+//                .addTag("main")  //给上面参数打标记，以后可以通过标记恢复
+//                .init();
+        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
         initViewPager();
 
 
@@ -274,7 +276,7 @@ public class MainActivity extends UserBaseActivity {
         lin3.setSelected(false);
         lin4.setSelected(false);
         //设置状态栏黑色字体与图标
-//        QMUIStatusBarHelper.setStatusBarLightMode(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
         switch (position) {
             case 0:
                 lin1.setSelected(true);
@@ -694,9 +696,9 @@ public class MainActivity extends UserBaseActivity {
     private void setCallVideo(RongCallSession callSession) {
         int rand = io.rong.callkit.util.AppUtil.getRandom();
         String timestamp = io.rong.callkit.util.DynamicTimeFormat.getTimestamp();
-        String signature = io.rong.callkit.util.AppUtil.shaEncrypt(io.rong.callkit.util.Constanst.appSecret + rand + timestamp);
+        String signature = io.rong.callkit.util.AppUtil.shaEncrypt(Constanst.appSecret + rand + timestamp);
         OkHttpUtils.post().url("http://api-cn.ronghub.com/user/info.json")
-                .addHeader("App-Key", io.rong.callkit.util.Constanst.appkey)
+                .addHeader("App-Key", Constanst.appkey)
                 .addHeader("Nonce", rand + "")
                 .addHeader("Timestamp", timestamp)
                 .addHeader("Signature", signature)
