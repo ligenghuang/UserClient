@@ -1,4 +1,4 @@
-package com.yizhitong.userclient.utils.wxapi;
+package com.yizhitong.userclient.utils.wechat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -106,26 +106,26 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
         recyclerView.setAdapter(messageLlistAdapter);
     }
 
-    @Override
-    public void isLogin() {
-        if (CheckNetwork.checkNetwork2(mContext)) {
-            baseAction.isLogin();
-        }
-    }
-
-    @Override
-    public void isLoginSuccessful() {
-        getMessageList();
-    }
-
-    /**
-     * 未登录
-     */
-    @Override
-    public void isLoginError() {
-        loadDiss();
-//        jumpActivityNotFinish(mContext, LoginActivity.class);
-    }
+//    @Override
+//    public void isLogin() {
+//        if (CheckNetwork.checkNetwork2(mContext)) {
+//            baseAction.isLogin();
+//        }
+//    }
+//
+//    @Override
+//    public void isLoginSuccessful() {
+//        getMessageList();
+//    }
+//
+//    /**
+//     * 未登录
+//     */
+//    @Override
+//    public void isLoginError() {
+//        loadDiss();
+////        jumpActivityNotFinish(mContext, LoginActivity.class);
+//    }
 
     /**
      * 获取消息列表

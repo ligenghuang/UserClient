@@ -7,15 +7,10 @@ package com.yizhitong.userclient.utils;
 */
 public class Constanst {
 
-    /**
-     * 积分
-     */
-    public static int bonus = 0;
-
     public static int pageSize = 10;
 
-    public static String APP_ID = "";
-    public static String APP_Secret = "";
+    public static String APP_ID = "wxa7adeb0c22a4bc88";
+    public static String APP_Secret = "6e51258d6d4426c4e8480bf1e8224209";
 
     public static final String appkey = "c9kqb3rdc4wxj";
     public static final String appSecret = "03IqqAMBJZ";

@@ -14,7 +14,7 @@
     <string name="inquity_tip_10">病情描述:</string>
     <string name="inquity_tip_11">选择支付方式</string>
     <string name="inquity_tip_12">微信支付</string>
-    <string name="inquity_tip_13">我已阅读并同意《一指通在线问诊协议》</string>
+    <string name="inquity_tip_13">我已阅读并同意</string>
     <string name="inquity_tip_14">支付</string>
     <string name="inquity_tip_15">请对医生评价</string>
     <string name="inquity_tip_16">请您写下对本次咨询的感受</string>
@@ -26,7 +26,8 @@
     <string name="inquity_tip_22">好</string>
     <string name="inquity_tip_23">非常满意</string>
     <string name="inquity_tip_24">暂未分配</string>
-
+    <string name="inquity_tip_25">一指通在线问诊协议</string>
+    <string name="inquity_tip_26">《一指通在线问诊协议》</string>
 
     <string name="inquity_info_tip_1">问诊详情</string>
     <string name="inquity_info_tip_2">问诊人信息</string>

@@ -19,6 +19,7 @@ import com.yizhitong.userclient.event.InquiryInfoPayDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.InquiryInfoPayView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
+import com.yizhitong.userclient.ui.mine.InterrogationAgreementActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 
 import java.lang.ref.WeakReference;
@@ -165,7 +166,7 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     }
 
 
-    @OnClick({R.id.ll_cb, R.id.checkbox})
+    @OnClick({R.id.ll_cb, R.id.checkbox,R.id.tv_interrogation_agreement})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_cb:
@@ -173,6 +174,10 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
                 isRead = !isRead;
                 mCheckbox.setChecked(isRead);
                 mTvPay.setSelected(isRead);
+                break;
+            case R.id.tv_interrogation_agreement:
+                //todo 问诊协议
+                jumpActivityNotFinish(mContext, InterrogationAgreementActivity.class);
                 break;
         }
     }

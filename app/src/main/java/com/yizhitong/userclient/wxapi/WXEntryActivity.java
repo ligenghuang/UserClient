@@ -1,4 +1,4 @@
-package com.yizhitong.userclient.utils.wxapi;
+package com.yizhitong.userclient.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.yizhitong.userclient.actions.BaseAction;
 import com.yizhitong.userclient.event.WXBaseRespEntity;
 import com.yizhitong.userclient.utils.Constanst;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.wechat.ShareUtil;
 
 public class WXEntryActivity extends UserBaseActivity implements IWXAPIEventHandler {
 

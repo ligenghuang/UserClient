@@ -8,14 +8,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
+import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.LoginAction;
 import com.yizhitong.userclient.event.LoginDto;
+import com.yizhitong.userclient.event.WXUserInfo;
 import com.yizhitong.userclient.ui.impl.LoginView;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.data.MySp;
+import com.yizhitong.userclient.utils.wechat.ShareUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -42,6 +45,8 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
     @BindView(R.id.et_login_pwd)
     EditText loginPwdEt;
 
+
+    ShareUtil shareUtil;
 
     @Override
     public int intiLayout() {
@@ -79,6 +84,42 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
         super.init();
         mActicity = this;
         mContext = this;
+        shareUtil = new ShareUtil(this);
+        shareUtil.register();
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        shareUtil.setLoginListener(new ShareUtil.OnLoginResponseListener() {
+
+            @Override
+            public void onSuccess(WXUserInfo wxResponse) {
+                //todo 微信登录
+                L.e("ShareUtil",  "打印 ..onSuccess.."+wxResponse.toString());
+//                wxResponse = dto.getUsername();
+//                if (CheckNetwork.checkNetwork2(getApplicationContext())){
+//
+//                    baseAction.authorizationLogin(wechat);
+//                }
+                loadDiss();
+            }
+
+            @Override
+            public void onCancel() {
+                L.e("ShareUtil", "打印 ..onCancel..");
+                showToast( ResUtil.getString(R.string.app_login_user_tip_9));
+                loadDiss();
+            }
+
+            @Override
+            public void onFail(String message) {
+                L.e("ShareUtil",  "打印 ..onFail.." + message);
+                showToast( ResUtil.getString(R.string.app_login_user_tip_10));
+                loadDiss();
+            }
+        });
+
 
     }
 

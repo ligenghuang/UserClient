@@ -1,4 +1,4 @@
-package com.yizhitong.userclient.utils.wxapi;
+package com.yizhitong.userclient.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;

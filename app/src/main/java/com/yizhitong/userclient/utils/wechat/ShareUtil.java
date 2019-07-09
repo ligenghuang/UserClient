@@ -1,15 +1,9 @@
-package com.yizhitong.userclient.utils.wxapi;
+package com.yizhitong.userclient.utils.wechat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -180,7 +174,7 @@ public class ShareUtil {
 
                         if (loginlistener != null) {
 
-//                            loginlistener.onSuccess(dto);
+                            loginlistener.onSuccess(wxResponse);
                         }
                     }
                 });
@@ -282,7 +276,7 @@ public class ShareUtil {
     }
 
     public interface OnLoginResponseListener {
-        void onSuccess();
+        void onSuccess(WXUserInfo wxResponse);
 
         void onCancel();
 

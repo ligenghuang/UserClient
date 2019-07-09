@@ -6,11 +6,11 @@ import com.yizhitong.userclient.event.MessageListDto;
 
 public interface MessageView extends BaseView {
 
-    void isLogin();
-
-    void isLoginSuccessful();
-
-    void isLoginError();
+//    void isLogin();
+//
+//    void isLoginSuccessful();
+//
+//    void isLoginError();
 
     void getMessageList();
 
