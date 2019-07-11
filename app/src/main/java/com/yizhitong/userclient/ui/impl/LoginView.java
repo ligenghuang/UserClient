@@ -2,6 +2,7 @@ package com.yizhitong.userclient.ui.impl;
 
 import com.lgh.huanglib.util.base.BaseView;
 import com.yizhitong.userclient.event.LoginDto;
+import com.yizhitong.userclient.event.WeiLoginDto;
 
 /**
 * 登录
@@ -20,4 +21,8 @@ public interface LoginView extends BaseView {
      */
     void LoginSuccessful(LoginDto generalDto);
 
+    /**
+     * 授权登录 成功
+     */
+    void authorizationSuccessful(WeiLoginDto generalDto);
 }

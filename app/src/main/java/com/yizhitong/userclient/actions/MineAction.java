@@ -34,7 +34,7 @@ public class MineAction extends BaseAction<MineView> {
     }
 
     public void isLogin() {
-        post(WebUrlUtil.POST_ISLOGIN+1, false, service -> manager.runHttp(
+        post(WebUrlUtil.POST_ISLOGIN, false, service -> manager.runHttp(
                 service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()), CollectionsUtils.generateMap("userId", MySp.getToken(MyApplication.getContext())), WebUrlUtil.POST_ISLOGIN)));
     }
 
@@ -54,7 +54,7 @@ public class MineAction extends BaseAction<MineView> {
      */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void MessageEvent(final Action action) {
-        L.e("xx", "action   接收到数据更新....." + action.getIdentifying() + " action.getErrorType() : " + action.getErrorType());
+        L.e("lgh_mine", "action   接收到数据更新....." + action.getIdentifying() + " action.getErrorType() : " + action.getErrorType());
 
         final String msg = action.getMsg(action);
         Observable.just(action.getErrorType())
@@ -67,28 +67,28 @@ public class MineAction extends BaseAction<MineView> {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 // 输出返回结果
-                L.e("xx", "输出返回结果 " + aBoolean);
+                L.e("lgh_mine", "输出返回结果 " + aBoolean);
 
                 switch (action.getIdentifying()) {
-                    case WebUrlUtil.POST_ISLOGIN+1:
+                    case WebUrlUtil.POST_ISLOGIN:
 
-                        if (aBoolean) {
-                            L.e("lgh_img", "输出返回结果 " + action.getUserData().toString());
-                            Gson gson = new Gson();
-                            String generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<String>() {
+//                        if (aBoolean) {
+                            L.e("lgh_mine", "输出返回结果 " + action.getUserData().toString());
+
+                            String str = new Gson().fromJson(action.getUserData().toString(), new TypeToken<String>() {
                             }.getType());
-                            if (generalDto.equals("1")) {
+                            if (str.equals("1")) {
                                 view.isLoginSuccessful();
                                 return;
                             }
                             view.isLoginError();
-                            return;
-                        }
+//                            return;
+//                        }
 //                        view.isLoginError();
                         break;
                     case WebUrlUtil.POST_USERINFO:
                         if (aBoolean) {
-                            L.e("lgh_img", "输出返回结果 " + action.getUserData().toString());
+                            L.e("lgh_mine", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             UserInfoDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<UserInfoDto>() {
                             }.getType());

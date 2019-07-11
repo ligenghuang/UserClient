@@ -85,10 +85,10 @@ public class MainActivity extends UserBaseActivity {
 
     private static final String TAG = "MainActivity";
     public static int Position = 0;
-    private static final int POIONTONE = 0;
-    private static final int POIONTTWO = 1;
-    private static final int POIONTTHREE = 2;
-    private static final int POIONTFOUR = 3;
+    public static final int POIONTONE = 0;
+    public static final int POIONTTWO = 1;
+    public static final int POIONTTHREE = 2;
+    public static final int POIONTFOUR = 3;
 
     MineFragment mineFragment;
     MessageFragment messageFragment;

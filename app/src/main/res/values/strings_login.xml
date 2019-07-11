@@ -48,4 +48,6 @@
     <string name="app_login_user_tip_9">登录取消</string>
     <string name="app_login_user_tip_10">登录失败</string>
 
+    <string name="bing_phone_tip_1">微信登录</string>
+
 </resources>

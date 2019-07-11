@@ -1,6 +1,8 @@
 package com.yizhitong.userclient.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.LoginAction;
 import com.yizhitong.userclient.event.LoginDto;
 import com.yizhitong.userclient.event.WXUserInfo;
+import com.yizhitong.userclient.event.WeiLoginDto;
 import com.yizhitong.userclient.ui.impl.LoginView;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.config.MyApp;
@@ -205,6 +208,38 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
         MySp.setRoogUserImg(mContext,generalDto.getData().getNiceImg());
         MySp.setRoogUserName(mContext,generalDto.getData().getNicename());
         finish();
+    }
+
+    /**
+     * 授权登录成功
+     * @param generalDto
+     */
+    @Override
+    public void authorizationSuccessful(WeiLoginDto generalDto) {
+
+        if (generalDto.getCode() != 1) {
+            loadDiss();
+            showNormalToast(generalDto.getMsg());
+            return;
+        }
+        if (generalDto.getData().getPhome().isEmpty()){
+            //TODO 未绑定手机号
+            loadDiss();
+            Intent intent = new Intent(mContext,BingPhoneActivity.class);
+            intent.putExtra("unionid",generalDto.getData().getUnionid());
+            startActivity(intent);
+        }else {
+            //TODO 已绑定手机号
+            MySp.setToken(mContext, generalDto.getData().getIuid());
+            MySp.setRoogUserId(mContext, generalDto.getData().getIuid());
+            MySp.setRoogUserImg(mContext,generalDto.getData().getNiceImg());
+            MySp.setRoogUserName(mContext,generalDto.getData().getNicename());
+            loadDiss();
+            finish();
+
+        }
+
+
     }
 
     /**

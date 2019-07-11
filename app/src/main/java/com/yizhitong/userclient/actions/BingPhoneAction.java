@@ -1,18 +1,20 @@
 package com.yizhitong.userclient.actions;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.net.CollectionsUtils;
 import com.lgh.huanglib.util.L;
+import com.lgh.huanglib.util.config.MyApplication;
+import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.yizhitong.userclient.event.GeneralDto;
-import com.yizhitong.userclient.event.LoginDto;
 import com.yizhitong.userclient.event.WeiLoginDto;
+import com.yizhitong.userclient.event.post.WeiXinLoginPost;
 import com.yizhitong.userclient.net.WebUrlUtil;
-import com.yizhitong.userclient.ui.impl.LoginView;
+import com.yizhitong.userclient.ui.impl.BingPhoneView;
+import com.yizhitong.userclient.utils.config.MyApp;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -20,36 +22,37 @@ import org.greenrobot.eventbus.ThreadMode;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
-
 /**
- * 登录
- *
- * @author lgh
- * created at 2019/5/13 0013 15:05
- */
-public class LoginAction extends BaseAction<LoginView> {
-    public LoginAction(RxAppCompatActivity _rxAppCompatActivity, LoginView view) {
+* description ： 绑定手机号
+* author : lgh
+* email : 1045105946@qq.com
+* date : 2019/7/10
+*/
+public class BingPhoneAction extends BaseAction<BingPhoneView> {
+
+    public BingPhoneAction(RxAppCompatActivity _rxAppCompatActivity, BingPhoneView view) {
         super(_rxAppCompatActivity);
         attachView(view);
     }
 
-
     /**
-     * 登录
-     * @param username
-     * @param pwd
+     * 获取验证码
+     * @param phone
      */
-    public void login(final String username, String pwd) {
-        post(WebUrlUtil.POST_LOGIN, false, service -> manager.runHttp(service.PostData_1(CollectionsUtils.generateMap("userName",username,"password",pwd,"type","0"),WebUrlUtil.POST_LOGIN)));
+    public void weiXinChecks(String phone){
+        post(WebUrlUtil.POST_WEIXIN_CHECKS,false,service -> manager.runHttp(
+                service.PostData_1(CollectionsUtils.generateMap("userPhone",phone),WebUrlUtil.POST_WEIXIN_CHECKS)));
     }
 
     /**
-     * 微信授权登录
-     * @param code
+     * 绑定
+     * @param weiXinLoginPost
      */
-    public void authorizationLogin(String code){
-        post(WebUrlUtil.POST_WEIXIN_LOGIN,false,service -> manager.runHttp(
-                service.PostData_1(CollectionsUtils.generateMap("code",code,"H5ORDOC",0),WebUrlUtil.POST_WEIXIN_LOGIN)));
+    public void weiXinLogin(WeiXinLoginPost weiXinLoginPost){
+        post(WebUrlUtil.POST_WEIXIN_BINGPHONE,false,service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApp.getContext()),CollectionsUtils.generateMap("userName",weiXinLoginPost.getUserName(),
+                        "sms_code",weiXinLoginPost.getSms_code(),"invitName",weiXinLoginPost.getInvitName(),
+                        "unionid",weiXinLoginPost.getUnionid()),WebUrlUtil.POST_WEIXIN_BINGPHONE)));
     }
 
     /**
@@ -75,30 +78,30 @@ public class LoginAction extends BaseAction<LoginView> {
                 L.e("xx", "输出返回结果 " + aBoolean);
 
                 switch (action.getIdentifying()) {
-                    case WebUrlUtil.POST_LOGIN:
+                    case WebUrlUtil.POST_WEIXIN_CHECKS:
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
-                            try {
-                                LoginDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<LoginDto>() {
-                                }.getType());
-                                view.LoginSuccessful(generalDto);
-                            }catch (JsonSyntaxException e){
-                                GeneralDto generalDto = gson.fromJson(action.getUserData().toString(),new TypeToken<GeneralDto>() {
-                                }.getType());
-                                view.onError(generalDto.getMsg(),generalDto.getCode());
-                            }
+                            GeneralDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                            }.getType());
+                            view.weiXinChecksSuccessful(generalDto);
                             return;
                         }
                         view.onError(msg,action.getErrorType());
                         break;
-                    case WebUrlUtil.POST_WEIXIN_LOGIN:
+                    case WebUrlUtil.POST_WEIXIN_BINGPHONE:
                         if (aBoolean) {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
-                            WeiLoginDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiLoginDto>() {
-                            }.getType());
-                            view.authorizationSuccessful(generalDto);
+                          try{
+                              WeiLoginDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiLoginDto>() {
+                              }.getType());
+                              view.weiXinLoginSuccessful(generalDto);
+                          }catch (JsonSyntaxException e){
+                              GeneralDto generalDto= gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                              }.getType());
+                              view.onError(generalDto.getMsg(),generalDto.getCode());
+                          }
                             return;
                         }
                         view.onError(msg,action.getErrorType());
@@ -121,4 +124,5 @@ public class LoginAction extends BaseAction<LoginView> {
 
         unregister(this);
     }
+
 }

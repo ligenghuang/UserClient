@@ -46,6 +46,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.calllib.RongCallClient;
+import io.rong.imlib.RongIMClient;
+
 /**
 * description ： 个人信息
 * author : lgh
@@ -188,6 +191,7 @@ public class UserInfoActivity extends UserBaseActivity<UserInfoAction> implement
                     @Override
                     public void confirm() {
                         logout();
+                        RongIMClient.getInstance().logout();
                     }
                 });
                 logoutDialog.show();
