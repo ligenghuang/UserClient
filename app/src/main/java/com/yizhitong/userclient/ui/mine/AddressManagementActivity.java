@@ -126,6 +126,7 @@ public class AddressManagementActivity extends UserBaseActivity<AddressManagemen
                 intent.putExtra("name",m.getName());
                 intent.putExtra("phone",m.getPhone());
                 intent.putExtra("address",m.getUserAddress());
+                intent.putExtra("iuid",m.getIUID());
                 setResult(200,intent);
                 finish();
             }

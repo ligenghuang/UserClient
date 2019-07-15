@@ -85,7 +85,8 @@
         <!-- 融云appkey 生产 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="6tnym1br6p7u7" /> <!-- 微信登录 -->
+            android:value="6tnym1br6p7u7" />
+        <!-- 微信登录 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -93,6 +94,22 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/activity_theme" />
+        <!--微信支付-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/activity_theme"/>
+
+        <receiver
+            android:name=".utils.wechat.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

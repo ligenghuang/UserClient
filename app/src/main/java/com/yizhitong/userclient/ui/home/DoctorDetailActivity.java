@@ -33,6 +33,7 @@ import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.cusview.CollapsibleTextView;
 import com.yizhitong.userclient.utils.cusview.CustomLinearLayoutManager;
 import com.yizhitong.userclient.utils.cusview.ScoreCircle;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
 
 import java.lang.ref.WeakReference;
@@ -199,7 +200,7 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
         mTvDoctorConsulting.setText(dataBean.getAsk_num() + "人");
         mTvDoctorGoodReputation.setText(dataBean.getGood_num() + "人");
         mTvDoctorBuy.setText(dataBean.getBuy_num() + "人");
-        mTvTime.setText(ResUtil.getFormatString(R.string.doctor_detail_tip_13, TextUtils.isEmpty(dataBean.getAnswer_len())?"0":dataBean.getAnswer_len()));
+        mTvTime.setText(DynamicTimeFormat.getDate(TextUtils.isEmpty(dataBean.getAnswer_len())?0: Integer.parseInt(dataBean.getAnswer_len())));
         int num = (int) (dataBean.getThe_per() * 100);
         L.e("lgh_num", "num = " + num);
         mTvDoctorNum.setText(Html.fromHtml(ResUtil.getFormatString(R.string.doctor_detail_tip_8, num + "%")));

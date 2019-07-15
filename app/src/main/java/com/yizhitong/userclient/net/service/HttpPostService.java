@@ -3,6 +3,7 @@ package com.yizhitong.userclient.net.service;
 
 
 import com.lgh.huanglib.retrofitlib.Api.BaseResultEntity2;
+import com.yizhitong.userclient.event.WeiXinPayDto;
 
 import java.util.Map;
 
@@ -59,4 +60,7 @@ public interface HttpPostService {
 
     @POST
     Observable<Double> PostData_double(@Body Map<Object, Object> body, @Url String url);
+
+    @POST
+    Observable<WeiXinPayDto> PostPayData(@Header("Cookie") String SessionId, @Body Map<Object, Object> body, @Url String url);
 }

@@ -9,21 +9,34 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lgh.huanglib.util.CheckNetwork;
 import com.lgh.huanglib.util.base.ActivityStack;
 import com.lgh.huanglib.util.data.PriceUtils;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.BaseAction;
+import com.yizhitong.userclient.actions.PrescriptionInfoPayAction;
 import com.yizhitong.userclient.adapters.MyPrescriptionPayDruyAdapter;
 import com.yizhitong.userclient.event.PreInfoDto;
+import com.yizhitong.userclient.event.WeiXinPayDto;
+import com.yizhitong.userclient.ui.home.OrderPaySuccessfulActivity;
+import com.yizhitong.userclient.ui.impl.PrescriptionInfoPayView;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
+import com.yizhitong.userclient.utils.wechat.PayUtil;
 
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PrescriptionInfoPayActivity extends UserBaseActivity {
+/**
+ * description ： 处方支付页面（缺少支付）
+ * author : lgh
+ * email : 1045105946@qq.com
+ * date : 2019/7/12
+ */
+public class PrescriptionInfoPayActivity extends UserBaseActivity<PrescriptionInfoPayAction> implements PrescriptionInfoPayView {
 
     @BindView(R.id.top_view)
     View topView;
@@ -54,14 +67,20 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
     @BindView(R.id.ll_address_info)
     LinearLayout mLlAddressInfo;
 
+    PayUtil payUtil;
+
+    String id;
+    String pay_moeny;
+    String addressId;
+
     @Override
     public int intiLayout() {
         return R.layout.activity_prescription_info_pay;
     }
 
     @Override
-    protected BaseAction initAction() {
-        return null;
+    protected PrescriptionInfoPayAction initAction() {
+        return new PrescriptionInfoPayAction(this, this);
     }
 
     @Override
@@ -98,22 +117,29 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
         mRvDrug.setAdapter(myPrescriptionPayDruyAdapter);
         myPrescriptionPayDruyAdapter.refresh(preInfoDto.getData().getDrugMV());
         mTvMoney.setText("￥" + PriceUtils.formatPrice(preInfoDto.getData().getDrug_money()));
+        id = preInfoDto.getData().getAskdrugheadid();
+        pay_moeny = preInfoDto.getData().getDrug_money()+"";
 
-        if (preInfoDto.getData().getUserAddMV()!= null){
+
+        if (preInfoDto.getData().getUserAddMV() != null) {
             mLlAddressNull.setVisibility(View.GONE);
             mLlAddress.setVisibility(View.VISIBLE);
             PreInfoDto.DataBean.UserAddMVBean userAddMVBean = preInfoDto.getData().getUserAddMV();
+            addressId = userAddMVBean.getIUID();
             mTvAddressName.setText(userAddMVBean.getName());
             mTvAddressPhone.setText(userAddMVBean.getPhone());
             mTvAddress.setText(userAddMVBean.getUserAddress());
-        }else {
+        } else {
             mLlAddressNull.setVisibility(View.VISIBLE);
             mLlAddress.setVisibility(View.GONE);
         }
+
+        payUtil = new PayUtil(this);
+        payUtil.register();
     }
 
 
-    @OnClick({R.id.ll_address_info,R.id.tv_pay})
+    @OnClick({R.id.ll_address_info, R.id.tv_pay})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_address_info:
@@ -124,8 +150,40 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
                 break;
             case R.id.tv_pay:
                 //todo 2019-06-24 立即支付
+              if (preInfoDto.getData().getUserAddMV() != null){
+                  OrderResultPay();
+              }else {
+                  showNormalToast("请选择地址！");
+              }
                 break;
         }
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        payUtil.setListener(new PayUtil.OnResponseListener() {
+            @Override
+            public void onSuccess() {
+                //todo 支付成功
+                loadDiss();
+                jumpActivity(mContext, OrderPaySuccessfulActivity.class);
+            }
+
+            @Override
+            public void onCancel(String message) {
+                //TODO  支付失败
+                loadDiss();
+                showNormalToast(message);
+            }
+
+            @Override
+            public void onFail(String message) {
+                //TODO  支付失败
+                loadDiss();
+                showNormalToast(message);
+            }
+        });
     }
 
     @Override
@@ -138,7 +196,84 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity {
                 mTvAddressName.setText(data.getStringExtra("name"));
                 mTvAddressPhone.setText(data.getStringExtra("phone"));
                 mTvAddress.setText(data.getStringExtra("address"));
+                addressId = data.getStringExtra("iuid");
             }
+        }
+    }
+
+    /**
+     * type 1、处方  0、问诊
+     */
+    @Override
+    public void OrderResultPay() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            loadDialog("请稍等");
+            baseAction.OrderResultPay(id);
+        }
+    }
+
+    @Override
+    public void OrderResultPaySuccess(WeiXinPayDto weiXinPayDto) {
+      if (weiXinPayDto.getData().getReturn_code().equals("SUCCESS")){
+          payUtil.pay(weiXinPayDto.getData().getMch_id(),weiXinPayDto.getData().getAppid(),weiXinPayDto.getData().getNonce_str(),
+                  DynamicTimeFormat.getTimestamp(),weiXinPayDto.getData().getPrepay_id(),weiXinPayDto.getData().getSign());
+      }else {
+          loadDiss();
+          showNormalToast(weiXinPayDto.getData().getReturn_msg());
+      }
+    }
+
+    @Override
+    public void defrayPaySuccess() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            baseAction.defrayPaySuccess(id,pay_moeny,addressId);
+        }
+    }
+
+    @Override
+    public void defrayPaySuccessSuccessful() {
+        loadDiss();
+        jumpActivity(mContext, OrderPaySuccessfulActivity.class);
+    }
+
+    /**
+     * 失败
+     * @param message
+     * @param code
+     */
+    @Override
+    public void onError(String message, int code) {
+        loadDiss();
+        showNormalToast(message);
+    }
+
+    @Override
+    public void onLigonError() {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (baseAction != null) {
+            baseAction.toRegister();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (baseAction != null) {
+            baseAction.toUnregister();
+        }
+        if (payUtil != null) {
+            payUtil.unregister();
         }
     }
 }

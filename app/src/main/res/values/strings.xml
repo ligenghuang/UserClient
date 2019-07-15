@@ -15,4 +15,6 @@
     <string name="prompt">提示</string>
     <string name="confirm">确定</string>
 
+    <string name="time_tip_1">%1$s分%2$s秒</string>
+
 </resources>

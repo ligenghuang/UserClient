@@ -3,6 +3,8 @@ package com.yizhitong.userclient.utils.data;
 import android.support.annotation.NonNull;
 
 import com.lgh.huanglib.util.L;
+import com.lgh.huanglib.util.data.ResUtil;
+import com.yizhitong.userclient.R;
 
 import java.text.FieldPosition;
 import java.text.ParseException;
@@ -143,9 +145,9 @@ public class DynamicTimeFormat extends SimpleDateFormat {
      *
      * @return
      */
-    public static String getTimestamp () {
+    public static String getTimestamp() {
         Calendar calendar = Calendar.getInstance();
-        return calendar.getTime().getTime()+"";
+        return calendar.getTime().getTime() + "";
     }
 
     /**
@@ -223,8 +225,8 @@ public class DynamicTimeFormat extends SimpleDateFormat {
         int todayMillis = (todayHoursSeconds + todayMinutesSeconds + todaySeconds) * 1000;
         long todayStartMillis = curTimeMillis - todayMillis;
         SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd HH:mm");
-        L.e("lgh_time","time0 = "+ timeStamp);
-        L.e("lgh_time","time = "+ sdf1.format(new Date(timeStamp)));
+        L.e("lgh_time", "time0 = " + timeStamp);
+        L.e("lgh_time", "time = " + sdf1.format(new Date(timeStamp)));
         if (timeStamp >= todayStartMillis) {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             return "今天  " + sdf.format(new Date(timeStamp));
@@ -266,6 +268,21 @@ public class DynamicTimeFormat extends SimpleDateFormat {
             // date类型转成long类型
             return currentTime;
         }
+    }
+
+    public static String getDate(int date) {
+        int m = 0;
+        int s = 0;
+
+        if (date < 60) {
+            //todo 小于60秒
+            return ResUtil.getFormatString(R.string.time_tip_1, "0", date + "");
+        }
+
+        m = date / 60;
+        s = date % 60;
+
+        return ResUtil.getFormatString(R.string.time_tip_1, m + "", s + "");
     }
 
 }

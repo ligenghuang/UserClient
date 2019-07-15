@@ -52,7 +52,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
-* 医生认证
+* 医生认证(已废除)
 * @author lgh
 * created at 2019/5/16 0016 10:22
 */

@@ -8,8 +8,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.lgh.huanglib.util.L;
+import com.lzy.imagepicker.util.Utils;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.yizhitong.userclient.utils.AppUtil;
+import com.yizhitong.userclient.utils.Constanst;
 import com.yizhitong.userclient.utils.config.MyApp;
 
 public class PayUtil {
@@ -29,7 +32,7 @@ public class PayUtil {
 
     public PayUtil register() {
         // 微信支付
-        L.e("lgh-wechat","register ");
+        L.e("lgh_pay","register ");
         receiver = new ResponseReceiver();
         IntentFilter filter = new IntentFilter(ACTION_PAY_RESPONSE);
         context.registerReceiver(receiver, filter);
@@ -39,7 +42,7 @@ public class PayUtil {
     public void unregister() {
         try {
             if (receiver != null) {
-                L.e("lgh-wechat","unregister ");
+                L.e("lgh_pay","unregister ");
                 context.unregisterReceiver(receiver);
             }
         } catch (Exception e) {
@@ -59,6 +62,14 @@ public class PayUtil {
      */
     public PayUtil pay(String partnerId, String appId, String nonceStr,
                        String timestamp, String prepayId, String sign) {
+        String A="appid="+Constanst.APP_ID+"&noncestr="+nonceStr+"&package=Sign=WXPay"+"&partnerid="+partnerId+"&prepayid="+prepayId+"&timestamp="+timestamp;
+        String stringSignTemp = A+"&key=jjvB0v1sRbQ8dJqnP1Rhx9myEPKAiIv1";
+        String s="";
+        try {
+            s = AppUtil.HMACSHA256(stringSignTemp,"jjvB0v1sRbQ8dJqnP1Rhx9myEPKAiIv1").toUpperCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         PayReq req = new PayReq();
         req.appId = appId;
         req.nonceStr = nonceStr;
@@ -66,7 +77,13 @@ public class PayUtil {
         req.partnerId = partnerId;
         req.prepayId = prepayId;
         req.timeStamp = timestamp;
-        req.sign = sign;
+        req.sign = s;
+        L.e("lgh_pay",req.sign);
+        L.e("lgh_pay",req.appId);
+        L.e("lgh_pay",req.partnerId);
+        L.e("lgh_pay",req.prepayId);
+        L.e("lgh_pay",req.timeStamp);
+        L.e("lgh_pay",req.nonceStr);
         MyApp.getWxApi().sendReq(req);
         return this;
     }
@@ -80,13 +97,13 @@ public class PayUtil {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            L.e("lgh-wechat","Response  ");
+            L.e("lgh_pay","Response  ");
             Response response = intent.getParcelableExtra(EXTRA_RESULT);
-            L.e("lgh-wechat","Response  = "+ response.toString());
-            L.e("type: " + response.getType());
-            L.e("errCode: " + response.errCode);
-            L.e("errCode: " + response.type);
-            L.e("errCode: " + response.respType);
+            L.e("lgh_pay","Response  = "+ response.toString());
+            L.e("lgh_pay","type: " + response.getType());
+            L.e("lgh_pay","errCode: " + response.errCode);
+            L.e("lgh_pay","errCode: " + response.type);
+            L.e("lgh_pay","errCode: " + response.respType);
             String result;
             if (listener != null) {
                 if (response.errCode == BaseResp.ErrCode.ERR_OK) {
@@ -94,7 +111,7 @@ public class PayUtil {
                     listener.onSuccess();
                 } else if (response.errCode == BaseResp.ErrCode.ERR_USER_CANCEL) {
 
-                    listener.onCancel();
+                    listener.onCancel("已取消支付");
                 } else {
                     switch (response.errCode) {
                         case BaseResp.ErrCode.ERR_AUTH_DENIED:
@@ -205,7 +222,7 @@ public class PayUtil {
     public interface OnResponseListener {
         void onSuccess();
 
-        void onCancel();
+        void onCancel(String message);
 
         void onFail(String message);
     }

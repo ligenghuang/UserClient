@@ -10,11 +10,10 @@ import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.yizhitong.userclient.event.GeneralDto;
-import com.yizhitong.userclient.event.InquiryInfoPayDto;
 import com.yizhitong.userclient.event.WeiXinPayDto;
 import com.yizhitong.userclient.event.WeiXinPaySuccessDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
-import com.yizhitong.userclient.ui.impl.InquiryInfoPayView;
+import com.yizhitong.userclient.ui.impl.PrescriptionInfoPayView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -24,28 +23,15 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 
 /**
-* description ：问诊单支付
-* author : lgh
-* email : 1045105946@qq.com
-* date : 2019/6/17
-*/
-public class InquiryInfoPayAction extends BaseAction<InquiryInfoPayView> {
-    public InquiryInfoPayAction(RxAppCompatActivity _rxAppCompatActivity,InquiryInfoPayView view) {
+ * description ： 处方支付页面
+ * author : lgh
+ * email : 1045105946@qq.com
+ * date : 2019/7/12
+ */
+public class PrescriptionInfoPayAction extends BaseAction<PrescriptionInfoPayView>{
+    public PrescriptionInfoPayAction(RxAppCompatActivity _rxAppCompatActivity, PrescriptionInfoPayView view) {
         super(_rxAppCompatActivity);
         attachView(view);
-    }
-
-    /**
-     * 获取问诊单详情
-     * @param iuid
-     */
-    public void getAskHeadById(String iuid){
-        post(WebUrlUtil.POST_ASKHEAD_BYID, false, service -> manager.runHttp(
-                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("iuid",iuid
-                        ),
-                        WebUrlUtil.POST_ASKHEAD_BYID)
-        ));
     }
 
     /**
@@ -55,7 +41,7 @@ public class InquiryInfoPayAction extends BaseAction<InquiryInfoPayView> {
     public void OrderResultPay(String id){
         post(WebUrlUtil.POST_WEIXIN_PAY, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("type",0,"id",id
+                        CollectionsUtils.generateMap("type",1,"id",id
                         ),
                         WebUrlUtil.POST_WEIXIN_PAY)
         ));
@@ -66,12 +52,12 @@ public class InquiryInfoPayAction extends BaseAction<InquiryInfoPayView> {
      * @param id
      * @param money
      */
-    public void defrayPaySuccess(String id,String money){
-        post(WebUrlUtil.POST_DEFRAY, false, service -> manager.runHttp(
+    public void defrayPaySuccess(String id,String money,String addressId){
+        post(WebUrlUtil.POST_PAY_DRUGHEAD, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("pay_moeny",money,"askId",id
+                        CollectionsUtils.generateMap("pay_moeny",money,"iuid",id,"addressId",addressId
                         ),
-                        WebUrlUtil.POST_DEFRAY)
+                        WebUrlUtil.POST_PAY_DRUGHEAD)
         ));
     }
 
@@ -98,48 +84,32 @@ public class InquiryInfoPayAction extends BaseAction<InquiryInfoPayView> {
                 L.e("xx", "输出返回结果 " + aBoolean);
 
                 switch (action.getIdentifying()) {
-                    case WebUrlUtil.POST_ASKHEAD_BYID:
-                        //获取问诊单信息
-                        if (aBoolean){
-                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
-                            Gson gson = new Gson();
-                            InquiryInfoPayDto inquiryInfoPayDto = gson.fromJson(action.getUserData().toString(), new TypeToken<InquiryInfoPayDto>() {
-                            }.getType());
-                            if (inquiryInfoPayDto.getCode() == 1) {
-                                view.getAskHeadByIdSuccessful(inquiryInfoPayDto);
-                            } else {
-                                view.onError(inquiryInfoPayDto.getMsg(), inquiryInfoPayDto.getCode());
-                            }
-                            return;
-                        }
-                        view.onError(msg, action.getErrorType());
-                        break;
                     case WebUrlUtil.POST_WEIXIN_PAY:
                         if (aBoolean){
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
-                           try {
-                               WeiXinPayDto weiXinPayDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiXinPayDto>() {
-                               }.getType());
-                               L.e("lgh_json",weiXinPayDto.toString());
-                               if (weiXinPayDto.getCode() == 1) {
-                                   view.OrderResultPaySuccess(weiXinPayDto);
-                               } else {
-                                   view.onError(weiXinPayDto.getMsg(), weiXinPayDto.getCode());
-                               }
-                           }catch (JsonSyntaxException e){
-                               GeneralDto generalDto =  gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
-                               }.getType());
-                               view.onError(generalDto.getMsg(),generalDto.getCode());
-                           }
+                            try {
+                                WeiXinPayDto weiXinPayDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiXinPayDto>() {
+                                }.getType());
+                                L.e("lgh_json",weiXinPayDto.toString());
+                                if (weiXinPayDto.getCode() == 1) {
+                                    view.OrderResultPaySuccess(weiXinPayDto);
+                                } else {
+                                    view.onError(weiXinPayDto.getMsg(), weiXinPayDto.getCode());
+                                }
+                            }catch (JsonSyntaxException e){
+                                GeneralDto generalDto =  gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                                }.getType());
+                                view.onError(generalDto.getMsg(),generalDto.getCode());
+                            }
 
                             return;
                         }
                         view.onError(msg, action.getErrorType());
                         break;
-                    case WebUrlUtil.POST_DEFRAY:
+                    case WebUrlUtil.POST_PAY_DRUGHEAD:
                         if (aBoolean){
-                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            L.e("RxRetrofit", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             WeiXinPaySuccessDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiXinPaySuccessDto>() {
                             }.getType());
@@ -152,7 +122,6 @@ public class InquiryInfoPayAction extends BaseAction<InquiryInfoPayView> {
                         }
                         view.onError(msg, action.getErrorType());
                         break;
-
                 }
 
             }

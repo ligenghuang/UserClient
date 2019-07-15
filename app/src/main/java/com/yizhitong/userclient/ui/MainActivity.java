@@ -555,7 +555,6 @@ public class MainActivity extends UserBaseActivity {
             }
         }
         setPosition(Position);
-
     }
 
     @Override

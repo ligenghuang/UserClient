@@ -308,6 +308,7 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
         Intent intent = new Intent(mContext,RapidInterrogationPayActivity.class);
         intent.putExtra("id",generalDto.getData());
         startActivity(intent);
+        finish();
     }
 
     @Override

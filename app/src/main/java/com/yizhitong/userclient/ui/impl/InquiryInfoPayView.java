@@ -2,6 +2,7 @@ package com.yizhitong.userclient.ui.impl;
 
 import com.lgh.huanglib.util.base.BaseView;
 import com.yizhitong.userclient.event.InquiryInfoPayDto;
+import com.yizhitong.userclient.event.WeiXinPayDto;
 
 /**
 * description :问诊单支付
@@ -12,4 +13,11 @@ import com.yizhitong.userclient.event.InquiryInfoPayDto;
 public interface InquiryInfoPayView extends BaseView {
     void getAskHeadById(String iuid);
     void getAskHeadByIdSuccessful(InquiryInfoPayDto inquiryInfoPayDto);
+
+    void OrderResultPay();
+    void OrderResultPaySuccess(WeiXinPayDto weiXinPayDto);
+
+    void defrayPaySuccess();
+    void defrayPaySuccessSuccessful();
+
 }

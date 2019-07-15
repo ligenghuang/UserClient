@@ -16,11 +16,15 @@ import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.InquiryInfoPayAction;
 import com.yizhitong.userclient.event.InquiryInfoPayDto;
+import com.yizhitong.userclient.event.WeiXinPayDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
+import com.yizhitong.userclient.ui.home.OrderPaySuccessfulActivity;
 import com.yizhitong.userclient.ui.impl.InquiryInfoPayView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.ui.mine.InterrogationAgreementActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
+import com.yizhitong.userclient.utils.wechat.PayUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -28,7 +32,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * description ： 问诊单支付页面
+ * description ： 问诊单支付页面（缺少支付）
  * author : lgh
  * email : 1045105946@qq.com
  * date : 2019/6/14
@@ -68,6 +72,9 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     LinearLayout mLlCb;
 
     boolean isRead = false;
+    PayUtil payUtil;
+    String id;
+    String pay_moeny;
 
     @Override
     public int intiLayout() {
@@ -108,6 +115,36 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
         mActicity = this;
         iuid = getIntent().getStringExtra("iuid");
         getAskHeadById(iuid);
+        payUtil = new PayUtil(this);
+        payUtil.register();
+        loadView();
+    }
+
+
+    @Override
+    protected void loadView() {
+        super.loadView();
+        payUtil.setListener(new PayUtil.OnResponseListener() {
+            @Override
+            public void onSuccess() {
+                //todo 支付成功
+              defrayPaySuccess();
+            }
+
+            @Override
+            public void onCancel(String message) {
+                //TODO  支付失败
+                loadDiss();
+                showNormalToast(message);
+            }
+
+            @Override
+            public void onFail(String message) {
+                //TODO  支付失败
+                loadDiss();
+                showNormalToast(message);
+            }
+        });
     }
 
     @Override
@@ -122,19 +159,53 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     public void getAskHeadByIdSuccessful(InquiryInfoPayDto inquiryInfoPayDto) {
         loadDiss();
         InquiryInfoPayDto.DataBean dataBean = inquiryInfoPayDto.getData();
+        id = dataBean.getAskIUID();
         GlideUtil.setImage(mContext, WebUrlUtil.IMG_URL + dataBean.getThe_img(), mIvInquiry, R.drawable.icon_placeholder);
-        if (!TextUtils.isEmpty(dataBean.getDoctorName())){
+        if (!TextUtils.isEmpty(dataBean.getDoctorName())) {
             //todo 已分配医生
             mTvInquiryDoctorName.setText(dataBean.getDoctorName());
             mTvInquiryDoctorLevel.setText("(" + dataBean.getThe_level() + ")");
             mTvInquiryDoctorHospital.setText(dataBean.getHospital());
-        }else {
+        } else {
             //todo 未分配医生
             mTvInquiryDoctorName.setText(ResUtil.getString(R.string.inquity_tip_24));
         }
         mTvInquiryNote.setText(dataBean.getIll_note());
+        pay_moeny = dataBean.getDoctor_money()+"";
         mTvMoney.setText("￥" + dataBean.getDoctor_money());
         inquiryMoneyTv.setText("￥" + dataBean.getDoctor_money());
+    }
+
+    @Override
+    public void OrderResultPay() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            loadDialog("请稍等");
+            baseAction.OrderResultPay(id);
+        }
+    }
+
+    @Override
+    public void OrderResultPaySuccess(WeiXinPayDto weiXinPayDto) {
+        if (weiXinPayDto.getData().getReturn_code().equals("SUCCESS")){
+            payUtil.pay(weiXinPayDto.getData().getMch_id(),weiXinPayDto.getData().getAppid(),weiXinPayDto.getData().getNonce_str(),
+                    DynamicTimeFormat.getTimestamp(),weiXinPayDto.getData().getPrepay_id(),weiXinPayDto.getData().getSign());
+        }else {
+            loadDiss();
+            showNormalToast(weiXinPayDto.getData().getReturn_msg());
+        }
+    }
+
+    @Override
+    public void defrayPaySuccess() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            baseAction.defrayPaySuccess(id,pay_moeny);
+        }
+    }
+
+    @Override
+    public void defrayPaySuccessSuccessful() {
+        loadDiss();
+        jumpActivity(mContext, OrderPaySuccessfulActivity.class);
     }
 
     @Override
@@ -160,13 +231,21 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     @Override
     protected void onPause() {
         super.onPause();
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
         if (baseAction != null) {
             baseAction.toUnregister();
         }
+        if (payUtil != null) {
+            payUtil.unregister();
+        }
     }
 
-
-    @OnClick({R.id.ll_cb, R.id.checkbox,R.id.tv_interrogation_agreement})
+    @OnClick({R.id.ll_cb, R.id.checkbox, R.id.tv_interrogation_agreement,R.id.tv_pay})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_cb:
@@ -178,6 +257,12 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
             case R.id.tv_interrogation_agreement:
                 //todo 问诊协议
                 jumpActivityNotFinish(mContext, InterrogationAgreementActivity.class);
+                break;
+            case R.id.tv_pay:
+                //todo 立即支付
+                if (isRead) {
+                    OrderResultPay();
+                }
                 break;
         }
     }

@@ -15,6 +15,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yizhitong.userclient.event.WXBaseRespEntity;
 import com.yizhitong.userclient.utils.Constanst;
+import com.yizhitong.userclient.utils.wechat.PayUtil;
 
 public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
 
@@ -28,16 +29,17 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
         api = WXAPIFactory.createWXAPI(this, Constanst.APP_ID, true);
         //将应用的appid注册到微信
         api.registerApp(Constanst.APP_ID);
-        L.e("------------WXPayEntryActivity------------------------");
+        L.e("lgh_pay","------------WXPayEntryActivity------------------------");
         //注意：
         //第三方开发者如果使用透明界面来实现WXEntryActivity，需要判断handleIntent的返回值，如果返回值为false，则说明入参不合法未被SDK处理，应finish当前透明界面，避免外部通过传递非法参数的Intent导致停留在透明界面，引起用户的疑惑
         try {
             boolean result = api.handleIntent(getIntent(), this);
             if (!result) {
-                L.e("参数不合法，未被SDK处理，退出");
+                L.e("lgh_pay","参数不合法，未被SDK处理，退出");
                 finish();
             }
         } catch (Exception e) {
+            L.e("lgh_pay",e.toString());
             e.printStackTrace();
         }
     }
@@ -45,7 +47,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        L.e("onActivityResult.......");
+        L.e("lgh_pay","onActivityResult.......");
         api.handleIntent(data, this);
     }
 
@@ -59,22 +61,23 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
 
     @Override
     public void onReq(BaseReq baseReq) {
-        L.e("baseReq:" + baseReq.toString());
+        L.e("lgh_pay","baseReq:" + baseReq.toString());
     }
 
     @Override
     public void onResp(BaseResp baseResp) {
-        L.e("baseResp:--A" + JSON.toJSONString(baseResp));
-        L.e("baseResp--B:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode + " getType " + baseResp.getType());
+        L.e("lgh_pay","baseResp:--A" + JSON.toJSONString(baseResp));
+        L.e("lgh_pay","baseResp--B:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode + " getType " + baseResp.getType());
         WXBaseRespEntity entity = JSON.parseObject(JSON.toJSONString(baseResp), WXBaseRespEntity.class);
         String result = "";
         Intent intent = null;
-        L.e("baseResp:--C   " + baseResp.getType() + " getCode " + entity.getCode());
+        L.e("lgh_pay","entity   = " + entity.toString());
+        L.e("lgh_pay","baseResp:--C   " + baseResp.getType() + " getCode " + entity.getCode());
         switch (baseResp.getType()) {
             case ConstantsAPI.COMMAND_PAY_BY_WX://微信支付
-                L.e("xx", "微信支付.......");
-//                intent = new Intent(PayUtil.ACTION_PAY_RESPONSE);
-//                intent.putExtra(PayUtil.EXTRA_RESULT, new PayUtil.Response(baseResp, entity.getCode()));
+                L.e("lgh_pay","微信支付.......");
+                intent = new Intent(PayUtil.ACTION_PAY_RESPONSE);
+                intent.putExtra(PayUtil.EXTRA_RESULT, new PayUtil.Response(baseResp, entity.getCode()));
                 sendBroadcast(intent);
                 finish();
                 break;

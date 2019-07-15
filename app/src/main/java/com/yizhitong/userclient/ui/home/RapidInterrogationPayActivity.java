@@ -19,10 +19,13 @@ import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.RapidInterrogationPayAction;
 import com.yizhitong.userclient.adapters.ImageItemAdapter;
 import com.yizhitong.userclient.event.InquiryInfoDto;
+import com.yizhitong.userclient.event.WeiXinPayDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationPayView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
+import com.yizhitong.userclient.utils.wechat.PayUtil;
 
 import java.lang.ref.WeakReference;
 
@@ -74,7 +77,9 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
     ImageItemAdapter imageItemAdapter;
     boolean isRead = false;
 
-
+    PayUtil payUtil;
+    String id;
+    String pay_moeny;
 
 
     @Override
@@ -123,6 +128,36 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
 
 
         getAskHeadById();
+        payUtil = new PayUtil(this);
+        payUtil.register();
+        loadView();
+    }
+
+
+    @Override
+    protected void loadView() {
+        super.loadView();
+        payUtil.setListener(new PayUtil.OnResponseListener() {
+            @Override
+            public void onSuccess() {
+                //todo 支付成功
+                defrayPaySuccess();
+            }
+
+            @Override
+            public void onCancel(String message) {
+                //TODO  支付失败
+                loadDiss();
+                showNormalToast(message);
+            }
+
+            @Override
+            public void onFail(String message) {
+                //TODO  支付失败
+                loadDiss();
+                showNormalToast(message);
+            }
+        });
     }
 
     @OnClick({R.id.checkbox, R.id.ll_cb, R.id.tv_pay})
@@ -136,7 +171,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
                 break;
             case R.id.tv_pay:
                 if (isRead) {
-//                   jumpActivityNotFinish(mContext,OrderPaySuccessfulActivity.class);
+                    OrderResultPay();
                 }
                 break;
         }
@@ -162,10 +197,12 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
     public void getAskHeadByIdSuccessful(InquiryInfoDto inquiryInfoDto) {
         loadDiss();
         InquiryInfoDto.DataBean dataBean = inquiryInfoDto.getData();
+        id = dataBean.getAskIUID();
         mTvInquiryNote.setText(dataBean.getIll_note());
         String money = "￥" + PriceUtils.formatPrice(dataBean.getAll_money());
         mTvInquiryMoney.setText(money);
         mTvMoney.setText(money);
+        pay_moeny = dataBean.getDoctor_money()+"";
         imageItemAdapter.refresh(dataBean.getIll_img());
         if (!dataBean.getDocUserId().isEmpty()) {
             //todo 已分配医生
@@ -180,6 +217,38 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
             mLlInquiryDoctorInfo.setVisibility(View.GONE);
             mTvInquiryDoctor.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void OrderResultPay() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            loadDialog("请稍等");
+            baseAction.OrderResultPay(id);
+        }
+    }
+
+    @Override
+    public void OrderResultPaySuccess(WeiXinPayDto weiXinPayDto) {
+        if (weiXinPayDto.getData().getReturn_code().equals("SUCCESS")){
+            payUtil.pay(weiXinPayDto.getData().getMch_id(),weiXinPayDto.getData().getAppid(),weiXinPayDto.getData().getNonce_str(),
+                    DynamicTimeFormat.getTimestamp(),weiXinPayDto.getData().getPrepay_id(),weiXinPayDto.getData().getSign());
+        }else {
+            loadDiss();
+            showNormalToast(weiXinPayDto.getData().getReturn_msg());
+        }
+    }
+
+    @Override
+    public void defrayPaySuccess() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            baseAction.defrayPaySuccess(id,pay_moeny);
+        }
+    }
+
+    @Override
+    public void defrayPaySuccessSuccessful() {
+        loadDiss();
+        jumpActivity(mContext, OrderPaySuccessfulActivity.class);
     }
 
     @Override
@@ -205,9 +274,17 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
     @Override
     protected void onPause() {
         super.onPause();
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
         if (baseAction != null) {
             baseAction.toUnregister();
         }
+        if (payUtil != null) {
+            payUtil.unregister();
+        }
     }
-
 }

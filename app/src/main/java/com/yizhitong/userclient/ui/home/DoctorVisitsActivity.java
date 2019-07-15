@@ -301,6 +301,7 @@ public class DoctorVisitsActivity extends UserBaseActivity<DoctorVisitsAction> i
         Intent intent = new Intent(mContext,RapidInterrogationPayActivity.class);
         intent.putExtra("id",generalDto.getData());
         startActivity(intent);
+        finish();
     }
 
     @Override

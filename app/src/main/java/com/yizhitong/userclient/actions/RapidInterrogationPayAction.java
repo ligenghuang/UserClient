@@ -1,6 +1,7 @@
 package com.yizhitong.userclient.actions;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.net.CollectionsUtils;
@@ -8,7 +9,10 @@ import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.InquiryInfoDto;
+import com.yizhitong.userclient.event.WeiXinPayDto;
+import com.yizhitong.userclient.event.WeiXinPaySuccessDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationPayView;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
@@ -38,6 +42,33 @@ public class RapidInterrogationPayAction extends BaseAction<RapidInterrogationPa
                         CollectionsUtils.generateMap("IUID",id
                         ),
                         WebUrlUtil.POST_ASKHEAD_BY_ID)
+        ));
+    }
+
+    /**
+     * 支付
+     * @param id
+     */
+    public void OrderResultPay(String id){
+        post(WebUrlUtil.POST_WEIXIN_PAY, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
+                        CollectionsUtils.generateMap("type",0,"id",id
+                        ),
+                        WebUrlUtil.POST_WEIXIN_PAY)
+        ));
+    }
+
+    /**
+     * 问诊单支付成功
+     * @param id
+     * @param money
+     */
+    public void defrayPaySuccess(String id,String money){
+        post(WebUrlUtil.POST_DEFRAY, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
+                        CollectionsUtils.generateMap("pay_moeny",money,"askId",id
+                        ),
+                        WebUrlUtil.POST_DEFRAY)
         ));
     }
 
@@ -74,6 +105,44 @@ public class RapidInterrogationPayAction extends BaseAction<RapidInterrogationPa
                                 view.getAskHeadByIdSuccessful(inquiryInfoDto);
                             } else {
                                 view.onError(inquiryInfoDto.getMsg(), inquiryInfoDto.getCode());
+                            }
+                            return;
+                        }
+                        view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_WEIXIN_PAY:
+                        if (aBoolean){
+                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            Gson gson = new Gson();
+                            try {
+                                WeiXinPayDto weiXinPayDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiXinPayDto>() {
+                                }.getType());
+                                L.e("lgh_json",weiXinPayDto.toString());
+                                if (weiXinPayDto.getCode() == 1) {
+                                    view.OrderResultPaySuccess(weiXinPayDto);
+                                } else {
+                                    view.onError(weiXinPayDto.getMsg(), weiXinPayDto.getCode());
+                                }
+                            }catch (JsonSyntaxException e){
+                                GeneralDto generalDto =  gson.fromJson(action.getUserData().toString(), new TypeToken<GeneralDto>() {
+                                }.getType());
+                                view.onError(generalDto.getMsg(),generalDto.getCode());
+                            }
+
+                            return;
+                        }
+                        view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_DEFRAY:
+                        if (aBoolean){
+                            L.e("RxRetrofit", "输出返回结果 " + action.getUserData().toString());
+                            Gson gson = new Gson();
+                            WeiXinPaySuccessDto generalDto = gson.fromJson(action.getUserData().toString(), new TypeToken<WeiXinPaySuccessDto>() {
+                            }.getType());
+                            if (generalDto.getCode() == 1) {
+                                view.defrayPaySuccessSuccessful();
+                            } else {
+                                view.onError(generalDto.getMsg(), generalDto.getCode());
                             }
                             return;
                         }
