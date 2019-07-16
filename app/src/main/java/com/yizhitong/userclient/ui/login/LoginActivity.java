@@ -251,6 +251,7 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
     @Override
     public void onError(String message, int code) {
         loadDiss();
+        showNormalToast(message);
     }
 
     @Override

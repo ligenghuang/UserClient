@@ -45,6 +45,8 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
     @BindView(R.id.tv_user_health_value)
     TextView userHealthValueTv;
 
+    boolean isVisible = false;
+
     @Override
     protected MineAction initAction() {
         return new MineAction((RxAppCompatActivity) getContext(), this);
@@ -81,6 +83,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
         loadDiss();
+        this.isVisible = isVisible;
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(false, R.color.color_38a234);
             if (MySp.getToken(mContext) != null) {
@@ -235,14 +238,16 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
     public void onResume() {
         super.onResume();
         baseAction.toRegister();
-        if (MySp.getToken(mContext) != null) {
-            L.e("lgh_mine","onResume 1");
-            isLogin();
-        } else {
-            L.e("lgh_mine","onResume 2");
-            userPortraitIv.setImageResource(R.drawable.icon_placeholder);
-            userNmaeTv.setText("未登录");
-            userHealthValueTv.setVisibility(View.GONE);
+        if (isVisible){
+            if (MySp.getToken(mContext) != null) {
+                L.e("lgh_mine","onResume 1");
+                isLogin();
+            } else {
+                L.e("lgh_mine","onResume 2");
+                userPortraitIv.setImageResource(R.drawable.icon_placeholder);
+                userNmaeTv.setText("未登录");
+                userHealthValueTv.setVisibility(View.GONE);
+            }
         }
     }
 

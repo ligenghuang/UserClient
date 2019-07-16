@@ -92,6 +92,7 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
         ActivityStack.getInstance().addActivity(new WeakReference<>(this));
         binding();
         initView();
+
     }
 
     @Override
@@ -223,6 +224,7 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     @Override
     protected void onResume() {
         super.onResume();
+        hideInput();
         if (baseAction != null) {
             baseAction.toRegister();
         }

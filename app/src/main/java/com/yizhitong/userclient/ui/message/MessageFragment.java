@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
+import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.MyFragmentPagerAdapter;
 import com.lgh.huanglib.util.cusview.CustomViewPager;
 import com.lgh.huanglib.util.data.ResUtil;
@@ -59,6 +60,7 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     private static final int H_CODE_UPDATE = 1;
     private List<MessageListDto.DataBean> mNewDatas;//增加一个变量暂存newList
 
+    boolean isVisible = false;
 
     @Override
     protected MessageAction initAction() {
@@ -82,8 +84,14 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     }
 
     @Override
+    protected void onFragmentFirstVisible() {
+        super.onFragmentFirstVisible();
+    }
+
+    @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
+        this.isVisible = isVisible;
         if (isVisible) {
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.white);
             getMessageList();
@@ -106,26 +114,6 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
         recyclerView.setAdapter(messageLlistAdapter);
     }
 
-//    @Override
-//    public void isLogin() {
-//        if (CheckNetwork.checkNetwork2(mContext)) {
-//            baseAction.isLogin();
-//        }
-//    }
-//
-//    @Override
-//    public void isLoginSuccessful() {
-//        getMessageList();
-//    }
-//
-//    /**
-//     * 未登录
-//     */
-//    @Override
-//    public void isLoginError() {
-//        loadDiss();
-////        jumpActivityNotFinish(mContext, LoginActivity.class);
-//    }
 
     /**
      * 获取消息列表
@@ -155,8 +143,8 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
                 message.sendToTarget();
             }
         }).start();
-        recyclerView.setVisibility(messageListDto.getData().size() == 0?View.GONE:View.VISIBLE);
-        nullMessageIV.setVisibility(messageListDto.getData().size() == 0?View.VISIBLE:View.GONE);
+        recyclerView.setVisibility(messageListDto.getData().size() == 0 ? View.GONE : View.VISIBLE);
+        nullMessageIV.setVisibility(messageListDto.getData().size() == 0 ? View.VISIBLE : View.GONE);
     }
 
     private Handler mHandler = new Handler() {
@@ -200,8 +188,8 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     public void onResume() {
         super.onResume();
         baseAction.toRegister();
-        if (MySp.getToken(mContext) != null) {
-           getMessageList();
+        if (MySp.getToken(mContext) != null&&isVisible) {
+            getMessageList();
         }
     }
 

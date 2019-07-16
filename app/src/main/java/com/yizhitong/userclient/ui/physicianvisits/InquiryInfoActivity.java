@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
@@ -69,6 +70,8 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
     RecyclerView mRvPrescription;
     @BindView(R.id.tv_submit)
     TextView mTvSubmit;
+    @BindView(R.id.ll_submit)
+    LinearLayout submitLl;
 
     IllessImgAdapter illessImgAdapter;
     AskDrugListAdapter askDrugListAdapter;
@@ -168,7 +171,7 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
         mTvMedicalHistory.setText(patientMVBean.getMed_history());
         mTvIllness.setText(dataBean.getIll_note());
         illessImgAdapter.refresh(dataBean.getIll_img());
-        mTvSubmit.setVisibility(dataBean.getAsk_flag() == 0?View.GONE:View.VISIBLE);
+        submitLl.setVisibility(dataBean.getAsk_flag() == 0?View.GONE:View.VISIBLE);
     }
 
     @Override

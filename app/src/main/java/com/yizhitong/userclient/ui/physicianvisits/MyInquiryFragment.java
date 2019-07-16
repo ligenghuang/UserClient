@@ -59,6 +59,8 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
     private static final int H_CODE_UPDATE = 1;
     private List<MyInquiryDto.DataBean> mNewDatas;//增加一个变量暂存newList
 
+    boolean isVisible = false;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -141,6 +143,7 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         L.e("myinquiry", "个人中心 onFragmentVisibleChange........." + isVisible);
+        this.isVisible = isVisible;
         if (isVisible && MySp.iSLoginLive(mContext) && PhysicianvisitsFragment.Position == position) {
             //更新界面数据，如果数据还在下载中，就显示加载框
 //            loadNet();
@@ -252,7 +255,7 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
             baseAction.toRegister();
         }
 
-        if (PhysicianvisitsFragment.Position == position&&MySp.iSLoginLive(mContext)) {
+        if (PhysicianvisitsFragment.Position == position&&MySp.iSLoginLive(mContext)&&isVisible) {
             L.e("lgh", "onResume  = " + true);
             getAskHead();
         }

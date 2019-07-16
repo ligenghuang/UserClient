@@ -255,6 +255,7 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity<PrescriptionIn
     @Override
     protected void onResume() {
         super.onResume();
+        hideInput();
         if (baseAction != null) {
             baseAction.toRegister();
         }

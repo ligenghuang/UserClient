@@ -266,6 +266,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
     @Override
     protected void onResume() {
         super.onResume();
+        hideInput();
         if (baseAction != null) {
             baseAction.toRegister();
         }
