@@ -386,8 +386,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                 break;
             case R.id.tv_add:
                 //todo 添加
-                isAdd = !isAdd;
-                addLl.setVisibility(isAdd ? View.VISIBLE : View.GONE);
+               addllGone(!isAdd);
                 linear.setVisibility(View.VISIBLE);
                 commonLanguageLl.setVisibility(View.GONE);
                 hideInput();
@@ -435,12 +434,12 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
             case R.id.tv_video:
                 //todo 视频聊天
                 checkOnline(1);
-                addllGone();
+                addllGone(false);
                 break;
             case R.id.tv_audio:
                 //todo 语音聊天
                 checkOnline(2);
-                addllGone();
+                addllGone(false);
                 break;
         }
     }
@@ -448,9 +447,9 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     /**
      * 隐藏布局
      */
-    private void addllGone() {
-        isAdd = false;
-        addLl.setVisibility(View.GONE);
+    private void addllGone(boolean b) {
+        isAdd = b;
+        addLl.setVisibility(b?View.VISIBLE:View.GONE);
         recyclerView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -479,9 +478,6 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
                         L.d("lgh_userId", "请求错误.." + e.toString());
-                        L.d("lgh_userId", "请求错误.." + call.toString());
-                        L.d("lgh_userId", "请求错误.." + call.request().url().toString());
-                        L.d("lgh_userId", "请求错误.." + call.request().toString());
                     }
 
                     @Override
@@ -519,9 +515,6 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
                         L.d("lgh_userId", "请求错误.." + e.toString());
-                        L.d("lgh_userId", "请求错误.." + call.toString());
-                        L.d("lgh_userId", "请求错误.." + call.request().url().toString());
-                        L.d("lgh_userId", "请求错误.." + call.request().toString());
                     }
 
                     @Override
@@ -718,6 +711,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     @Override
     public void sendMessageSuccessful(SendMessageDto sendMessageDto) {
         loadDiss();
+        isRefresh = true;
         MainActivity.sendMessage("txt", sendMessageDto, mContext);
 
     }
@@ -730,6 +724,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
     @Override
     public void sendPicturesaSuccessful(SendMessageDto sendMessageDto) {
         loadDiss();
+        isRefresh = true;
         MainActivity.sendMessage("image", sendMessageDto, mContext);
     }
 
@@ -915,13 +910,13 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
         imagePicker.setShowCamera(true);                      //显示拍照按钮
-        imagePicker.setCrop(true);                           //允许裁剪（单选才有效）
+        imagePicker.setCrop(false);                           //允许裁剪（单选才有效）
         imagePicker.setMultiMode(false);
         imagePicker.setSaveRectangle(true);
         imagePicker.setSelectLimit(1);              //选中数量限制
         imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
         imagePicker.setFocusWidth(800);                       //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setFocusHeight(800);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(1000);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
         imagePicker.setOutPutX(400);                         //保存文件的宽度。单位像素
         imagePicker.setOutPutY(400);                         //保存文件的高度。单位像素
     }
@@ -948,16 +943,17 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                                 int zoomSacle = 3;
                                 try {
                                     // 当图片大小大于512kb至少缩小两倍
-                                    if (imgUri.length() / 1024 > 512) {
-                                        zoomSacle = zoomSacle * 10;
-                                    }
+//                                    if (imgUri.length() / 1024 > 512) {
+//                                        zoomSacle = zoomSacle * 10;
+//                                    }
 //
 //                                    //todo  请求接口 发送图片消息
-                                    L.e("lgh", "images.get(0).path  = " + images.get(0).path);
+                                    L.e("lgh_path", "images.get(0).path  = " + images.get(0).path);
 //                                    GlideUtil.setImageCircle(mContext,images.get(0).path,isPortrait?userPortaitIv:userCertificateIv,0);
                                     if (CheckNetwork.checkNetwork2(mContext)) {
                                         loadDialog();
-                                        baseAction.sendPicturesa(images.get(0).path, touserId, askId);
+                                        addllGone(false);
+                                        baseAction.sendPicturesa(images.get(0).path, touserId, askId,images.get(0).width,images.get(0).height);
                                     }
                                 } catch (Exception e) {
                                     loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);
@@ -974,10 +970,10 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                         int zoomSacle = 3;
                         try {
                             // 当图片大小大于512kb至少缩小两倍
-                            if (imgUri.length() / 1024 > 512) {
-                                zoomSacle = zoomSacle * 10;
-                            }
-                            PicUtils.showCutPhoto(data, zoomSacle, imgUri.getPath());
+//                            if (imgUri.length() / 1024 > 512) {
+//                                zoomSacle = zoomSacle * 10;
+//                            }
+//                            PicUtils.showCutPhoto(data, zoomSacle, imgUri.getPath());
 //                                    PicUtils.getCompressedImgPath(images.get(0).path, photoOption);
 //                                    baseAction.uploadImage(images.get(0).path);
                         } catch (Exception e) {
@@ -987,11 +983,12 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                         try {
                             //todo  请求接口 发送图片消息
 //                            uploadAvatar(images.get(0).path);
-                            L.e("lgh", "images.get(0).path  = " + images.get(0).path);
+                            L.e("lgh_path", "images.get(0).path  = " + images.get(0).path);
 //                            GlideUtil.setImageCircle(mContext,images.get(0).path,isPortrait?userPortaitIv:userCertificateIv,0);
                             if (CheckNetwork.checkNetwork2(mContext)) {
                                 loadDialog();
-                                baseAction.sendPicturesa(images.get(0).path, touserId, askId);
+                                addllGone(false);
+                                baseAction.sendPicturesa(images.get(0).path, touserId, askId,images.get(0).width,images.get(0).height);
                             }
                         } catch (Exception e) {
                             loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);

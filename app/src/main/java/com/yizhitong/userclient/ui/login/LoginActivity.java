@@ -235,7 +235,12 @@ public class LoginActivity extends UserBaseActivity<LoginAction> implements Logi
             MySp.setRoogUserImg(mContext,generalDto.getData().getNiceImg());
             MySp.setRoogUserName(mContext,generalDto.getData().getNicename());
             loadDiss();
-            finish();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            }, 2000);
 
         }
 

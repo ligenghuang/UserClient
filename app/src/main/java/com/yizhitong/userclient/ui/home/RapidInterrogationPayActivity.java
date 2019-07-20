@@ -219,6 +219,9 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         }
     }
 
+    /**
+     * 获取支付所需数据
+     */
     @Override
     public void OrderResultPay() {
         if (CheckNetwork.checkNetwork2(mContext)){
@@ -227,9 +230,14 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         }
     }
 
+    /**
+     * 获取支付所需数据 成功
+     * @param weiXinPayDto
+     */
     @Override
     public void OrderResultPaySuccess(WeiXinPayDto weiXinPayDto) {
         if (weiXinPayDto.getData().getReturn_code().equals("SUCCESS")){
+            //TODO 调起微信支付
             payUtil.pay(weiXinPayDto.getData().getMch_id(),weiXinPayDto.getData().getAppid(),weiXinPayDto.getData().getNonce_str(),
                     DynamicTimeFormat.getTimestamp(),weiXinPayDto.getData().getPrepay_id(),weiXinPayDto.getData().getSign());
         }else {
@@ -238,6 +246,9 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         }
     }
 
+    /**
+     * 支付成功 修改问诊单状态
+     */
     @Override
     public void defrayPaySuccess() {
         if (CheckNetwork.checkNetwork2(mContext)){
@@ -245,12 +256,20 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         }
     }
 
+    /**
+     * 支付成功 修改问诊单状态 成功
+     */
     @Override
     public void defrayPaySuccessSuccessful() {
         loadDiss();
         jumpActivity(mContext, OrderPaySuccessfulActivity.class);
     }
 
+    /**
+     * 失败
+     * @param message
+     * @param code
+     */
     @Override
     public void onError(String message, int code) {
         loadDiss();

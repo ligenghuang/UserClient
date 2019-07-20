@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yizhitong.userclient">
     <!-- 8867c8490cf0765131891d361b65e8b1 -->
+    <!-- 未打包 -->
+    <!-- 759f1c75743dcd190ef943058079ce4e -->
+    <!-- 打包 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -29,7 +32,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/activity_theme">
-        <activity android:name=".ui.login.BingPhoneActivity"></activity>
+        <activity android:name=".ui.message.ImageDetailActivity"></activity>
+        <activity android:name=".ui.login.BingPhoneActivity" />
         <activity android:name=".ui.mine.InterrogationAgreementActivity" />
         <activity android:name=".ui.home.OrderPaySuccessfulActivity" />
         <activity android:name=".ui.home.DoctorDetailActivity" />
@@ -85,23 +89,21 @@
         <!-- 融云appkey 生产 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="6tnym1br6p7u7" />
-        <!-- 微信登录 -->
+            android:value="6tnym1br6p7u7" /> <!-- 微信登录 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/activity_theme" />
-        <!--微信支付-->
+            android:theme="@style/activity_theme" /> <!-- 微信支付 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/activity_theme"/>
+            android:theme="@style/activity_theme" />
 
         <receiver
             android:name=".utils.wechat.AppRegister"

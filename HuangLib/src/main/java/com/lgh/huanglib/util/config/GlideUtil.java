@@ -1,6 +1,7 @@
 package com.lgh.huanglib.util.config;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;

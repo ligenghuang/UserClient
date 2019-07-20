@@ -18,6 +18,7 @@ import com.yizhitong.userclient.event.SendMessageDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.MessageDetailView;
 import com.yizhitong.userclient.utils.config.MyApp;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -92,17 +93,21 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
      *
      * @param avatar
      */
-    public void sendPicturesa(String avatar, String touserid, String askId) {
+    public void sendPicturesa(String avatar, String touserid, String askId,int width,int height) {
 //2.获取图片，创建请求体
         File file = new File(avatar);
+        L.e("lgh_path","file = "+file.length());
+        String name = DynamicTimeFormat.getTimestamp()+".jpg";
         //构建body
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("name", file.getName())
+                .addFormDataPart("name", name)
                 .addFormDataPart("type", "image/jpeg")
                 .addFormDataPart("H5ORDOC", "0")
                 .addFormDataPart("touserid", touserid)
                 .addFormDataPart("askId", askId)
-                .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/jpeg"), file))
+                .addFormDataPart("width",width+"")
+                .addFormDataPart("heigh",height+"")
+                .addFormDataPart("file",name, RequestBody.create(MediaType.parse("image/jpeg"), file))
                 .build();
         post(WebUrlUtil.POST_SEND_PICTURESA, false, service -> manager.runHttp(service.PostData_1(
                 MySharedPreferencesUtil.getSessionId(MyApp.getContext()), requestBody, WebUrlUtil.POST_SEND_PICTURESA)));

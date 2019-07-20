@@ -139,6 +139,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
 
        switch (type){
            case 1:
+               //TODO  根据科室查找
                String name = getIntent().getStringExtra("departName");
                departId = getIntent().getStringExtra("departId");
                post.setDepartid(departId);
@@ -146,6 +147,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
                findDoctor(post);
                break;
            case 0:
+               //TODO 根据关键字查找
                condition = getIntent().getStringExtra("condition");
                if (!TextUtils.isEmpty(condition)) {
                    findDoctorCondition(condition);
@@ -182,6 +184,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
                 customScreenPopupView.dismiss();
             }
         });
+        //TODO 监听软键盘搜索按钮
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -204,9 +207,11 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_tab_1:
+                //TODO 弹出科室列表弹窗
                 findDepartByAll();
                 break;
             case R.id.ll_tab_2:
+                //TODO 弹出地区选择弹窗
                 showCustomCityPopupView();
                 break;
             case R.id.ll_tab_3:
@@ -302,7 +307,7 @@ public class FindDoctorActivity extends UserBaseActivity<FindDoctorAction> imple
         mRvDoctor.setVisibility(View.VISIBLE);
         findDoctorAdapter.refresh(findDoctorDto.getData());
         if (findDoctorAdapter.getAllData().size() == 0){
-
+            //TODO 搜索不到医生
         }
     }
 

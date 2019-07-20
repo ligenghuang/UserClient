@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.MyFragmentPagerAdapter;
 import com.lgh.huanglib.util.cusview.CustomViewPager;
 import com.lgh.huanglib.util.data.ResUtil;
@@ -40,7 +41,7 @@ public class PhysicianvisitsFragment extends UserBaseFragment {
     ArrayList<Fragment> fragments;
     MyFragmentPagerAdapter fragmentPagerAdapter;
 
-    public static int Position = 0;
+    public static int Position = -1;
 
     @Override
     protected BaseAction initAction() {
@@ -66,11 +67,18 @@ public class PhysicianvisitsFragment extends UserBaseFragment {
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         super.onFragmentVisibleChange(isVisible);
+        L.e("lgh_myInquiry","isVisible   = "+isVisible);
         if (isVisible){
+            L.e("lgh_myInquiry","isVisible11   = "+isVisible);
             ((MainActivity) getActivity()).changeStatusBar(true, R.color.white);
+            viewPager.setCurrentItem(Position, false);
             MyInquiryFragment myInquiryFragment = (MyInquiryFragment) fragments.get(Position);
             myInquiryFragment.getAskHead();
         }
+//        else {
+//            L.e("lgh_myInquiry","isVisible22   = "+isVisible);
+//            Position =-1;
+//        }
 
     }
 

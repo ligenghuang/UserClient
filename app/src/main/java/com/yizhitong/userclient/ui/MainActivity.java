@@ -230,6 +230,7 @@ public class MainActivity extends UserBaseActivity {
                     jumpActivityNotFinish(mContext, LoginActivity.class);
                     return false;
                 }
+                PhysicianvisitsFragment.Position = -1;
                 Position = POIONTTWO;
                 break;
             case R.id.lin_3:
@@ -237,9 +238,11 @@ public class MainActivity extends UserBaseActivity {
                     jumpActivityNotFinish(mContext, LoginActivity.class);
                     return false;
                 }
+                PhysicianvisitsFragment.Position = 0;
                 Position = POIONTTHREE;
                 break;
             case R.id.lin_4:
+                PhysicianvisitsFragment.Position = -1;
                 Position = POIONTFOUR;
                 break;
             default:

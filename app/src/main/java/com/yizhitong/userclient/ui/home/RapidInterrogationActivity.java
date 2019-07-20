@@ -311,6 +311,11 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
         finish();
     }
 
+    /**
+     * 失败
+     * @param message
+     * @param code
+     */
     @Override
     public void onError(String message, int code) {
         loadDiss();

@@ -143,6 +143,9 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         }
     }
 
+    /**
+     * 提交数据
+     */
     private void submit() {
         AddUserAddressPost addUserAddressPost = new AddUserAddressPost();
         addUserAddressPost.setType(type);
@@ -180,7 +183,10 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         addUserAddress(addUserAddressPost);
     }
 
-
+    /**
+     * 保存地址
+     * @param addUserAddressPost
+     */
     @Override
     public void addUserAddress(AddUserAddressPost addUserAddressPost) {
         if (CheckNetwork.checkNetwork2(mContext)) {
@@ -189,6 +195,10 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         }
     }
 
+    /**
+     * 保存地址 成功
+     * @param generalDto
+     */
     @Override
     public void addUserAddressSuccessful(GeneralDto generalDto) {
         loadDiss();
@@ -196,6 +206,10 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         finish();
     }
 
+    /**
+     * 获取原地址数据
+     * @param iuid
+     */
     @Override
     public void getUserAddByIuid(String iuid) {
         if (CheckNetwork.checkNetwork2(mContext)) {
@@ -204,6 +218,10 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         }
     }
 
+    /**
+     * 获取原地址数据 成功
+     * @param addressInfoDto
+     */
     @Override
     public void getUserAddByIuidSuccessful(AddressInfoDto addressInfoDto) {
         loadDiss();
@@ -215,6 +233,11 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         defaultSb.setChecked(dataBean.getDefault_flag() == 1);
     }
 
+    /**
+     * 失败
+     * @param message
+     * @param code
+     */
     @Override
     public void onError(String message, int code) {
         loadDiss();
@@ -284,7 +307,11 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
         pvOptions.show();
     }
 
-    private void initJsonData(Context context) {//解析数据
+    /**
+     * 解析数据
+     * @param context
+     */
+    private void initJsonData(Context context) {
 
         /**
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
@@ -292,10 +319,8 @@ public class AddAddressActivity extends UserBaseActivity<AddAddressAction> imple
          *
          * */
         String JsonData = new GetJsonDataUtil().getJson(context, "province.json");//获取assets目录下的json文件数据
-        L.e("lgh_address", "JsonData  = " + JsonData);
         ArrayList<JsonBean> jsonBean = new Gson().fromJson(JsonData, new TypeToken<ArrayList<JsonBean>>() {
         }.getType());
-        L.e("lgh_address", "jsonBean  = " + jsonBean.size());
         /**
          * 添加省份数据
          *

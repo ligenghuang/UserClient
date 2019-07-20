@@ -142,11 +142,12 @@ public class MyInquiryFragment extends UserBaseFragment<MyInquiryAction> impleme
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        L.e("myinquiry", "个人中心 onFragmentVisibleChange........." + isVisible);
+        L.e("lgh_myInquiry", "个人中心 onFragmentVisibleChange........." + isVisible);
         this.isVisible = isVisible;
         if (isVisible && MySp.iSLoginLive(mContext) && PhysicianvisitsFragment.Position == position) {
             //更新界面数据，如果数据还在下载中，就显示加载框
 //            loadNet();
+            L.e("lgh_myInquiry", "个人中心 onFragmentVisibleChange11........." + isVisible);
             getAskHead();
         }
 //        else if(!MySp.iSLoginLive(mContext) && MyInquiryActivity.Position == position){
