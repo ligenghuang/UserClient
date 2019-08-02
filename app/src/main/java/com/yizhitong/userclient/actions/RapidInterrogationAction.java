@@ -1,8 +1,11 @@
 package com.yizhitong.userclient.actions;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.jkt.tcompress.TCompress;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.net.CollectionsUtils;
 import com.lgh.huanglib.util.L;
@@ -16,6 +19,7 @@ import com.yizhitong.userclient.event.post.AddAskHeadPost;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationView;
 import com.yizhitong.userclient.utils.config.MyApp;
+import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -54,11 +58,23 @@ public class RapidInterrogationAction extends BaseAction<RapidInterrogationView>
      * 上传图片
      * @param path
      */
-    public void fileName(String path){
+    public void fileName(String path, int width, int height){
         File file = new File(path);
+        String name = DynamicTimeFormat.getTimestamp() + ".jpg";
+        TCompress tCompress = new TCompress.Builder()
+                .setMaxWidth(width)
+                .setMaxHeight(height)
+                .setQuality(70)
+                .setFormat(Bitmap.CompressFormat.JPEG)
+                .setConfig(Bitmap.Config.RGB_565)
+                .build();
+        File compressedFile= tCompress.compressedToFile(file);
+
         //构建body
         MultipartBody.Builder build = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/jpg"), file));
+                .addFormDataPart("width", width + "")
+                .addFormDataPart("heigh", height + "")
+                .addFormDataPart("file", name, RequestBody.create(MediaType.parse("image/jpg"), compressedFile));
         RequestBody requestBody = build.build();
         post(WebUrlUtil.POST_ASK_FILENAME, false, service -> manager.runHttp(
                 service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),requestBody, WebUrlUtil.POST_ASK_FILENAME)));

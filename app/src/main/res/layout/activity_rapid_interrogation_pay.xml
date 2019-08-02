@@ -211,6 +211,13 @@
                     android:textSize="@dimen/text_size15"
                     android:textColor="@color/color_3"
                     android:text="@string/inquity_tip_13"/>
+                <TextView
+                    android:id="@+id/tv_interrogation_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size15"
+                    android:textColor="@color/color_5c72f4"
+                    android:text="@string/inquity_tip_26"/>
 
             </LinearLayout>
 

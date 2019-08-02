@@ -19,7 +19,7 @@ public interface DoctorVisitsView extends BaseView {
 
     void getRegisteredAmountSuccessful(AmountDto amount);
 
-    void fileName(String path);
+    void fileName(String path, int width, int height);
 
     void fileNameSuccessful(String path);
 

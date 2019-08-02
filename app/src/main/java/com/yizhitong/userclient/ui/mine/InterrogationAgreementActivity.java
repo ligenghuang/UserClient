@@ -72,6 +72,6 @@ public class InterrogationAgreementActivity extends UserBaseActivity {
         mActicity = this;
         mContext = this;
 
-        webView.loadUrl("file:////android_asset/interrogation_agreement.html");
+        webView.loadUrl("http://www.yizhitong100.com/txt/agreement/");
     }
 }

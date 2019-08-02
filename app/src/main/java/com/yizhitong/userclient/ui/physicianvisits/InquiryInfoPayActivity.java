@@ -129,7 +129,8 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
             @Override
             public void onSuccess() {
                 //todo 支付成功
-              defrayPaySuccess();
+                loadDiss();
+                jumpActivity(mContext, OrderPaySuccessfulActivity.class);
             }
 
             @Override

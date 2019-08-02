@@ -208,7 +208,7 @@ public class PrescriptionInfoPayActivity extends UserBaseActivity<PrescriptionIn
     public void OrderResultPay() {
         if (CheckNetwork.checkNetwork2(mContext)){
             loadDialog("请稍等");
-            baseAction.OrderResultPay(id);
+            baseAction.OrderResultPay(id,addressId);
         }
     }
 

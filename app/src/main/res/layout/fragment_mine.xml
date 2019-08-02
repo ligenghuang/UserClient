@@ -339,6 +339,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/item_height60"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:orientation="horizontal">
 
                         <ImageView

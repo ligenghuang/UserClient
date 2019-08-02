@@ -118,6 +118,7 @@ public class DepartFindDoctorActivity extends UserBaseActivity<DepartFindDoctorA
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                    hideInput();
+                   //TODO  关键字搜索医生
                     if (!TextUtils.isEmpty(mEtSearch.getText().toString())) {
                         Intent intent = new Intent(mContext, FindDoctorActivity.class);
                         intent.putExtra("condition", mEtSearch.getText().toString());

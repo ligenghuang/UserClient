@@ -266,10 +266,10 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
      * @param path
      */
     @Override
-    public void fileName(String path) {
+    public void fileName(String path, int width, int height) {
         if (CheckNetwork.checkNetwork2(mContext)) {
             loadDialog();
-            baseAction.fileName(path);
+            baseAction.fileName(path,width,height);
         }
     }
 
@@ -398,7 +398,7 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
         imagePicker.setShowCamera(true);                      //显示拍照按钮
-        imagePicker.setCrop(true);                           //允许裁剪（单选才有效）
+        imagePicker.setCrop(false);                           //允许裁剪（单选才有效）
         imagePicker.setMultiMode(false);
         imagePicker.setSaveRectangle(true);
         imagePicker.setSelectLimit(1);              //选中数量限制
@@ -430,15 +430,15 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
                                         (this, BuildConfig.APPLICATION_ID + ".android7.fileprovider", imgUri);
                                 int zoomSacle = 3;
                                 try {
-                                    // 当图片大小大于512kb至少缩小两倍
-                                    if (imgUri.length() / 1024 > 512) {
-                                        zoomSacle = zoomSacle * 10;
-                                    }
+//                                    // 当图片大小大于512kb至少缩小两倍
+//                                    if (imgUri.length() / 1024 > 512) {
+//                                        zoomSacle = zoomSacle * 10;
+//                                    } 。，
 //                                    PicUtils.showCutPhoto(data, zoomSacle, imgUri.getPath());
 ////                                    PicUtils.getCompressedImgPath(images.get(0).path, photoOption);
 //                                    //todo  请求接口 修改头像
 //                                    uploadAvatar(images.get(0).path);
-                                    fileName(images.get(0).path);
+                                    fileName(images.get(0).path,images.get(0).width,images.get(0).height);
                                 } catch (Exception e) {
                                     loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);
                                 }
@@ -453,23 +453,12 @@ public class RapidInterrogationActivity extends UserBaseActivity<RapidInterrogat
                         File imgUri = new File(images.get(0).path);
                         Uri dataUri = FileProvider.getUriForFile
                                 (this, BuildConfig.APPLICATION_ID + ".android7.fileprovider", imgUri);
-                        int zoomSacle = 3;
-                        try {
-                            // 当图片大小大于512kb至少缩小两倍
-                            if (imgUri.length() / 1024 > 512) {
-                                zoomSacle = zoomSacle * 10;
-                            }
-                            PicUtils.showCutPhoto(data, zoomSacle, imgUri.getPath());
-//                                    PicUtils.getCompressedImgPath(images.get(0).path, photoOption);
-//                                    baseAction.uploadImage(images.get(0).path);
-                        } catch (Exception e) {
-                            loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);
-                        }
+
 
                         try {
                             //todo  请求接口 修改头像
 //                            uploadAvatar(images.get(0).path);
-                            fileName(images.get(0).path);
+                            fileName(images.get(0).path,1080,1080);
 //                            GlideUtil.setImageCircle(mContext,images.get(0).path,userPortaitIv,R.drawable.icon_placeholder);
 //                            updataFile(images.get(0).path);
                         } catch (Exception e) {

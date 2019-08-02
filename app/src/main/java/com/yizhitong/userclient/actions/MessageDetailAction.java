@@ -1,14 +1,20 @@
 package com.yizhitong.userclient.actions;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.jkt.tcompress.TCompress;
 import com.lgh.huanglib.actions.Action;
 import com.lgh.huanglib.net.CollectionsUtils;
 import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
+import com.lgh.huanglib.util.data.ResUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.event.CommonLanguageListDto;
 import com.yizhitong.userclient.event.GeneralDto;
 import com.yizhitong.userclient.event.MessageDetailInquiryDto;
@@ -20,11 +26,13 @@ import com.yizhitong.userclient.ui.impl.MessageDetailView;
 import com.yizhitong.userclient.utils.config.MyApp;
 import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.data.MySp;
+import com.yizhitong.userclient.utils.photo.PicUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
@@ -54,6 +62,7 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
 
     /**
      * 获取问诊信息
+     *
      * @param touserId
      */
     public void getAskHeadByUserId(String touserId) {
@@ -65,18 +74,20 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
 
     /**
      * 获取聊天消息
+     *
      * @param touserId
      * @param count
      */
     public void getAskChat(String touserId, int count) {
         post(WebUrlUtil.POST_ASKCHAT, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("touserId", touserId, "count", count, "H5ORDOC", "0","offset","0"), WebUrlUtil.POST_ASKCHAT)
+                        CollectionsUtils.generateMap("touserId", touserId, "count", count, "H5ORDOC", "0", "offset", "0"), WebUrlUtil.POST_ASKCHAT)
         ));
     }
 
     /**
      * 发送消息
+     *
      * @param chat_note
      * @param touserid
      * @param askId
@@ -93,11 +104,20 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
      *
      * @param avatar
      */
-    public void sendPicturesa(String avatar, String touserid, String askId,int width,int height) {
+    public void sendPicturesa(String avatar, String touserid, String askId, int width, int height) {
 //2.获取图片，创建请求体
         File file = new File(avatar);
-        L.e("lgh_path","file = "+file.length());
-        String name = DynamicTimeFormat.getTimestamp()+".jpg";
+        L.e("lgh_path", "file = " + file.length());
+        String name = DynamicTimeFormat.getTimestamp() + ".jpg";
+        TCompress tCompress = new TCompress.Builder()
+                .setMaxWidth(width)
+                .setMaxHeight(height)
+                .setQuality(70)
+                .setFormat(Bitmap.CompressFormat.JPEG)
+                .setConfig(Bitmap.Config.RGB_565)
+                .build();
+        File compressedFile= tCompress.compressedToFile(file);
+
         //构建body
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("name", name)
@@ -105,39 +125,43 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
                 .addFormDataPart("H5ORDOC", "0")
                 .addFormDataPart("touserid", touserid)
                 .addFormDataPart("askId", askId)
-                .addFormDataPart("width",width+"")
-                .addFormDataPart("heigh",height+"")
-                .addFormDataPart("file",name, RequestBody.create(MediaType.parse("image/jpeg"), file))
+                .addFormDataPart("width", width + "")
+                .addFormDataPart("heigh", height + "")
+                .addFormDataPart("file", name, RequestBody.create(MediaType.parse("image/jpeg"), compressedFile))
                 .build();
         post(WebUrlUtil.POST_SEND_PICTURESA, false, service -> manager.runHttp(service.PostData_1(
                 MySharedPreferencesUtil.getSessionId(MyApp.getContext()), requestBody, WebUrlUtil.POST_SEND_PICTURESA)));
+
+
     }
 
     /**
      * 获取常用语
      */
-    public void getCommonLanguage(){
+    public void getCommonLanguage() {
         post(WebUrlUtil.POST_COMMONLANGUGE, false, service -> manager.runHttp(service.PostData_1(
-                MySharedPreferencesUtil.getSessionId(MyApp.getContext()), CollectionsUtils.generateMap("H5ORDOC","0"), WebUrlUtil.POST_COMMONLANGUGE)));
+                MySharedPreferencesUtil.getSessionId(MyApp.getContext()), CollectionsUtils.generateMap("H5ORDOC", "0"), WebUrlUtil.POST_COMMONLANGUGE)));
     }
 
     /**
      * 提交数据
+     *
      * @param txt
      */
-    public void sendCommonLanguage(String txt){
+    public void sendCommonLanguage(String txt) {
         post(WebUrlUtil.POST_ADD_COMMONLANGUGE, false, service -> manager.runHttp(service.PostData_1(
-                MySharedPreferencesUtil.getSessionId(MyApp.getContext()), CollectionsUtils.generateMap("H5ORDOC","0","textContent",txt), WebUrlUtil.POST_ADD_COMMONLANGUGE)));
+                MySharedPreferencesUtil.getSessionId(MyApp.getContext()), CollectionsUtils.generateMap("H5ORDOC", "0", "textContent", txt), WebUrlUtil.POST_ADD_COMMONLANGUGE)));
     }
 
     /**
      * 删除常用语
+     *
      * @param iuid
      */
     public void deleteCommonLanguage(String iuid) {
-        post(WebUrlUtil.POST_DELETE_COMMONLANGUAGE,false,service -> manager.runHttp(
-                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApp.getContext()), CollectionsUtils.generateMap("iuid",iuid),WebUrlUtil.POST_DELETE_COMMONLANGUAGE)
-        ) );
+        post(WebUrlUtil.POST_DELETE_COMMONLANGUAGE, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApp.getContext()), CollectionsUtils.generateMap("iuid", iuid), WebUrlUtil.POST_DELETE_COMMONLANGUAGE)
+        ));
     }
 
     /**
@@ -186,7 +210,8 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
                                 MessageDetailInquiryDto inquiryDetailDto = gson.fromJson(action.getUserData().toString(), new TypeToken<MessageDetailInquiryDto>() {
                                 }.getType());
                                 view.getAskHeadByUserIdSuccessful(inquiryDetailDto);
-                            }catch (JsonSyntaxException e){}
+                            } catch (JsonSyntaxException e) {
+                            }
                             return;
                         }
                         view.onError(msg, action.getErrorType());
@@ -199,7 +224,7 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
                                 MessageDetailListDto messageDetailListDto = gson.fromJson(action.getUserData().toString(), new TypeToken<MessageDetailListDto>() {
                                 }.getType());
                                 view.getAskChatSuccessful(messageDetailListDto);
-                            }catch (JsonSyntaxException e){
+                            } catch (JsonSyntaxException e) {
                                 return;
                             }
                             return;
@@ -211,10 +236,10 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
                             L.e("xx", "输出返回结果 " + action.getUserData().toString());
                             Gson gson = new Gson();
                             try {
-                            SendMessageDto sendMessageDto = gson.fromJson(action.getUserData().toString(), new TypeToken<SendMessageDto>() {
-                            }.getType());
-                            view.sendMessageSuccessful(sendMessageDto);
-                            }catch (JsonSyntaxException e){
+                                SendMessageDto sendMessageDto = gson.fromJson(action.getUserData().toString(), new TypeToken<SendMessageDto>() {
+                                }.getType());
+                                view.sendMessageSuccessful(sendMessageDto);
+                            } catch (JsonSyntaxException e) {
                                 return;
                             }
                             return;
@@ -265,7 +290,7 @@ public class MessageDetailAction extends BaseAction<MessageDetailView> {
                         }
                         break;
                     case WebUrlUtil.GET_MESSAGE_1:
-                        L.e("lgh_obj",action.getUserData().toString());
+                        L.e("lgh_obj", action.getUserData().toString());
                         MessageDto messageDto = new Gson().fromJson(action.getUserData().toString(), new TypeToken<MessageDto>() {
                         }.getType());
                         view.getMessage(messageDto);

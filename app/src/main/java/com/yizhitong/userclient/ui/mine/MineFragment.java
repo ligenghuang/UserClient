@@ -23,6 +23,7 @@ import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.MainActivity;
 import com.yizhitong.userclient.ui.impl.MineView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
+import com.yizhitong.userclient.ui.physicianvisits.PhysicianvisitsFragment;
 import com.yizhitong.userclient.utils.base.UserBaseFragment;
 import com.yizhitong.userclient.utils.data.MySp;
 
@@ -127,6 +128,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
                     jumpActivityNotFinish(mContext, LoginActivity.class);
                     return;
                 }
+                PhysicianvisitsFragment.Position = 0;
                 ((MainActivity) getActivity()).setPosition(2);
                 break;
             case R.id.ll_prescription_template:
@@ -238,7 +240,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
     public void onResume() {
         super.onResume();
         baseAction.toRegister();
-        if (isVisible){
+//        if (isVisible){
             if (MySp.getToken(mContext) != null) {
                 L.e("lgh_mine","onResume 1");
                 isLogin();
@@ -248,7 +250,7 @@ public class MineFragment extends UserBaseFragment<MineAction> implements MineVi
                 userNmaeTv.setText("未登录");
                 userHealthValueTv.setVisibility(View.GONE);
             }
-        }
+//        }
     }
 
     @Override

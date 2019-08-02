@@ -38,17 +38,17 @@ public class PrescriptionInfoPayAction extends BaseAction<PrescriptionInfoPayVie
      * 支付
      * @param id
      */
-    public void OrderResultPay(String id){
+    public void OrderResultPay(String id,String addressId){
         post(WebUrlUtil.POST_WEIXIN_PAY, false, service -> manager.runHttp(
                 service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),
-                        CollectionsUtils.generateMap("type",1,"id",id
+                        CollectionsUtils.generateMap("type",1,"id",id,"addressId",addressId
                         ),
                         WebUrlUtil.POST_WEIXIN_PAY)
         ));
     }
 
     /**
-     * 问诊单支付成功
+     * 处方支付成功
      * @param id
      * @param money
      */

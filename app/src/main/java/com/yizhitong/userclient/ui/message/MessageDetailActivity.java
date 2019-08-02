@@ -942,10 +942,7 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                                         (this, BuildConfig.APPLICATION_ID + ".android7.fileprovider", imgUri);
                                 int zoomSacle = 3;
                                 try {
-                                    // 当图片大小大于512kb至少缩小两倍
-//                                    if (imgUri.length() / 1024 > 512) {
-//                                        zoomSacle = zoomSacle * 10;
-//                                    }
+
 //
 //                                    //todo  请求接口 发送图片消息
                                     L.e("lgh_path", "images.get(0).path  = " + images.get(0).path);
@@ -963,36 +960,30 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
                         }
                         break;
                     case REQUEST_CODE_TAKE:
-//                        PicUtils.compressBmpToFile(images.get(0).path, photoOption);
-                        File imgUri = new File(images.get(0).path);
-                        Uri dataUri = FileProvider.getUriForFile
-                                (this, BuildConfig.APPLICATION_ID + ".android7.fileprovider", imgUri);
-                        int zoomSacle = 3;
-                        try {
-                            // 当图片大小大于512kb至少缩小两倍
-//                            if (imgUri.length() / 1024 > 512) {
-//                                zoomSacle = zoomSacle * 10;
-//                            }
-//                            PicUtils.showCutPhoto(data, zoomSacle, imgUri.getPath());
-//                                    PicUtils.getCompressedImgPath(images.get(0).path, photoOption);
-//                                    baseAction.uploadImage(images.get(0).path);
-                        } catch (Exception e) {
-                            loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);
-                        }
+                      if (images != null) {
+                            selImageList.addAll(images);
 
-                        try {
-                            //todo  请求接口 发送图片消息
-//                            uploadAvatar(images.get(0).path);
-                            L.e("lgh_path", "images.get(0).path  = " + images.get(0).path);
-//                            GlideUtil.setImageCircle(mContext,images.get(0).path,isPortrait?userPortaitIv:userCertificateIv,0);
                             if (CheckNetwork.checkNetwork2(mContext)) {
-                                loadDialog();
-                                addllGone(false);
-                                baseAction.sendPicturesa(images.get(0).path, touserId, askId,images.get(0).width,images.get(0).height);
-                            }
-                        } catch (Exception e) {
-                            loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);
+                                File imgUri = new File(images.get(0).path);
+                                Uri dataUri = FileProvider.getUriForFile
+                                        (this, BuildConfig.APPLICATION_ID + ".android7.fileprovider", imgUri);
+                                int zoomSacle = 3;
 
+                                try {
+
+//                                    //todo  请求接口 发送图片消息
+                                    L.e("lgh_path", "images.get(0).path  = " + images.get(0).path);
+//                                    GlideUtil.setImageCircle(mContext,images.get(0).path,isPortrait?userPortaitIv:userCertificateIv,0);
+                                    if (CheckNetwork.checkNetwork2(mContext)) {
+                                        loadDialog();
+                                        addllGone(false);
+                                        baseAction.sendPicturesa(images.get(0).path, touserId, askId,1080,1080);
+                                    }
+                                } catch (Exception e) {
+                                    loadError(ResUtil.getString(R.string.main_select_phone_error), mContext);
+                                }
+
+                            }
                         }
                         break;
                 }

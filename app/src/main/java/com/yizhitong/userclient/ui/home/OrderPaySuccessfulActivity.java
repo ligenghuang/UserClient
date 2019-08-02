@@ -63,7 +63,7 @@ public class OrderPaySuccessfulActivity extends UserBaseActivity {
                 .addTag("OrderPaySuccessfulActivity")  //给上面参数打标记，以后可以通过标记恢复
                 .navigationBarWithKitkatEnable(false)
                 .init();
-        toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar.setNavigationOnClickListener(view -> jumpMainActivity(0));
         titleTv.setText(ResUtil.getString(R.string.order_pay_successfil_tip_1));
     }
 

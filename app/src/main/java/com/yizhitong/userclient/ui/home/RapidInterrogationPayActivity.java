@@ -23,6 +23,7 @@ import com.yizhitong.userclient.event.WeiXinPayDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.RapidInterrogationPayView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
+import com.yizhitong.userclient.ui.mine.InterrogationAgreementActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
 import com.yizhitong.userclient.utils.data.DynamicTimeFormat;
 import com.yizhitong.userclient.utils.wechat.PayUtil;
@@ -141,7 +142,8 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
             @Override
             public void onSuccess() {
                 //todo 支付成功
-                defrayPaySuccess();
+                loadDiss();
+                jumpActivity(mContext, OrderPaySuccessfulActivity.class);
             }
 
             @Override
@@ -160,7 +162,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         });
     }
 
-    @OnClick({R.id.checkbox, R.id.ll_cb, R.id.tv_pay})
+    @OnClick({R.id.checkbox, R.id.ll_cb,R.id.tv_interrogation_agreement, R.id.tv_pay})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_cb:
@@ -173,6 +175,10 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
                 if (isRead) {
                     OrderResultPay();
                 }
+                break;
+            case R.id.tv_interrogation_agreement:
+                //todo 问诊协议
+                jumpActivityNotFinish(mContext, InterrogationAgreementActivity.class);
                 break;
         }
     }
