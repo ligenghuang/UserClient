@@ -235,6 +235,7 @@ public class MyPrescriptionFragment extends UserBaseFragment<MyPrescriptionActio
     public void deletePrescriptionSuccessful(GeneralDto generalDto) {
         showToast(generalDto.getMsg());
         if (MyPrescriptionActivity.Position == position) {
+            //TODO 删除成功  重新获取数据
             getPrescription();
         }
     }

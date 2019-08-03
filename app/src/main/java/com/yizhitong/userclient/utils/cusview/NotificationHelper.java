@@ -52,7 +52,9 @@ public class NotificationHelper {
 //        channel.enableLights(true);
         Notification notification;
 
-        //获取Notification实例   获取Notification实例有很多方法处理    在此我只展示通用的方法（虽然这种方式是属于api16以上，但是已经可以了，毕竟16以下的Android机很少了，如果非要全面兼容可以用）
+        //获取Notification实例   获取Notification实例有很多方法处理
+        // 在此我只展示通用的方法
+        // （虽然这种方式是属于api16以上，但是已经可以了，毕竟16以下的Android机很少了，如果非要全面兼容可以用）
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             //向上兼容 用Notification.Builder构造notification对象
             notification = new Notification.Builder(context,CHANNEL_ID)

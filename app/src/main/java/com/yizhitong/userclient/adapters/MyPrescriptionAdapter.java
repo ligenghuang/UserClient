@@ -57,16 +57,12 @@ public class MyPrescriptionAdapter extends BaseRecyclerAdapter<MyPrescriptionDto
 
         int type = 0;
         if (model.getReback_flag() == 1){
-            //todo 已取消
             type = 0;
         }else if (model.getFinish_flag() == 1){
-            //todo 已完成
             type = 1;
-        }else if (model.getPay_flag() == 1){
-            //todo 待发货
+        }else if (model.getPay_flag() == 1 && model.getFinish_flag() != 1 && model.getReback_flag() != 1){
             type = 2;
-        }else if (model.getPay_flag() == 0){
-            //todo 待付款
+        }else if (model.getPay_flag() == 0) {
             type = 3;
         }
 

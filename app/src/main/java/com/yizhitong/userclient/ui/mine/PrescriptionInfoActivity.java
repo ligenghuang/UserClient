@@ -235,6 +235,7 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_pay:
+                //TODO  跳转至支付页
                 Intent intent = new Intent(mContext, PrescriptionInfoPayActivity.class);
                 intent.putExtra("preInfoDto", preInfoDto);
                 startActivityForResult(intent, 200);
