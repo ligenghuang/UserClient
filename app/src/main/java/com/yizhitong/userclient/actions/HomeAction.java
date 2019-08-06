@@ -9,6 +9,7 @@ import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.config.MyApplication;
 import com.lgh.huanglib.util.data.MySharedPreferencesUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.yizhitong.userclient.event.BannerDto;
 import com.yizhitong.userclient.event.NewsBytheClassDto;
 import com.yizhitong.userclient.event.NewsTypeDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
@@ -53,6 +54,23 @@ public class HomeAction extends BaseAction<HomeView>{
         ));
     }
 
+    /**
+     * 获取轮播图
+     */
+    public void getAllBanner(){
+        post(WebUrlUtil.POST_ALL_BANNER, false, service -> manager.runHttp(
+                service.PostData_1(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),WebUrlUtil.POST_ALL_BANNER)
+        ));
+    }
+
+    /**
+     * 判断是否有未读消息
+     */
+    public void isReadFlag(){
+        post(WebUrlUtil.POST_ISREADFLAG, false, service -> manager.runHttp(
+                service.PostData_String(MySharedPreferencesUtil.getSessionId(MyApplication.getContext()),  CollectionsUtils.generateMap("H5ORDOC","0"),WebUrlUtil.POST_ISREADFLAG)
+        ));
+    }
 
     /**
      * sticky:表明优先接收最高级  threadMode = ThreadMode.MAIN：表明在主线程
@@ -106,6 +124,28 @@ public class HomeAction extends BaseAction<HomeView>{
                             return;
                         }
                         view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_ALL_BANNER:
+                        if (aBoolean) {
+                            L.e("xx", "输出返回结果 " + action.getUserData().toString());
+                            Gson gson = new Gson();
+                            try {
+                                BannerDto bannerDto = gson.fromJson(action.getUserData().toString(), new TypeToken<BannerDto>() {
+                                }.getType());
+                                view.getAllBannerSuccessful(bannerDto);
+                            } catch (JsonSyntaxException e) {
+                                return;
+                            }
+                            return;
+                        }
+                        view.onError(msg, action.getErrorType());
+                        break;
+                    case WebUrlUtil.POST_ISREADFLAG:
+                        if (aBoolean) {
+                        String s = new Gson().fromJson(action.getUserData().toString(), new TypeToken<String>() {
+                        }.getType());
+                        view.isReadFlagSuccessful(s);
+                        }
                         break;
                 }
 

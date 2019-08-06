@@ -1,6 +1,7 @@
 package com.yizhitong.userclient.ui.impl;
 
 import com.lgh.huanglib.util.base.BaseView;
+import com.yizhitong.userclient.event.BannerDto;
 import com.yizhitong.userclient.event.NewsBytheClassDto;
 import com.yizhitong.userclient.event.NewsTypeDto;
 
@@ -19,4 +20,12 @@ public interface HomeView extends BaseView {
     void getNewsBytheClass(String name);
 
     void getNewsBytheClassSuccessful(NewsBytheClassDto newsBytheClassDto);
+
+    void getAllBanner();
+
+    void getAllBannerSuccessful(BannerDto bannerDto);
+
+    void isReadFlag();
+
+    void isReadFlagSuccessful(String b);
 }

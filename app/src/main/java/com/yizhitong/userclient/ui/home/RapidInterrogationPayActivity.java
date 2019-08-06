@@ -76,7 +76,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
 
     String iuid;
     ImageItemAdapter imageItemAdapter;
-    boolean isRead = false;
+    boolean isRead = true;
 
     PayUtil payUtil;
     String id;
@@ -127,7 +127,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         mRvImg.setLayoutManager(new GridLayoutManager(mContext, 4));
         mRvImg.setAdapter(imageItemAdapter);
 
-
+        mCheckbox.setChecked(true);
         getAskHeadById();
         payUtil = new PayUtil(this);
         payUtil.register();

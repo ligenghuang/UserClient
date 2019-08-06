@@ -63,4 +63,6 @@ public interface HttpPostService {
 
     @POST
     Observable<WeiXinPayDto> PostPayData(@Header("Cookie") String SessionId, @Body Map<Object, Object> body, @Url String url);
+
+
 }

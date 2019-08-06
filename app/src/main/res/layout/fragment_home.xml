@@ -15,11 +15,43 @@
        android:id="@+id/ll_top"
        android:layout_width="match_parent"
        android:layout_height="280dp"
+       android:layout_below="@id/top_view"
        android:orientation="vertical">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="@dimen/dp_10"
+           android:background="@color/white"
+           android:gravity="center_vertical"
+           android:orientation="horizontal"
+           android:padding="@dimen/dp_10">
+
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="@dimen/dp_10"
+               android:src="@drawable/home_page" />
+
+           <EditText
+               android:id="@+id/et_search"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@color/transparent"
+               android:ellipsize="end"
+               android:hint="@string/home_tip_1"
+               android:imeOptions="actionSearch"
+               android:maxLines="1"
+               android:inputType="text"
+               android:textColor="@color/color_3"
+               android:textColorHint="@color/color_9"
+               android:textSize="@dimen/text_size15" />
+
+       </LinearLayout>
+
        <ImageView
            android:id="@+id/iv_home"
            android:layout_width="match_parent"
-           android:layout_height="280dp"
+           android:layout_height="240dp"
            android:scaleType="centerCrop"
            android:src="@drawable/home_page1" />
 
@@ -31,39 +63,6 @@
 
 
    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top_view"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginRight="@dimen/dp_10"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/dp_10">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp_10"
-            android:src="@drawable/home_page" />
-
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:ellipsize="end"
-            android:hint="@string/home_tip_1"
-            android:imeOptions="actionSearch"
-            android:maxLines="1"
-            android:inputType="text"
-            android:textColor="@color/color_3"
-            android:textColorHint="@color/color_9"
-            android:textSize="@dimen/text_size15" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_btn"

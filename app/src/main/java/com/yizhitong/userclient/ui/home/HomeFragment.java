@@ -28,8 +28,10 @@ import com.yizhitong.userclient.actions.HomeAction;
 import com.yizhitong.userclient.adapters.Banner;
 import com.yizhitong.userclient.adapters.NewsListAdapter;
 import com.yizhitong.userclient.adapters.NewsTypeAdapter;
+import com.yizhitong.userclient.event.BannerDto;
 import com.yizhitong.userclient.event.NewsBytheClassDto;
 import com.yizhitong.userclient.event.NewsTypeDto;
+import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.MainActivity;
 import com.yizhitong.userclient.ui.impl.HomeView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
@@ -84,6 +86,9 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
 
     Banner banner;
 
+    List<String> types = new ArrayList<>();
+    List<String> urls = new ArrayList<>();
+
     @Override
     protected HomeAction initAction() {
         return new HomeAction((RxAppCompatActivity) getActivity(), this);
@@ -110,13 +115,16 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         super.onFragmentVisibleChange(isVisible);
         L.e("lgh_home", "isVisible  =  " + isVisible);
         if (isVisible) {
-            ((MainActivity) getActivity()).changeStatusBar(false, R.color.transparent);
+            ((MainActivity) getActivity()).changeStatusBar(true, R.color.transparent);
             if (isFirst) {
                 loadDialog();
                 isFirst = false;
             }
           if (!isJumpNewsDetail){
               getNewsType();
+          }
+          if (MySp.iSLoginLive(mContext)){
+              isReadFlag();
           }
             isJumpNewsDetail = false;
         }
@@ -135,6 +143,10 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     protected void init() {
         super.init();
 
+        //轮播图
+        banner = new Banner();
+        banner_main.setAdapter(banner);
+
         newsTypeAdapter = new NewsTypeAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -148,22 +160,9 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mRvContent.setAdapter(newsListAdapter);
 
-        //轮播图
-        banner = new Banner();
-        banner_main.setAdapter(banner);
-        getBannerData();
-    }
 
-    private void getBannerData() {
-        List<String> stringList = new ArrayList<>();
-        List<String> tips = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            stringList.add("ddd");
-            tips.add("");
-        }
-        banner_main.setData(stringList, tips);
+        getAllBanner();
     }
-
 
     @OnClick({R.id.tv_btn_1, R.id.tv_btn_2, R.id.tv_btn_3, R.id.tv_btn_4})
     public void onClick(View v) {
@@ -236,7 +235,39 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
             }
         });
 
+        banner_main.setDelegate(new BGABanner.Delegate() {
+            @Override
+            public void onBannerItemClick(BGABanner banner, View itemView, Object model, int position) {
+                L.e("lgh", urls.get(position));
+                banner_main.stopAutoPlay();
+                switch (types.get(position)) {
+                    case "1":
 
+                        break;
+                    case "0":
+                        jump(urls.get(position));
+                        break;
+                }
+            }
+        });
+
+    }
+
+    private void jump(String s) {
+        switch (s){
+            case "1":
+                //todo 快速问诊
+                jumpActivityNotFinish(mContext, RapidInterrogationActivity.class);
+                break;
+            case "2":
+                //TODO 找医生
+                jumpActivityNotFinish(mContext, DepartFindDoctorActivity.class);
+                break;
+            case "3":
+                //TODO 名医专区
+                jumpActivityNotFinish(mContext, FindDoctorActivity.class);
+                break;
+        }
     }
 
     /**
@@ -301,6 +332,43 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
     }
 
     @Override
+    public void getAllBanner() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            baseAction.getAllBanner();
+        }
+    }
+
+    @Override
+    public void getAllBannerSuccessful(BannerDto bannerDto) {
+        List<String> stringList = new ArrayList<>();
+        List<String> tips = new ArrayList<>();
+        types = new ArrayList<>();
+        urls = new ArrayList<>();
+        List<BannerDto.DataBean> beanList = bannerDto.getData();
+        for (int i = 0; i <beanList.size(); i++) {
+            stringList.add(WebUrlUtil.IMG_URL+beanList.get(i).getThe_img());
+            tips.add("");
+            types.add(beanList.get(i).getUrl_flag()+"");
+            urls.add(beanList.get(i).getThe_url()+"");
+        }
+        banner_main.setAutoPlayAble(true);
+        banner_main.setData(stringList, tips);
+        banner_main.startAutoPlay();
+    }
+
+    @Override
+    public void isReadFlag() {
+        if (CheckNetwork.checkNetwork2(mContext)){
+            baseAction.isReadFlag();
+        }
+    }
+
+    @Override
+    public void isReadFlagSuccessful(String b) {
+        ((MainActivity) getActivity()).setIv2(b.equals("true"));
+    }
+
+    @Override
     public void onError(String message, int code) {
         loadDiss();
     }
@@ -316,6 +384,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         baseAction.toRegister();
         if (!isJumpNewsDetail){
             getNewsType();
+            isReadFlag();
         }
         isJumpNewsDetail = false;
     }

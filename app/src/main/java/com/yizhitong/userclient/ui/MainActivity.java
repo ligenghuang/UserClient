@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
@@ -102,11 +104,13 @@ public class MainActivity extends UserBaseActivity {
     @BindView(R.id.lin_1)
     LinearLayout lin1;
     @BindView(R.id.lin_2)
-    LinearLayout lin2;
+    RelativeLayout lin2;
     @BindView(R.id.lin_3)
     LinearLayout lin3;
     @BindView(R.id.lin_4)
     LinearLayout lin4;
+    @BindView(R.id.iv_2)
+    ImageView iv_2;
 
     private ArrayList<Fragment> fragments;
     private MyFragmentPagerAdapter fragmentPagerAdapter;
@@ -253,6 +257,14 @@ public class MainActivity extends UserBaseActivity {
         return false;
     }
 
+    /**
+     * 显示是否有未读消息
+     * @param b
+     */
+    public void setIv2(boolean b){
+        L.e("lgh_l","b = "+b);
+        iv_2.setVisibility(b?View.VISIBLE:View.GONE);
+    }
     /**
      * 跳转fragment
      *

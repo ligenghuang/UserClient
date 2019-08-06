@@ -321,46 +321,46 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
         addPatientPost.setPhone(mTvPatientPhone.getText().toString());
 
         //TODO 与本人关系
-        if (!isEmpty(mTvPatientRelation.getText().toString(), R.string.add_patient_tip_21)) {
-            return;
+        if(!TextUtils.isEmpty(mTvPatientRelation.getText().toString())){
+            addPatientPost.setRelation(mTvPatientRelation.getText().toString());
         }
-        addPatientPost.setRelation(mTvPatientRelation.getText().toString());
+
 
         //todo 身高
-        if (!isEmpty(mTvPatientHeight.getText().toString(), R.string.add_patient_tip_15)) {
-            return;
+        if (!TextUtils.isEmpty(mTvPatientHeight.getText().toString())){
+            addPatientPost.setHeight(Float.parseFloat(height));
         }
-        addPatientPost.setHeight(Float.parseFloat(height));
+
 
         //todo 体重
-        if (!isEmpty(mTvPatientWeight.getText().toString(), R.string.add_patient_tip_15)) {
-            return;
+        if (!TextUtils.isEmpty(mTvPatientWeight.getText().toString())){
+            addPatientPost.setWeight(Float.parseFloat(weight));
         }
-        addPatientPost.setWeight(Float.parseFloat(weight));
+
 
         //todo 过敏史
-        if (!isEmpty(mTvPatientAllergy.getText().toString(), R.string.add_patient_tip_22)) {
-            return;
+        if (!TextUtils.isEmpty(mTvPatientAllergy.getText().toString())){
+            addPatientPost.setAllergy_note(mTvPatientAllergy.getText().toString());
         }
-        addPatientPost.setAllergy_note(mTvPatientAllergy.getText().toString());
+
 
         //TODO 家族史
-        if (!isEmpty(mTvPatientFamilyHistory.getText().toString(), R.string.add_patient_tip_23)) {
-            return;
+        if (!TextUtils.isEmpty(mTvPatientFamilyHistory.getText().toString())){
+            addPatientPost.setMed_family(mTvPatientFamilyHistory.getText().toString());
         }
-        addPatientPost.setMed_family(mTvPatientFamilyHistory.getText().toString());
+
 
         //todo 过往病历
-        if (!isEmpty(mTvPatientPast.getText().toString(), R.string.add_patient_tip_24)) {
-            return;
+        if (!TextUtils.isEmpty(mTvPatientPast.getText().toString())){
+            addPatientPost.setMed_history(mTvPatientPast.getText().toString());
         }
-        addPatientPost.setMed_history(mTvPatientPast.getText().toString());
+
 
         //todo 过敏药物
-        if (!isEmpty(mTvPatientDrugAllergy.getText().toString(), R.string.add_patient_tip_25)) {
-            return;
+        if (!TextUtils.isEmpty(mTvPatientDrugAllergy.getText().toString())){
+            addPatientPost.setMed_drug(mTvPatientDrugAllergy.getText().toString());
         }
-        addPatientPost.setMed_drug(mTvPatientDrugAllergy.getText().toString());
+      
 
         addPatient(addPatientPost);
 

@@ -21,14 +21,14 @@ public class AddPatientPost {
     private String sex;
     private String birt_date;
     private String phone;
-    private String relation;
+    private String relation="";
     private float height;
     private float weight;
-    private String allergy_note;
-    private String med_family;
-    private String med_history;
+    private String allergy_note="";
+    private String med_family="";
+    private String med_history="";
     private String IUID;
-    private String med_drug;
+    private String med_drug="";
 
     public String getName() {
         return name == null ? "" : name;
