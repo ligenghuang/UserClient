@@ -149,7 +149,7 @@ public class MyInquiryDto {
         private Object doctor_money;
         private Object drug_money;
         private Object all_money;
-        private Object drug_flag;
+        private int drug_flag;
         private double pay_money;
         private Object pay_class;
         private int pay_flag;
@@ -326,11 +326,11 @@ public class MyInquiryDto {
             this.all_money = all_money;
         }
 
-        public Object getDrug_flag() {
+        public int getDrug_flag() {
             return drug_flag;
         }
 
-        public void setDrug_flag(Object drug_flag) {
+        public void setDrug_flag(int drug_flag) {
             this.drug_flag = drug_flag;
         }
 

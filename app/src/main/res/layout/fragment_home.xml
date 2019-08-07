@@ -53,12 +53,12 @@
            android:layout_width="match_parent"
            android:layout_height="240dp"
            android:scaleType="centerCrop"
+           android:visibility="gone"
            android:src="@drawable/home_page1" />
 
        <cn.bingoogolapple.bgabanner.BGABanner
            android:id="@+id/banner_main"
            style="@style/BannerDefaultStyle"
-           android:visibility="gone"
            app:banner_transitionEffect="defaultEffect"></cn.bingoogolapple.bgabanner.BGABanner>
 
 

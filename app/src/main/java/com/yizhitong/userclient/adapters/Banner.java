@@ -16,7 +16,7 @@ public class Banner implements BGABanner.Adapter<ImageView, String> {
         itemView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ViewGroup.LayoutParams params = banner.getLayoutParams();
         banner.setLayoutParams(params);
-        GlideApp.with(itemView.getContext()).load(model).dontAnimate().placeholder(R.drawable.home_page1).error(R.drawable.home_page1)
+        GlideApp.with(itemView.getContext()).load(model).dontAnimate().placeholder(R.drawable.img_banner).error(R.drawable.img_banner)
                 .into(itemView);
     }
 

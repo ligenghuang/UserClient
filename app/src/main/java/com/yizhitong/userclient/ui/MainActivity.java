@@ -562,7 +562,7 @@ public class MainActivity extends UserBaseActivity {
         super.onResume();
         if (isFirst && MySp.iSLoginLive(mContext)) {
             loginSocket();
-            loginRoogIM(MySp.getRoogUserId(mContext), MySp.getRoogUserName(mContext), "http://www.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg");
+            loginRoogIM(MySp.getRoogUserId(mContext), MySp.getRoogUserName(mContext), "http://api.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg");
         }
         if (!MySp.iSLoginLive(mContext)) {
             if (client != null) {
@@ -721,10 +721,7 @@ public class MainActivity extends UserBaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + e.toString());
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.toString());
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().url().toString());
-                        io.rong.imageloader.utils.L.d("lgh_userId", "请求错误.." + call.request().toString());
+                        L.d("lgh_userId", "请求错误.." + e.toString());
                     }
 
                     @Override

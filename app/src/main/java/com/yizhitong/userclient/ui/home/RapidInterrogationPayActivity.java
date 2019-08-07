@@ -128,6 +128,7 @@ public class RapidInterrogationPayActivity extends UserBaseActivity<RapidInterro
         mRvImg.setAdapter(imageItemAdapter);
 
         mCheckbox.setChecked(true);
+        mTvPay.setSelected(true);
         getAskHeadById();
         payUtil = new PayUtil(this);
         payUtil.register();

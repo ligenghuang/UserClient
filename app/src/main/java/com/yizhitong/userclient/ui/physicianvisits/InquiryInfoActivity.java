@@ -166,12 +166,19 @@ public class InquiryInfoActivity extends UserBaseActivity<InquiryInfoAction> imp
         mTvName.setText(patientMVBean.getName());
         mTvSex.setText(patientMVBean.getSex());
         mTvWeight.setText(patientMVBean.getWeight() + "KG");
-        mTvAllergy.setText(patientMVBean.getAllergy_note());
-        mTvFamily.setText(patientMVBean.getMed_family());
-        mTvMedicalHistory.setText(patientMVBean.getMed_history());
-        mTvIllness.setText(dataBean.getIll_note());
+        mTvAllergy.setText(setText(patientMVBean.getAllergy_note()));
+        mTvFamily.setText(setText(patientMVBean.getMed_family()));
+        mTvMedicalHistory.setText(setText(patientMVBean.getMed_history()));
+        mTvIllness.setText(setText(dataBean.getIll_note()));
         illessImgAdapter.refresh(dataBean.getIll_img());
         submitLl.setVisibility(dataBean.getAsk_flag() == 0?View.GONE:View.VISIBLE);
+    }
+
+    private String setText(String s){
+        if (s.equals("null")){
+            s = "";
+        }
+        return s;
     }
 
     @Override

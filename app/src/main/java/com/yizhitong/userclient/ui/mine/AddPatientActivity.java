@@ -470,14 +470,22 @@ public class AddPatientActivity extends UserBaseActivity<AddPatientAction> imple
         mTvPatientWeight.setText(dataBean.getWeight() + "Kg");
         weight = dataBean.getWeight() + "";
 
-        mTvPatientAllergy.setText(dataBean.getAllergy_note());
-        allergy = dataBean.getAllergy_note();
-        mTvPatientFamilyHistory.setText(dataBean.getMed_family());
-        familyHistory = dataBean.getMed_family();
-        mTvPatientPast.setText(dataBean.getMed_history());
-        past = dataBean.getMed_history();
-        mTvPatientDrugAllergy.setText(dataBean.getMed_drug());
-        drugAllergy = dataBean.getMed_drug();
+        allergy = setText(dataBean.getAllergy_note());
+        mTvPatientAllergy.setText(allergy);
+        familyHistory = setText(dataBean.getMed_family());
+        mTvPatientFamilyHistory.setText(familyHistory);
+        past = setText(dataBean.getMed_history());
+        mTvPatientPast.setText(past);
+        drugAllergy = setText(dataBean.getMed_drug());
+        mTvPatientDrugAllergy.setText(drugAllergy);
+
+    }
+
+    private String setText(String s){
+        if (s.equals("null")){
+            s = "";
+        }
+        return s;
     }
 
     /**

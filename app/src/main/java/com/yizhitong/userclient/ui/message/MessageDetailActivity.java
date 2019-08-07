@@ -604,7 +604,11 @@ public class MessageDetailActivity extends UserBaseActivity<MessageDetailAction>
         MySp.setAskId(MyApp.getContext(), dataBean.getAskID());
         endSessionTimeTv.setText(ResUtil.getFormatString(R.string.message_tip_3, dataBean.getLastTime()));
         nameInfoTv.setText(dataBean.getName());
-        ageInfoTv.setText(dataBean.getSex() + "   " + dataBean.getAge() + "岁");
+        String DrugFlag = "";
+        if (dataBean.getDrugFlag() == 1){
+            DrugFlag = "(已开处方)";
+        }
+        ageInfoTv.setText(dataBean.getSex() + "   " + dataBean.getAge() + "岁   "+DrugFlag);
         illnessTv.setText(dataBean.getNote());
         int flag = inquiryDetailDto.getData().getAskFlag();
         if (flag == 2 || flag == 3) {

@@ -15,6 +15,7 @@ import com.yizhitong.userclient.event.MyInquiryDto;
 import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.home.DoctorDetailActivity;
 import com.yizhitong.userclient.ui.message.MessageDetailActivity;
+import com.yizhitong.userclient.ui.mine.MyPrescriptionActivity;
 import com.yizhitong.userclient.ui.physicianvisits.InquiryInfoActivity;
 import com.yizhitong.userclient.ui.physicianvisits.InquiryInfoEvaluateActivity;
 import com.yizhitong.userclient.ui.physicianvisits.InquiryInfoPayActivity;
@@ -41,7 +42,11 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
         ImageView userPortaitIv = holder.itemView.findViewById(R.id.iv_item_portrait);
         String portrait = model.getThe_img();
         GlideUtil.setImageCircle(context, WebUrlUtil.IMG_URL+portrait,userPortaitIv,R.drawable.icon_placeholder);
-        holder.text(R.id.tv_item_prescription,model.getThe_level());
+        String DrugFlag = "";
+        if (model.getDrug_flag() == 1){
+            DrugFlag = "(已开处方)";
+        }
+        holder.text(R.id.tv_item_prescription,model.getThe_level()+"   "+DrugFlag);
         holder.text(R.id.tv_item_inquiry_note,model.getIll_note());
         holder.text(R.id.tv_item_inquiry_time, DynamicTimeFormat.LongToString2(model.getCreate_time_stamp()));
         holder.text(R.id.tv_item_name, TextUtils.isEmpty(model.getDoctorName())?ResUtil.getString(R.string.inquity_tip_24):model.getDoctorName());
@@ -64,7 +69,7 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
         }
         TextView typeTv = holder.itemView.findViewById(R.id.tv_item_type);
         TextView btnTv = holder.itemView.findViewById(R.id.tv_item_inquiry_btn);
-        setType(type,typeTv,btnTv,model.getIsEval());
+        setType(type,typeTv,btnTv,model.getIsEval(),model.getDrug_flag());
         int finalType = type;
         btnTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +82,18 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                         intent = new Intent(context, InquiryInfoPayActivity.class);
                         intent.putExtra("iuid",model.getAskIUID());
                         break;
+                    case 2:
+                        //todo 问诊中
+                        intent = new Intent(context, MyPrescriptionActivity.class);
+                        break;
                     case 3:
                         //todo 已完成
-                        intent = new Intent(context, InquiryInfoEvaluateActivity.class);
-                        intent.putExtra("iuid",model.getAskIUID());
+                        if (model.getIsEval() == 0) {
+                            intent = new Intent(context, InquiryInfoEvaluateActivity.class);
+                            intent.putExtra("iuid", model.getAskIUID());
+                        }else if (model.getDrug_flag() == 1){
+                            intent = new Intent(context, MyPrescriptionActivity.class);
+                        }
                         break;
                     case 4:
                         //todo 已取消
@@ -115,7 +128,7 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
      * @param typeTv
      * @param btnTv
      */
-    private void setType(int type, TextView typeTv, TextView btnTv,int isEval) {
+    private void setType(int type, TextView typeTv, TextView btnTv,int isEval,int Drug_flag) {
         int resId = R.string.inquity_tip_2;
         int colorId = R.color.color_e22525;
         btnTv.setVisibility(View.GONE);
@@ -136,6 +149,10 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                 //todo 问诊中
                 resId = R.string.inquity_tip_4;
                 colorId = R.color.color_289d23;
+                if (Drug_flag == 1){
+                    btnTv.setText(ResUtil.getString(R.string.inquity_tip_27));
+                    btnTv.setVisibility(View.VISIBLE);
+                }
                 break;
             case 3:
                 //todo 已完成
@@ -143,6 +160,9 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                 colorId = R.color.color_9;
                 btnTv.setText(ResUtil.getString(R.string.inquity_tip_7));
                 if (isEval == 0){
+                    btnTv.setVisibility(View.VISIBLE);
+                }else if (Drug_flag == 1){
+                    btnTv.setText(ResUtil.getString(R.string.inquity_tip_27));
                     btnTv.setVisibility(View.VISIBLE);
                 }
                 break;
