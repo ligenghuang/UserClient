@@ -360,10 +360,12 @@ public class MainActivity extends UserBaseActivity {
                     MessageDto messageDto = new Gson().fromJson(message, new TypeToken<MessageDto>() {
                     }.getType());
                     if (messageDto.getEvent().equals("chat")) {
+                        homeFragment.isReadFlag();
                         sendEvent(StoreEvent.ACTION_KEY_SUCCESS, 200, WebUrlUtil.GET_MESSAGE,
                                 Action.KEY_OBJ, message);
                         sendEvent(StoreEvent.ACTION_KEY_SUCCESS, 200, WebUrlUtil.GET_MESSAGE_1,
                                 Action.KEY_OBJ, message);
+
                         if (MySp.getMessage(mContext)) {
 //                            NotificationHelper.show(mContext, messageDto);
                         }
@@ -525,7 +527,6 @@ public class MainActivity extends UserBaseActivity {
         if (client != null && client.isOpen()) {
             client.send(post.toString());
         }
-
     }
 
     /**
@@ -560,9 +561,12 @@ public class MainActivity extends UserBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isFirst && MySp.iSLoginLive(mContext)) {
+        if (MySp.iSLoginLive(mContext)) {
+            //TODO  登录聊天服务器
             loginSocket();
-            loginRoogIM(MySp.getRoogUserId(mContext), MySp.getRoogUserName(mContext), "http://api.yizhitong100.com/DOC/18566144389/2018121493211617j.jpg");
+            loginRoogIM(MySp.getRoogUserId(mContext), MySp.getRoogUserName(mContext), WebUrlUtil.IMG_URL+MySp.getRoogUserImg(mContext));
+            //todo 判断是否有未读消息
+            homeFragment.isReadFlag();
         }
         if (!MySp.iSLoginLive(mContext)) {
             if (client != null) {
@@ -606,9 +610,6 @@ public class MainActivity extends UserBaseActivity {
                     @Override
                     public void onError(okhttp3.Call call, Exception e, int id) {
                         L.d("lgh_userId", "请求错误.." + e.toString());
-                        L.d("lgh_userId", "请求错误.." + call.toString());
-                        L.d("lgh_userId", "请求错误.." + call.request().url().toString());
-                        L.d("lgh_userId", "请求错误.." + call.request().toString());
                     }
 
                     @Override
@@ -679,10 +680,6 @@ public class MainActivity extends UserBaseActivity {
             public void onReceivedCall(RongCallSession callSession) {
                 //accept or hangup the call
                 L.e("RongRTCVideoActivity", "callSession  = " + callSession.getCallId());
-                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getCallerUserId());
-                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getMediaType().name());
-                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getInviterUserId());
-                L.e("RongRTCVideoActivity", "callSession  = " + callSession.getSelfUserId());
 //               Intent intent = new Intent(mContext, SingleCallActivity.class);
 //               intent.putExtra("checkPermissions",true);
 //               intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());

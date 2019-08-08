@@ -95,6 +95,21 @@
             android:paddingBottom="@dimen/dp_4"
             android:background="@drawable/shape_tv_auth_code_bg"/>
 
+        <TextView
+            android:id="@+id/tv_item_inquiry_btn_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inquity_tip_6"
+            android:textSize="@dimen/text_size15"
+            android:textColor="@color/color_289d23"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_4"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/shape_tv_auth_code_bg"/>
+
 
     </LinearLayout>
 

@@ -69,7 +69,8 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
         }
         TextView typeTv = holder.itemView.findViewById(R.id.tv_item_type);
         TextView btnTv = holder.itemView.findViewById(R.id.tv_item_inquiry_btn);
-        setType(type,typeTv,btnTv,model.getIsEval(),model.getDrug_flag());
+        TextView btnTv_2 = holder.itemView.findViewById(R.id.tv_item_inquiry_btn_2);
+        setType(type,typeTv,btnTv,model.getIsEval(),model.getDrug_flag(),btnTv_2);
         int finalType = type;
         btnTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,12 +89,8 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                         break;
                     case 3:
                         //todo 已完成
-                        if (model.getIsEval() == 0) {
                             intent = new Intent(context, InquiryInfoEvaluateActivity.class);
                             intent.putExtra("iuid", model.getAskIUID());
-                        }else if (model.getDrug_flag() == 1){
-                            intent = new Intent(context, MyPrescriptionActivity.class);
-                        }
                         break;
                     case 4:
                         //todo 已取消
@@ -102,6 +99,19 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                         break;
                 }
                 context.startActivity(intent);
+            }
+        });
+
+        btnTv_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (finalType){
+                    case 3:
+                        if (model.getDrug_flag() == 1) {
+                            context.startActivity( new Intent(context, MyPrescriptionActivity.class));
+                        }
+                        break;
+                }
             }
         });
 
@@ -128,7 +138,7 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
      * @param typeTv
      * @param btnTv
      */
-    private void setType(int type, TextView typeTv, TextView btnTv,int isEval,int Drug_flag) {
+    private void setType(int type, TextView typeTv, TextView btnTv,int isEval,int Drug_flag,TextView btnTv_2) {
         int resId = R.string.inquity_tip_2;
         int colorId = R.color.color_e22525;
         btnTv.setVisibility(View.GONE);
@@ -161,9 +171,10 @@ public class MyInquiryAdapter extends BaseRecyclerAdapter<MyInquiryDto.DataBean>
                 btnTv.setText(ResUtil.getString(R.string.inquity_tip_7));
                 if (isEval == 0){
                     btnTv.setVisibility(View.VISIBLE);
-                }else if (Drug_flag == 1){
-                    btnTv.setText(ResUtil.getString(R.string.inquity_tip_27));
-                    btnTv.setVisibility(View.VISIBLE);
+                }
+                if (Drug_flag == 1){
+                    btnTv_2.setText(ResUtil.getString(R.string.inquity_tip_27));
+                    btnTv_2.setVisibility(View.VISIBLE);
                 }
                 break;
             case 4:

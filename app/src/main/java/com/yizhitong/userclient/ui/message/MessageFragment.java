@@ -172,6 +172,7 @@ public class MessageFragment extends UserBaseFragment<MessageAction> implements 
     @Override
     public void getMessage(MessageDto messageDto) {
         getMessageList();
+        ((MainActivity) getActivity()).setIv2(true);
     }
 
     @Override
