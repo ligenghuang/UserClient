@@ -71,7 +71,7 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
     @BindView(R.id.ll_cb)
     LinearLayout mLlCb;
 
-    boolean isRead = false;
+    boolean isRead = true;
     PayUtil payUtil;
     String id;
     String pay_moeny;
@@ -114,6 +114,9 @@ public class InquiryInfoPayActivity extends UserBaseActivity<InquiryInfoPayActio
         super.init();
         mContext = this;
         mActicity = this;
+        mCheckbox.setChecked(true);
+        mTvPay.setSelected(true);
+
         iuid = getIntent().getStringExtra("iuid");
         getAskHeadById(iuid);
         payUtil = new PayUtil(this);

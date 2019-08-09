@@ -33,6 +33,8 @@ public class CollapsibleTextView extends LinearLayout implements View.OnClickLis
         View inflate = inflate(context, R.layout.collapsible_textview, this);
         mDesc = (TextView)inflate.findViewById(R.id.desc_tv);
         mDescOp = (TextView)inflate.findViewById(R.id.desc_op_tv);
+        mDescOp.setVisibility(VISIBLE);
+        mDescOp.setText("展开");
         mDescOp.setOnClickListener(this);
 
 
@@ -111,8 +113,8 @@ public class CollapsibleTextView extends LinearLayout implements View.OnClickLis
     public void onClick(View v)
     {
         flag = false;
-        requestLayout();
         mDesc.setEllipsize(null);
+        requestLayout();
     }
 
     private class InnerRunnable implements Runnable

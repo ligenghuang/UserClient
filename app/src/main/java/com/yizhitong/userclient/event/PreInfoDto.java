@@ -149,7 +149,7 @@ public class PreInfoDto implements Serializable {
         private String all_money;
         private Object drug_flag;
         private double pay_money;
-        private Object pay_class;
+        private String pay_class;
         private int pay_flag;
         private Object start_time;
         private Object end_time;
@@ -173,6 +173,15 @@ public class PreInfoDto implements Serializable {
         private List<String> Ill_img;
         private List<DrugMVBean> DrugMV;
         private List<String> Askdrug_img;
+        private String hospital_img;
+
+        public String getHospital_img() {
+            return hospital_img == null ? "" : hospital_img;
+        }
+
+        public void setHospital_img(String hospital_img) {
+            this.hospital_img = hospital_img;
+        }
 
         public String getPatienName() {
             return patienName == null ? "" : patienName;
@@ -334,11 +343,11 @@ public class PreInfoDto implements Serializable {
             this.pay_money = pay_money;
         }
 
-        public Object getPay_class() {
+        public String getPay_class() {
             return pay_class;
         }
 
-        public void setPay_class(Object pay_class) {
+        public void setPay_class(String pay_class) {
             this.pay_class = pay_class;
         }
 

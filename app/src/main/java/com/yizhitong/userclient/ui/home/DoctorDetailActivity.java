@@ -67,9 +67,9 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
     @BindView(R.id.tv_doctor_attention)
     TextView mTvDoctorAttention;
     @BindView(R.id.tv_doctor_note)
-    CollapsibleTextView mTvDoctorNote;
+    TextView mTvDoctorNote;
     @BindView(R.id.tv_doctor_spec)
-    CollapsibleTextView mTvDoctorSpec;
+    TextView mTvDoctorSpec;
     @BindView(R.id.tv_doctor_consulting)
     TextView mTvDoctorConsulting;
     @BindView(R.id.tv_doctor_good_reputation)
@@ -195,8 +195,8 @@ public class DoctorDetailActivity extends UserBaseActivity<DoctorDetailAction> i
         titleTv.setText(dataBean.getName() + "  医生");
         mTvDoctorHospital.setText(dataBean.getHospital());
         mTvDoctorLevel.setText(dataBean.getThe_level());
-        mTvDoctorNote.setDesc(TextUtils.isEmpty(dataBean.getThe_note())?"暂无":dataBean.getThe_note());
-        mTvDoctorSpec.setDesc(TextUtils.isEmpty(dataBean.getThe_spec())?"暂无":dataBean.getThe_spec());
+        mTvDoctorNote.setText(TextUtils.isEmpty(dataBean.getThe_note())?"暂无":dataBean.getThe_note());
+        mTvDoctorSpec.setText(TextUtils.isEmpty(dataBean.getThe_spec())?"暂无":dataBean.getThe_spec());
         mTvDoctorConsulting.setText(dataBean.getAsk_num() + "人");
         mTvDoctorGoodReputation.setText(dataBean.getGood_num() + "人");
         mTvDoctorBuy.setText(dataBean.getBuy_num() + "人");

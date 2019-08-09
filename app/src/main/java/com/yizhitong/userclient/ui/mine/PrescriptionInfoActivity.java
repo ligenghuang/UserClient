@@ -6,17 +6,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lgh.huanglib.util.CheckNetwork;
+import com.lgh.huanglib.util.L;
 import com.lgh.huanglib.util.base.ActivityStack;
+import com.lgh.huanglib.util.config.GlideUtil;
 import com.lgh.huanglib.util.data.PriceUtils;
 import com.lgh.huanglib.util.data.ResUtil;
 import com.yizhitong.userclient.R;
 import com.yizhitong.userclient.actions.PrescriptionInfoAction;
 import com.yizhitong.userclient.adapters.PrescriptionInfoDruyAdapter;
 import com.yizhitong.userclient.event.PreInfoDto;
+import com.yizhitong.userclient.net.WebUrlUtil;
 import com.yizhitong.userclient.ui.impl.PrescriptionInfoView;
 import com.yizhitong.userclient.ui.login.LoginActivity;
 import com.yizhitong.userclient.utils.base.UserBaseActivity;
@@ -26,12 +30,13 @@ import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 /**
-* description ： 处方详情 缺少支付方式 收货信息 跳转物流查询页
-* author : lgh
-* email : 1045105946@qq.com
-* date : 2019/6/14
-*/
+ * description ： 处方详情 缺少支付方式 收货信息 跳转物流查询页
+ * author : lgh
+ * email : 1045105946@qq.com
+ * date : 2019/6/14
+ */
 public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoAction> implements PrescriptionInfoView {
 
     @BindView(R.id.top_view)
@@ -68,6 +73,8 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
     TextView mTvMoney;
     @BindView(R.id.tv_pay)
     TextView mTvPay;
+    @BindView(R.id.diagnosis)
+    TextView diagnosis;
 
     PrescriptionInfoDruyAdapter prescriptionInfoDruyAdapter;
 
@@ -86,6 +93,16 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
     TextView mTvPayMoney;
     @BindView(R.id.ll_pay)
     LinearLayout mLlPay;
+    @BindView(R.id.tv_doctor_name)
+    TextView mTvDoctorName;
+    @BindView(R.id.tv_doctor_phone)
+    TextView mTvDoctorPhone;
+    @BindView(R.id.tv_doctor_address)
+    TextView mTvDoctorAddress;
+    @BindView(R.id.hospital)
+    TextView mHospital;
+    @BindView(R.id.iv_hospital)
+    ImageView mIvHospital;
 
     @Override
     public int intiLayout() {
@@ -150,7 +167,7 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
         loadDiss();
         this.preInfoDto = preInfoDto;
         PreInfoDto.DataBean dataBean = preInfoDto.getData();
-//        mTvPrescriptionNo.setText("NO:" + dataBean.getAskdrug_no());
+        mTvPrescriptionNo.setText("NO:" + dataBean.getAskdrug_no());
         mTvPrescriptionTime.setText(DynamicTimeFormat.LongToString(dataBean.getCreate_time_stamp()));
         PreInfoDto.DataBean.PatientMVBean patientMVBean = preInfoDto.getData().getPatientMV();
         mTvPrescriptionName.setText(patientMVBean.getName());
@@ -161,34 +178,44 @@ public class PrescriptionInfoActivity extends UserBaseActivity<PrescriptionInfoA
         mTvPrescriptionPrescribersAre.setText(dataBean.getDoctorName());
         mTvMoney.setText("￥" + PriceUtils.formatPrice(dataBean.getDrug_money()));
         prescriptionInfoDruyAdapter.refresh(dataBean.getDrugMV());
+        diagnosis.setText(ResUtil.getString(R.string.prescription_tip_16) +"  "+ dataBean.getDiagnosis());
+        mHospital.setText(dataBean.getHospital());
+        GlideUtil.setImageCircle(mContext, WebUrlUtil.IMG_URL+dataBean.getHospital_img(),mIvHospital,0);
+        L.e("lgh_g","url = "+WebUrlUtil.IMG_URL+dataBean.getHospital_img());
 
-        //todo 2019/06/14 缺少支付方式 收货信息
+        //todo 支付方式 收货信息
+        PreInfoDto.DataBean.UserAddMVBean userAddMVBean = dataBean.getUserAddMV();
+        mTvDoctorName.setText(userAddMVBean.getName());
+        mTvDoctorPhone.setText(userAddMVBean.getPhone());
+        mTvDoctorAddress.setText(userAddMVBean.getUserAddress());
+
+        mTvPayType.setText(dataBean.getPay_class());
+
         mTvPayTime.setText(DynamicTimeFormat.LongToString5(dataBean.getPay_time_stamp()));
-        mTvDruyMoney.setText("￥"+PriceUtils.formatPrice(dataBean.getDrug_money()));
-        mTvPayMoney.setText("￥"+PriceUtils.formatPrice(dataBean.getPay_money()));
+        mTvDruyMoney.setText("￥" + PriceUtils.formatPrice(dataBean.getDrug_money()));//商品总额
+        mTvPayMoney.setText("￥" + PriceUtils.formatPrice(dataBean.getPay_money()));//实付金额
 
-        if (dataBean.getReback_flag() == 1){
+        if (dataBean.getReback_flag() == 1) {
             //todo 已取消
-           mLlPrescriptionMoney.setVisibility(View.GONE);
-           mTvCheckLogistics.setVisibility(View.GONE);
+            mLlPrescriptionMoney.setVisibility(View.GONE);
+            mTvCheckLogistics.setVisibility(View.GONE);
             mLlPay.setVisibility(View.VISIBLE);
-        }else if (dataBean.getFinish_flag() == 1){
+        } else if (dataBean.getFinish_flag() == 1) {
             //todo 已完成
             mLlPrescriptionMoney.setVisibility(View.GONE);
             mTvCheckLogistics.setVisibility(View.GONE);
             mLlPay.setVisibility(View.VISIBLE);
-        }else if (dataBean.getPay_flag() == 1){
+        } else if (dataBean.getPay_flag() == 1) {
             //todo 待发货
             mLlPrescriptionMoney.setVisibility(View.GONE);
             mTvCheckLogistics.setVisibility(View.VISIBLE);
             mLlPay.setVisibility(View.VISIBLE);
-        }else if (dataBean.getPay_flag() == 0){
+        } else if (dataBean.getPay_flag() == 0) {
             //todo 待付款
             mLlPrescriptionMoney.setVisibility(View.VISIBLE);
             mTvCheckLogistics.setVisibility(View.GONE);
             mLlPay.setVisibility(View.GONE);
         }
-
 
 
     }

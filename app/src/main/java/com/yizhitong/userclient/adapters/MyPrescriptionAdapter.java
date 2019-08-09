@@ -53,6 +53,7 @@ public class MyPrescriptionAdapter extends BaseRecyclerAdapter<MyPrescriptionDto
 
         TextView flagTv = holder.itemView.findViewById(R.id.tv_item_prescription_flag);
         TextView deleteTv = holder.itemView.findViewById(R.id.tv_item_delete);
+        deleteTv.setVisibility(View.GONE);
         TextView buyTv = holder.itemView.findViewById(R.id.tv_item_buy);
 
         int type = 0;

@@ -3,6 +3,7 @@ package com.yizhitong.userclient.ui.home;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -242,7 +243,7 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
                 banner_main.stopAutoPlay();
                 switch (types.get(position)) {
                     case "1":
-
+                        jumpView(urls.get(position));
                         break;
                     case "0":
                         jump(urls.get(position));
@@ -252,6 +253,15 @@ public class HomeFragment extends UserBaseFragment<HomeAction> implements HomeVi
         });
 
     }
+    /**
+     * 跳转 链接
+     */
+    private void jumpView(String url) {
+        Intent intent = new Intent(mContext,WebActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
+    }
+
 
     private void jump(String s) {
         switch (s){

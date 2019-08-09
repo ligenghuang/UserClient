@@ -110,11 +110,11 @@
                     android:textSize="@dimen/text_size16"
                     android:layout_marginBottom="@dimen/dp_10"/>
 
-                <com.yizhitong.userclient.utils.cusview.CollapsibleTextView
+                <TextView
                     android:id="@+id/tv_doctor_note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"></com.yizhitong.userclient.utils.cusview.CollapsibleTextView>
+                    android:layout_marginBottom="@dimen/dp_10"/>
 
 
 
@@ -137,11 +137,12 @@
                     android:textSize="@dimen/text_size16"
                     android:layout_marginBottom="@dimen/dp_10"/>
 
-                <com.yizhitong.userclient.utils.cusview.CollapsibleTextView
+                <TextView
                     android:id="@+id/tv_doctor_spec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"></com.yizhitong.userclient.utils.cusview.CollapsibleTextView>
+                    android:background="@color/white"
+                    android:layout_marginBottom="@dimen/dp_10"/>
 
 
 
